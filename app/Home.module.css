@@ -1,0 +1,135 @@
+.hero {
+  height: 80vh;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-blush);
+}
+
+.heroBackground {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.3;
+}
+
+.heroImage {
+  opacity: 0.8;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  max-width: 800px;
+  padding: 2rem;
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-size: clamp(3rem, 5vw, 5rem);
+  color: var(--color-plum-dark);
+  margin-bottom: 1rem;
+  line-height: 1.1;
+  animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tagline {
+  font-size: 1.25rem;
+  color: var(--color-plum);
+  margin-bottom: 2.5rem;
+  animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s backwards;
+}
+
+.ctaBtn {
+  display: inline-block;
+  background-color: var(--color-plum-dark);
+  color: var(--color-cream);
+  padding: 1.25rem 3rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+  animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s backwards;
+}
+
+.ctaBtn:hover {
+  background-color: var(--color-plum);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(74, 44, 58, 0.15);
+}
+
+.trustStrip {
+  background-color: #fff;
+  padding: 3rem 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.trustContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  max-width: 1000px;
+  width: 100%;
+}
+
+.trustItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+  color: var(--color-plum-dark);
+}
+
+.trustIcon {
+  color: var(--color-plum);
+  background-color: var(--color-blush);
+  padding: 1rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.story {
+  padding: 6rem 1rem;
+  background-color: var(--color-cream);
+  display: flex;
+  justify-content: center;
+}
+
+.storyContent {
+  max-width: 700px;
+  text-align: center;
+}
+
+.storyContent h2 {
+  font-size: 2.5rem;
+  color: var(--color-plum-dark);
+  margin-bottom: 2rem;
+}
+
+.storyContent p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--color-plum);
+  margin-bottom: 1.5rem;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
