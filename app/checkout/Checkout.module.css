@@ -209,4 +209,50 @@
     position: static;
     order: -1;
   }
+  .row2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 2rem 0.75rem;
+  }
+  .title {
+    font-size: 2rem;
+  }
+}
+
+.errorBanner {
+  color: #dc2626;
+  background: #fef2f2;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+.processingBanner {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-plum-dark);
+  background: var(--color-blush);
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+.spinner {
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.submitBtn:focus-visible,
+.inputGroup input:focus-visible {
+  outline: 2px solid var(--color-plum-dark);
+  outline-offset: 2px;
 }

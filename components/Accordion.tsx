@@ -22,25 +22,39 @@ export default function Accordion({ items }: AccordionProps) {
 
   return (
     <div className={styles.accordion}>
-      {items.map((item, index) => (
-        <div key={index} className={styles.item}>
-          <button className={styles.header} onClick={() => toggle(index)}>
-            <span className={styles.title}>{item.title}</span>
-            <ChevronDown 
-              size={20} 
-              className={`${styles.icon} ${openIndex === index ? styles.open : ""}`} 
-            />
-          </button>
-          <div 
-            className={styles.content}
-            style={{ maxHeight: openIndex === index ? '500px' : '0' }}
-          >
-            <div className={styles.innerContent}>
-              {item.content}
+      {items.map((item, index) => {
+        const isOpen = openIndex === index;
+        const panelId = `accordion-panel-${index}`;
+        const headerId = `accordion-header-${index}`;
+        return (
+          <div key={index} className={styles.item}>
+            <button
+              id={headerId}
+              type="button"
+              className={styles.header}
+              onClick={() => toggle(index)}
+              aria-expanded={isOpen}
+              aria-controls={panelId}
+            >
+              <span className={styles.title}>{item.title}</span>
+              <ChevronDown
+                size={20}
+                className={`${styles.icon} ${isOpen ? styles.open : ""}`}
+                aria-hidden
+              />
+            </button>
+            <div
+              id={panelId}
+              role="region"
+              aria-labelledby={headerId}
+              className={styles.content}
+              style={{ maxHeight: isOpen ? "500px" : "0" }}
+            >
+              <div className={styles.innerContent}>{item.content}</div>
             </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }

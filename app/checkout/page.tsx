@@ -4,12 +4,53 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import styles from "./Checkout.module.css";
-import { Lock } from "lucide-react";
+import { Lock, Loader2 } from "lucide-react";
+
+type PaymentStep = "idle" | "creating_order" | "initiating_payment" | "awaiting_payment" | "verifying";
+
+declare global {
+  interface Window {
+    Razorpay: new (options: RazorpayOptions) => { open: () => void };
+  }
+}
+
+type RazorpayOptions = {
+  key: string;
+  amount: number;
+  currency: string;
+  name: string;
+  description: string;
+  order_id: string;
+  prefill: { name: string; email: string; contact: string };
+  theme: { color: string };
+  handler: (response: {
+    razorpay_payment_id: string;
+    razorpay_order_id: string;
+    razorpay_signature: string;
+  }) => void;
+  modal: { ondismiss: () => void };
+};
+
+function loadRazorpayScript(): Promise<boolean> {
+  return new Promise((resolve) => {
+    if (window.Razorpay) {
+      resolve(true);
+      return;
+    }
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.body.appendChild(script);
+  });
+}
 
 export default function CheckoutPage() {
   const router = useRouter();
   const { items, cartTotal, clearCart } = useCart();
   const [isProcessing, setIsProcessing] = useState(false);
+  const [paymentStep, setPaymentStep] = useState<PaymentStep>("idle");
+  const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -18,25 +59,123 @@ export default function CheckoutPage() {
     address2: "",
     city: "",
     state: "",
-    pincode: ""
+    pincode: "",
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handlePlaceOrder = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsProcessing(true);
+    setPaymentStep("creating_order");
+    setError("");
 
-    // Simulate mock payment gateway delay
-    setTimeout(() => {
-      clearCart();
+    try {
+      const orderRes = await fetch("/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          customer: formData,
+          items: items.map((i) => ({
+            variant: i.variant,
+            quantity: i.quantity,
+            price: i.price,
+          })),
+        }),
+      });
+
+      const orderData = await orderRes.json();
+      if (!orderRes.ok) {
+        throw new Error(orderData.error ?? "Failed to create order");
+      }
+
+      setPaymentStep("initiating_payment");
+      const paymentRes = await fetch("/api/payment/create-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ checkoutGroupId: orderData.checkoutGroupId }),
+      });
+
+      const paymentData = await paymentRes.json();
+      if (!paymentRes.ok) {
+        throw new Error(paymentData.error ?? "Failed to initiate payment");
+      }
+
+      const configRes = await fetch("/api/payment/config");
+      const configData = await configRes.json();
+      if (!configRes.ok) {
+        throw new Error("Payment gateway not configured");
+      }
+
+      const loaded = await loadRazorpayScript();
+      if (!loaded) {
+        throw new Error("Failed to load payment gateway");
+      }
+
+      setPaymentStep("awaiting_payment");
+      const rzp = new window.Razorpay({
+        key: configData.keyId,
+        amount: paymentData.amount,
+        currency: paymentData.currency,
+        name: "Silk Room",
+        description: "Order Payment",
+        order_id: paymentData.razorpayOrderId,
+        prefill: {
+          name: paymentData.customerName,
+          email: paymentData.customerEmail,
+          contact: paymentData.customerPhone,
+        },
+        theme: { color: "#4a2c3a" },
+        handler: async (response) => {
+          setPaymentStep("verifying");
+          const verifyRes = await fetch("/api/payment/verify", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              ...response,
+              checkoutGroupId: orderData.checkoutGroupId,
+            }),
+          });
+
+          const verifyData = await verifyRes.json();
+          if (!verifyRes.ok) {
+            setError(verifyData.error ?? "Payment verification failed");
+            setIsProcessing(false);
+            setPaymentStep("idle");
+            return;
+          }
+
+          clearCart();
+          setIsProcessing(false);
+          setPaymentStep("idle");
+          router.push(`/confirmation?orderId=${verifyData.orderIds[0]}`);
+        },
+        modal: {
+          ondismiss: () => {
+            setIsProcessing(false);
+            setPaymentStep("idle");
+            setError("Payment cancelled. Your order is saved as pending — you may retry.");
+          },
+        },
+      });
+
+      rzp.open();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Checkout failed");
       setIsProcessing(false);
-      // Pass a mock order ID
-      router.push(`/confirmation?orderId=ORD-${Math.floor(Math.random() * 1000000)}`);
-    }, 2000);
+      setPaymentStep("idle");
+    }
+  };
+
+  const stepLabel: Record<PaymentStep, string> = {
+    idle: "Pay Securely with Razorpay",
+    creating_order: "Creating your order…",
+    initiating_payment: "Connecting to Razorpay…",
+    awaiting_payment: "Complete payment in Razorpay window…",
+    verifying: "Verifying payment…",
   };
 
   if (items.length === 0) {
@@ -44,7 +183,7 @@ export default function CheckoutPage() {
       <div className={styles.emptyContainer}>
         <h1>Checkout</h1>
         <p>Your cart is empty.</p>
-        <button onClick={() => router.push('/product')} className={styles.btn}>
+        <button onClick={() => router.push("/product")} className={styles.btn}>
           Return to Shop
         </button>
       </div>
@@ -54,13 +193,26 @@ export default function CheckoutPage() {
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Secure Checkout</h1>
-      
+
       <div className={styles.layout}>
         <form className={styles.formSection} onSubmit={handlePlaceOrder}>
           <div className={styles.sectionHeader}>
             <h2>Shipping Information</h2>
             <p>Your order will arrive in plain, unbranded packaging.</p>
           </div>
+
+          {error && (
+            <p className={styles.errorBanner} role="alert">
+              {error}
+            </p>
+          )}
+
+          {isProcessing && paymentStep !== "idle" && (
+            <p className={styles.processingBanner} aria-live="polite">
+              <Loader2 size={16} className={styles.spinner} aria-hidden />
+              {stepLabel[paymentStep]}
+            </p>
+          )}
 
           <div className={styles.formGrid}>
             <div className={styles.inputGroup}>
@@ -73,7 +225,7 @@ export default function CheckoutPage() {
             </div>
             <div className={styles.inputGroup}>
               <label htmlFor="phone">Phone Number</label>
-              <input required type="tel" id="phone" name="phone" value={formData.phone} onChange={handleInputChange} />
+              <input required type="tel" id="phone" name="phone" value={formData.phone} onChange={handleInputChange} placeholder="10-digit mobile" />
             </div>
             <div className={styles.inputGroup}>
               <label htmlFor="address1">Address Line 1</label>
@@ -94,7 +246,7 @@ export default function CheckoutPage() {
               </div>
               <div className={styles.inputGroup}>
                 <label htmlFor="pincode">Pincode</label>
-                <input required type="text" id="pincode" name="pincode" value={formData.pincode} onChange={handleInputChange} />
+                <input required type="text" id="pincode" name="pincode" value={formData.pincode} onChange={handleInputChange} pattern="\d{6}" />
               </div>
             </div>
           </div>
@@ -103,7 +255,7 @@ export default function CheckoutPage() {
             <h2>Payment Method</h2>
             <div className={styles.paymentNotice}>
               <Lock size={16} />
-              <p>This is a simulated prepaid checkout. Real orders require a configured payment gateway (Razorpay/PayU) during production.</p>
+              <p>Secure prepaid checkout via Razorpay. UPI, cards, and net banking accepted. Cash on delivery is not available.</p>
             </div>
             <div className={styles.mockGateway}>
               <p><strong>Total Amount:</strong> ₹{cartTotal}</p>
@@ -111,8 +263,15 @@ export default function CheckoutPage() {
             </div>
           </div>
 
-          <button type="submit" className={styles.submitBtn} disabled={isProcessing}>
-            {isProcessing ? "Processing Secure Payment..." : "Place Order (Simulate Payment)"}
+          <button type="submit" className={styles.submitBtn} disabled={isProcessing} aria-busy={isProcessing}>
+            {isProcessing ? (
+              <>
+                <Loader2 size={18} className={styles.spinner} aria-hidden />
+                {stepLabel[paymentStep]}
+              </>
+            ) : (
+              stepLabel.idle
+            )}
           </button>
         </form>
 

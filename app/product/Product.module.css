@@ -191,10 +191,70 @@
   transition: all 0.2s ease;
 }
 
-.addBtn:hover {
+.addBtn:hover:not(:disabled) {
   background-color: var(--color-plum);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(74, 44, 58, 0.2);
+}
+
+.addBtn:disabled,
+.addBtnDisabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.addBtn:focus-visible,
+.swatch:focus-visible,
+.quantity button:focus-visible,
+.thumb:focus-visible {
+  outline: 2px solid var(--color-plum-dark);
+  outline-offset: 2px;
+}
+
+.thumb {
+  border: none;
+  padding: 0;
+  background: none;
+}
+
+.outOfStock {
+  color: #dc2626;
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-top: 0.5rem;
+}
+
+.stockNote {
+  color: var(--color-plum);
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.addError {
+  color: #dc2626;
+  background: #fef2f2;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.swatchDisabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.spinner {
+  animation: spin 0.8s linear infinite;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 0.35rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 .accordionSection {
@@ -262,7 +322,16 @@
     grid-template-columns: 1fr;
     gap: 2rem;
   }
-  
+
+  .thumbnails {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
   .addToCartSection {
     position: sticky;
     bottom: 1rem;
@@ -271,5 +340,15 @@
     padding: 1rem;
     border-radius: 12px;
     box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 1rem 0.75rem;
+  }
+
+  .reviewGrid {
+    grid-template-columns: 1fr;
   }
 }

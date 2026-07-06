@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/context/CartContext";
+import Providers from "@/components/Providers";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AgeGate from "@/components/AgeGate";
@@ -30,6 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${playfair.variable}`}>
+        <Providers>
         <CartProvider>
           <AgeGate />
           <Navbar />
@@ -39,6 +41,7 @@ export default function RootLayout({
           <CartDrawer />
           <Footer />
         </CartProvider>
+        </Providers>
       </body>
     </html>
   );

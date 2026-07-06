@@ -88,6 +88,9 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .cartItem {
@@ -206,7 +209,17 @@
   background-color: var(--color-plum);
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+.closeBtn:focus-visible,
+.continueBtn:focus-visible,
+.checkoutBtn:focus-visible,
+.quantity button:focus-visible,
+.removeBtn:focus-visible {
+  outline: 2px solid var(--color-plum-dark);
+  outline-offset: 2px;
+}
+
+@media (max-width: 480px) {
+  .drawer {
+    max-width: 100%;
+  }
 }

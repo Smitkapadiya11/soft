@@ -31,15 +31,18 @@ model Customer {
 }
 
 model Order {
-  id             String   @id @default(cuid())
-  createdAt      DateTime @default(now())
-  customerId     String
-  customer       Customer @relation(fields: [customerId], references: [id])
-  variant        String
-  quantity       Int
-  amount         Float
-  paymentStatus  String   // e.g., "PAID", "FAILED"
-  shippingStatus String   // e.g., "PENDING", "SHIPPED", "DELIVERED"
+  id                String   @id @default(cuid())
+  createdAt         DateTime @default(now())
+  customerId        String
+  customer          Customer @relation(fields: [customerId], references: [id])
+  checkoutGroupId   String?
+  variant           String
+  quantity          Int
+  amount            Float
+  paymentStatus     String   @default("pending") // pending, paid, failed
+  shippingStatus    String   @default("PENDING") // PENDING, SHIPPED, DELIVERED
+  razorpayOrderId   String?
+  razorpayPaymentId String?
 }
 
 model Inventory {
