@@ -15,15 +15,25 @@ export const authOptions = {
       async authorize(credentials) {
         if (!credentials?.username || !credentials?.password) return null;
 
-        const admin = await prisma.admin.findUnique({
-          where: { username: credentials.username },
-        });
-        if (!admin) return null;
+        if (!process.env.NEXTAUTH_SECRET) {
+          console.error("[auth] NEXTAUTH_SECRET is not set");
+          return null;
+        }
 
-        const valid = await bcrypt.compare(credentials.password, admin.passwordHash);
-        if (!valid) return null;
+        try {
+          const admin = await prisma.admin.findUnique({
+            where: { username: credentials.username.trim() },
+          });
+          if (!admin) return null;
 
-        return { id: admin.id, name: admin.username };
+          const valid = await bcrypt.compare(credentials.password, admin.passwordHash);
+          if (!valid) return null;
+
+          return { id: admin.id, name: admin.username };
+        } catch (err) {
+          console.error("[auth] Database error during login:", err);
+          return null;
+        }
       },
     }),
   ],
@@ -42,4 +52,5 @@ export const authOptions = {
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
+  trustHost: true,
 };

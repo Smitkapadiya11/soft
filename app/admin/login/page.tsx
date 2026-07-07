@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense } from "react";
@@ -13,7 +13,19 @@ function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [setupHint, setSetupHint] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/admin/status")
+      .then((r) => r.json())
+      .then((data: { ok: boolean; issues?: string[] }) => {
+        if (!data.ok && data.issues?.length) {
+          setSetupHint(data.issues.join(" · "));
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,14 +33,18 @@ function LoginForm() {
     setError("");
 
     const result = await signIn("credentials", {
-      username,
+      username: username.trim(),
       password,
       redirect: false,
     });
 
     setLoading(false);
     if (result?.error) {
-      setError("Invalid username or password");
+      setError(
+        setupHint
+          ? "Login failed. Check username/password and run npm run admin:sync after changing .env.local"
+          : "Invalid username or password"
+      );
       return;
     }
     router.push(callbackUrl);
@@ -40,6 +56,11 @@ function LoginForm() {
       <form className={styles.loginCard} onSubmit={handleSubmit}>
         <h1>Silk Room Admin</h1>
         <p>Sign in to manage orders and inventory.</p>
+        {setupHint && (
+          <p className={styles.setupHint} role="status">
+            Setup: {setupHint}
+          </p>
+        )}
         {error && <p className={styles.loginError}>{error}</p>}
         <div className={styles.inputGroup}>
           <label htmlFor="username">Username</label>

@@ -223,6 +223,17 @@
   font-size: 0.9rem;
 }
 
+.setupHint {
+  color: #92400e;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
 .inputGroup {
   margin-bottom: 1rem;
 }
