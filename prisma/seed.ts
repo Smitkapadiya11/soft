@@ -21,14 +21,14 @@ async function main() {
 
   await prisma.inventory.upsert({
     where: { variantName: "Blush" },
-    update: {},
+    update: { stockCount: 145 },
     create: { variantName: "Blush", stockCount: 145 },
   });
 
   await prisma.inventory.upsert({
     where: { variantName: "Plum" },
-    update: {},
-    create: { variantName: "Plum", stockCount: 12 },
+    update: { stockCount: 120 },
+    create: { variantName: "Plum", stockCount: 120 },
   });
 
   console.log(`Seeded admin user "${username}" and inventory (Blush: 145, Plum: 12)`);

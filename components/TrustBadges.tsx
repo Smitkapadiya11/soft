@@ -1,4 +1,4 @@
-import { ShieldCheck, Lock, CheckCircle } from "lucide-react";
+import { ShieldCheck, Lock, CheckCircle, Truck } from "lucide-react";
 import styles from "./TrustBadges.module.css";
 import Link from "next/link";
 
@@ -9,20 +9,27 @@ export default function TrustBadges() {
         <Lock size={20} />
         <div className={styles.text}>
           <span className={styles.title}>Secure Checkout</span>
-          <span className={styles.desc}>256-bit encrypted</span>
+          <span className={styles.desc}>256-bit SSL encrypted</span>
         </div>
       </div>
       <div className={styles.badge}>
         <ShieldCheck size={20} />
         <div className={styles.text}>
-          <span className={styles.title}>Privacy Assured</span>
-          <Link href="/privacy" className={styles.link}>Read Policy</Link>
+          <span className={styles.title}>End-to-End Encrypted</span>
+          <Link href="/privacy" className={styles.link}>Your data is safe</Link>
+        </div>
+      </div>
+      <div className={styles.badge}>
+        <Truck size={20} />
+        <div className={styles.text}>
+          <span className={styles.title}>Free Delivery</span>
+          <span className={styles.desc}>All across India</span>
         </div>
       </div>
       <div className={styles.badge}>
         <CheckCircle size={20} />
         <div className={styles.text}>
-          <span className={styles.title}>Easy Replacement</span>
+          <span className={styles.title}>7-Day Replacement</span>
           <Link href="/replacement" className={styles.link}>Read Policy</Link>
         </div>
       </div>

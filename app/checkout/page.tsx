@@ -255,7 +255,7 @@ export default function CheckoutPage() {
             <h2>Payment Method</h2>
             <div className={styles.paymentNotice}>
               <Lock size={16} />
-              <p>Secure prepaid checkout via Razorpay. UPI, cards, and net banking accepted. Cash on delivery is not available.</p>
+              <p>End-to-end encrypted checkout via Razorpay. UPI, cards, and net banking accepted. Free delivery across India.</p>
             </div>
             <div className={styles.mockGateway}>
               <p><strong>Total Amount:</strong> ₹{cartTotal}</p>

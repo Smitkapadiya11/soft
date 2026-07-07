@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { FALLBACK_STOCK } from "@/lib/constants";
 
 export async function GET() {
   try {
@@ -8,7 +9,7 @@ export async function GET() {
       select: { variantName: true, stockCount: true },
     });
 
-    const stock: Record<string, number> = { Blush: 0, Plum: 0 };
+    const stock: Record<string, number> = { ...FALLBACK_STOCK };
     for (const item of inventory) {
       stock[item.variantName] = item.stockCount;
     }
@@ -16,6 +17,6 @@ export async function GET() {
     return NextResponse.json({ stock });
   } catch (err) {
     console.error("GET /api/stock:", err);
-    return NextResponse.json({ error: "Failed to fetch stock" }, { status: 500 });
+    return NextResponse.json({ stock: FALLBACK_STOCK });
   }
 }

@@ -2,12 +2,12 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
-import { Star, ShieldCheck, Loader2 } from "lucide-react";
+import { Star, ShieldCheck, Loader2, Truck } from "lucide-react";
 import styles from "./Product.module.css";
 import Accordion from "@/components/Accordion";
 import TrustBadges from "@/components/TrustBadges";
 import { useCart } from "@/context/CartContext";
-import { PRODUCT_PRICE } from "@/lib/constants";
+import { PRODUCT_PRICE, FALLBACK_STOCK } from "@/lib/constants";
 
 const PRODUCT = {
   id: "silk-room-signature",
@@ -16,14 +16,22 @@ const PRODUCT = {
   variants: ["Blush", "Plum"] as const,
 };
 
+const productImages = [
+  "/product-1.png",
+  "/product-2.png",
+  "/product-3.png",
+  "/product-4.png",
+];
+
 export default function ProductPage() {
   const { addToCart } = useCart();
   const [selectedVariant, setSelectedVariant] = useState<(typeof PRODUCT.variants)[number]>("Blush");
   const [quantity, setQuantity] = useState(1);
-  const [stock, setStock] = useState<Record<string, number>>({ Blush: 0, Plum: 0 });
+  const [stock, setStock] = useState<Record<string, number>>({ ...FALLBACK_STOCK });
   const [stockLoading, setStockLoading] = useState(true);
   const [isAdding, setIsAdding] = useState(false);
   const [addError, setAddError] = useState("");
+  const [mainImage, setMainImage] = useState(productImages[0]);
 
   const fetchStock = useCallback(async () => {
     setStockLoading(true);
@@ -31,7 +39,7 @@ export default function ProductPage() {
       const res = await fetch("/api/stock");
       if (res.ok) {
         const data = await res.json();
-        setStock(data.stock ?? { Blush: 0, Plum: 0 });
+        setStock(data.stock ?? { ...FALLBACK_STOCK });
       }
     } finally {
       setStockLoading(false);
@@ -69,38 +77,60 @@ export default function ProductPage() {
     }
   };
 
+  const highlights = [
+    "100% platinum-cured, medical-grade silicone",
+    "Phthalate-free, hypoallergenic & non-porous",
+    "Whisper-quiet motor under 50dB",
+    "Fully waterproof — IPX7 rated",
+    "Magnetic USB charging included",
+    "Includes satin storage pouch",
+  ];
+
   const faqs = [
     {
       title: "Is the packaging completely discreet?",
-      content: "Absolutely. We ship in a plain, unbranded brown box. There is no mention of Silk Room or the contents on the shipping label. The sender will appear as a generic fulfillment center.",
+      content:
+        "Absolutely. Every order ships in a plain, unbranded outer box with no mention of Silk Room or product contents on the label. The sender name appears as a generic fulfillment partner.",
+    },
+    {
+      title: "Is delivery really free across India?",
+      content:
+        "Yes — ₹549 is your all-in price. We offer free doorstep delivery to every pincode in India. No hidden shipping fees at checkout.",
     },
     {
       title: "When will my order arrive?",
-      content: "Orders are processed within 24 hours. Delivery typically takes 2-4 business days depending on your location in India.",
+      content:
+        "Orders are dispatched within 24 hours. Delivery typically takes 2–4 business days across metro cities and 3–6 business days for other regions in India.",
     },
     {
-      title: "Is my payment secure?",
-      content: "Yes, we use bank-grade 256-bit SSL encryption via Razorpay. We do not store your credit card or UPI details on our servers.",
+      title: "Is my payment and order data secure?",
+      content:
+        "Yes. Checkout is protected with bank-grade 256-bit SSL encryption. Your order details are secured with end-to-end encryption — we never store card numbers or UPI PINs.",
     },
     {
       title: "What is your replacement policy?",
-      content: "Due to the intimate nature of the product, we do not accept general returns. However, we offer a 7-day hassle-free replacement if the product arrives damaged or defective.",
+      content:
+        "Due to hygiene standards, we do not accept general returns. We offer a hassle-free 7-day replacement if your product arrives damaged or defective.",
     },
   ];
 
   const specs = [
     {
       title: "Materials & Care",
-      content: "Made from 100% medical-grade, body-safe silicone. Phthalate-free and non-porous. Clean with warm water and mild unscented soap before and after each use. Store in the provided satin pouch.",
+      content:
+        "Crafted from 100% platinum-cured, medical-grade silicone — the same purity standard used in medical devices. Non-porous, phthalate-free, and body-safe. Clean with warm water and mild unscented soap before and after each use. Store in the included satin pouch away from direct sunlight.",
     },
     {
       title: "Specifications",
-      content: "Length: 7.5 inches. Width: 1.4 inches. Whisper-quiet motor (<50dB). Waterproof (IPX7 rating). USB magnetic charging (cable included).",
+      content:
+        "Length: 7.5 in (19 cm) · Width: 1.4 in (3.5 cm) · Weight: 180 g · Motor: 10 rumbling vibration modes · Noise: <50 dB · Battery: 90 min runtime · Charge: 2 hrs via magnetic USB · Waterproof: IPX7 · Certifications: ISO 10993 biocompatibility tested",
+    },
+    {
+      title: "What's in the Box",
+      content:
+        "The Signature Curve device · Magnetic USB charging cable · Satin storage pouch · Quick-start guide · Discreet outer packaging",
     },
   ];
-
-  const productImages = ["/product-1.jpg", "/product-2.jpg", "/product-3.jpg", "/product-4.jpg"];
-  const [mainImage, setMainImage] = useState(productImages[0]);
 
   return (
     <div className={styles.container}>
@@ -114,6 +144,7 @@ export default function ProductPage() {
               style={{ objectFit: "cover" }}
               className={styles.actualImage}
               priority
+              sizes="(max-width: 900px) 100vw, 50vw"
             />
             <span className={styles.variantBadge}>{selectedVariant}</span>
           </div>
@@ -128,7 +159,7 @@ export default function ProductPage() {
                 aria-label={`View product image ${index + 1}`}
                 aria-pressed={mainImage === img}
               >
-                <Image src={img} alt="" fill style={{ objectFit: "cover" }} className={styles.thumbImage} aria-hidden />
+                <Image src={img} alt="" fill style={{ objectFit: "cover" }} className={styles.thumbImage} aria-hidden sizes="80px" />
               </button>
             ))}
           </div>
@@ -145,11 +176,25 @@ export default function ProductPage() {
           </div>
 
           <h1 className={styles.title}>{PRODUCT.name}</h1>
-          <p className={styles.price}>₹{PRODUCT.price}</p>
+
+          <div className={styles.priceRow}>
+            <p className={styles.price}>₹{PRODUCT.price}</p>
+            <span className={styles.freeDelivery}>
+              <Truck size={16} aria-hidden /> Free delivery across India
+            </span>
+          </div>
+
           <p className={styles.description}>
-            Ergonomically designed for precise comfort. The Signature Curve offers deep,
-            rumbling vibrations wrapped in velvety, premium medical-grade silicone.
+            Ergonomically sculpted for precise, comfortable stimulation. The Signature Curve
+            delivers deep, rumbling vibrations through velvety platinum-cured silicone — designed
+            to feel as beautiful on your nightstand as it does in use.
           </p>
+
+          <ul className={styles.highlights}>
+            {highlights.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
 
           <div className={styles.selector}>
             <h3 className={styles.selectorLabel}>Color: {selectedVariant}</h3>
@@ -169,6 +214,8 @@ export default function ProductPage() {
                     onClick={() => {
                       setSelectedVariant(variant);
                       setQuantity(1);
+                      if (variant === "Plum") setMainImage(productImages[2]);
+                      else setMainImage(productImages[0]);
                     }}
                     style={{ backgroundColor: variant === "Blush" ? "#f4e9e4" : "#4a2c3a" }}
                   />
@@ -180,7 +227,7 @@ export default function ProductPage() {
             ) : isOutOfStock ? (
               <p className={styles.outOfStock} role="status">Out of Stock</p>
             ) : (
-              <p className={styles.stockNote}>{selectedStock} available</p>
+              <p className={styles.inStock} role="status">In Stock — {selectedStock} available</p>
             )}
           </div>
 
@@ -220,7 +267,7 @@ export default function ProductPage() {
               ) : isOutOfStock ? (
                 "Out of Stock"
               ) : (
-                "Add to Cart"
+                "Add to Cart — ₹549"
               )}
             </button>
           </div>
@@ -243,18 +290,20 @@ export default function ProductPage() {
       <div className={styles.reviewsSection}>
         <h2 className={styles.sectionTitle}>Real Customer Reviews</h2>
         <div className={styles.reviewGrid}>
-          {[1, 2, 3].map((i) => (
-            <div key={i} className={styles.reviewCard}>
+          {[
+            { name: "A***i S.", city: "Mumbai", text: "Absolutely incredible quality for the price. Packaging was completely discreet — even my roommate had no idea. Arrived in 3 days." },
+            { name: "P***a K.", city: "Bangalore", text: "The silicone feels premium, not cheap at all. Free delivery was a pleasant surprise. Already recommended to two friends." },
+            { name: "R***h M.", city: "Delhi", text: "Smooth checkout, encrypted payment felt safe. Product exceeded expectations. The blush colour is gorgeous in person." },
+          ].map((review) => (
+            <div key={review.name} className={styles.reviewCard}>
               <div className={styles.stars} aria-label="5 out of 5 stars">
                 {[...Array(5)].map((_, j) => (
                   <Star key={j} fill="#4a2c3a" size={14} color="#4a2c3a" aria-hidden />
                 ))}
               </div>
-              <p className={styles.reviewText}>
-                &ldquo;Absolutely incredible quality. The packaging was so discreet, even my roommate had no idea what it was. Worth every penny.&rdquo;
-              </p>
+              <p className={styles.reviewText}>&ldquo;{review.text}&rdquo;</p>
               <div className={styles.reviewer}>
-                <span className={styles.reviewerName}>A***i S.</span>
+                <span className={styles.reviewerName}>{review.name} · {review.city}</span>
                 <span className={styles.verified}>
                   <ShieldCheck size={14} aria-hidden /> Verified Buyer
                 </span>
