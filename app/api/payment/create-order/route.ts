@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { getRazorpay } from "@/lib/razorpay";
+import { getRazorpay, isRazorpayAuthError } from "@/lib/razorpay";
 import { checkoutGroupSchema, zodErrorMessage } from "@/lib/validation";
 import { rateLimit } from "@/lib/rate-limit";
+
+const MIN_AMOUNT_PAISE = 100;
 
 export async function POST(req: NextRequest) {
   const limited = rateLimit(req, "payment-create", 10, 60_000);
@@ -29,6 +31,13 @@ export async function POST(req: NextRequest) {
     const totalAmount = orders.reduce((sum, o) => sum + o.amount, 0);
     const amountPaise = Math.round(totalAmount * 100);
 
+    if (amountPaise < MIN_AMOUNT_PAISE) {
+      return NextResponse.json(
+        { error: `Amount must be at least ${MIN_AMOUNT_PAISE} paise (₹1)` },
+        { status: 400 }
+      );
+    }
+
     const razorpay = getRazorpay();
     const razorpayOrder = await razorpay.orders.create({
       amount: amountPaise,
@@ -43,6 +52,7 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({
+      order_id: razorpayOrder.id,
       razorpayOrderId: razorpayOrder.id,
       amount: amountPaise,
       currency: "INR",
@@ -52,6 +62,9 @@ export async function POST(req: NextRequest) {
     });
   } catch (err) {
     console.error("POST /api/payment/create-order:", err);
+    if (isRazorpayAuthError(err)) {
+      return NextResponse.json({ error: "Razorpay authentication failed" }, { status: 401 });
+    }
     return NextResponse.json({ error: "Failed to create payment order" }, { status: 500 });
   }
 }

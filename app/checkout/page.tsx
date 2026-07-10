@@ -8,9 +8,14 @@ import { Lock, Loader2 } from "lucide-react";
 
 type PaymentStep = "idle" | "creating_order" | "initiating_payment" | "awaiting_payment" | "verifying";
 
+type RazorpayInstance = {
+  open: () => void;
+  on: (event: "payment.failed", handler: (response: { error: { description?: string; reason?: string } }) => void) => void;
+};
+
 declare global {
   interface Window {
-    Razorpay: new (options: RazorpayOptions) => { open: () => void };
+    Razorpay: new (options: RazorpayOptions) => RazorpayInstance;
   }
 }
 
@@ -104,10 +109,15 @@ export default function CheckoutPage() {
         throw new Error(paymentData.error ?? "Failed to initiate payment");
       }
 
-      const configRes = await fetch("/api/payment/config");
-      const configData = await configRes.json();
-      if (!configRes.ok) {
-        throw new Error("Payment gateway not configured");
+      // Prefer public env key; fall back to server config (never exposes KEY_SECRET)
+      let keyId = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID ?? "";
+      if (!keyId) {
+        const configRes = await fetch("/api/payment/config");
+        const configData = await configRes.json();
+        if (!configRes.ok || !configData.keyId) {
+          throw new Error("Payment gateway not configured");
+        }
+        keyId = configData.keyId;
       }
 
       const loaded = await loadRazorpayScript();
@@ -115,14 +125,16 @@ export default function CheckoutPage() {
         throw new Error("Failed to load payment gateway");
       }
 
+      const orderId = paymentData.order_id ?? paymentData.razorpayOrderId;
+
       setPaymentStep("awaiting_payment");
       const rzp = new window.Razorpay({
-        key: configData.keyId,
+        key: keyId,
         amount: paymentData.amount,
         currency: paymentData.currency,
         name: "Silk Room",
         description: "Order Payment",
-        order_id: paymentData.razorpayOrderId,
+        order_id: orderId,
         prefill: {
           name: paymentData.customerName,
           email: paymentData.customerEmail,
@@ -135,7 +147,9 @@ export default function CheckoutPage() {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              ...response,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_signature: response.razorpay_signature,
               checkoutGroupId: orderData.checkoutGroupId,
             }),
           });
@@ -160,6 +174,16 @@ export default function CheckoutPage() {
             setError("Payment cancelled. Your order is saved as pending — you may retry.");
           },
         },
+      });
+
+      rzp.on("payment.failed", (response) => {
+        setIsProcessing(false);
+        setPaymentStep("idle");
+        setError(
+          response.error?.description ||
+            response.error?.reason ||
+            "Payment failed. Please try again."
+        );
       });
 
       rzp.open();

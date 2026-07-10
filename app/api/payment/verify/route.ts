@@ -1,9 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createHmac } from "crypto";
+import { createHmac, timingSafeEqual } from "crypto";
 import { prisma } from "@/lib/prisma";
 import { sendOrderConfirmationEmail } from "@/lib/email";
 import { paymentVerifySchema, zodErrorMessage } from "@/lib/validation";
 import { rateLimit } from "@/lib/rate-limit";
+
+function signaturesMatch(expected: string, received: string): boolean {
+  try {
+    const a = Buffer.from(expected, "utf8");
+    const b = Buffer.from(received, "utf8");
+    if (a.length !== b.length) return false;
+    return timingSafeEqual(a, b);
+  } catch {
+    return false;
+  }
+}
 
 export async function POST(req: NextRequest) {
   const limited = rateLimit(req, "payment-verify", 15, 60_000);
@@ -28,11 +39,12 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Payment not configured" }, { status: 500 });
     }
 
+    // HMAC-SHA256(order_id + "|" + payment_id, KEY_SECRET)
     const expected = createHmac("sha256", secret)
       .update(`${razorpayOrderId}|${razorpayPaymentId}`)
       .digest("hex");
 
-    if (expected !== razorpaySignature) {
+    if (!signaturesMatch(expected, razorpaySignature)) {
       await prisma.order.updateMany({
         where: { checkoutGroupId },
         data: { paymentStatus: "failed" },
