@@ -1,4 +1,4 @@
-import { BUSINESS, PRODUCT_PRICE } from "@/lib/constants";
+import { BUSINESS } from "@/lib/constants";
 import Link from "next/link";
 
 const pageStyle = {
@@ -16,94 +16,97 @@ export default function PrivacyPolicy() {
         Privacy Policy
       </h1>
       <p style={{ color: "var(--color-plum)", marginBottom: "2rem" }}>
-        Last updated: July 10, 2026 · Applies to {BUSINESS.website}
+        Last updated: July 10, 2026
       </p>
 
       <p>
-        This Privacy Policy explains how <strong>{BUSINESS.legalName}</strong> (&ldquo;we&rdquo;,
-        &ldquo;us&rdquo;, &ldquo;our&rdquo;) collects, uses, stores, and protects personal data when
-        you purchase wellness massage devices from our website. We process personal data in
-        accordance with the Digital Personal Data Protection Act, 2023 (DPDP Act) and other
-        applicable Indian laws.
+        Silk Room (&ldquo;we&rdquo;, &ldquo;us&rdquo;, &ldquo;our&rdquo;), operated by{" "}
+        <strong>{BUSINESS.legalName}</strong>, a proprietorship registered in India at India
+        (online retail — contact support for correspondence), operates silkroom.shop (the
+        &ldquo;Site&rdquo;). We are committed to protecting your personal data in accordance with
+        the Digital Personal Data Protection Act, 2023 and the Information Technology Act, 2000.
       </p>
 
-      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>1. What personal data we collect</h2>
-      <p>To process and deliver your order, we collect the following Personally Identifiable Information (PII):</p>
+      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>1. Information we collect</h2>
       <ul>
-        <li>Full name</li>
-        <li>Email address</li>
-        <li>Phone number</li>
-        <li>Shipping address (Address Line 1, optional Address Line 2, city, state, and pincode)</li>
+        <li>Identity and contact data: name, email address, phone number</li>
+        <li>Delivery data: shipping address, city, state, pincode</li>
+        <li>Order data: products ordered, order value, order history</li>
+        <li>Technical data: IP address, browser type, device information (via standard cookies)</li>
       </ul>
       <p>
-        We also store order-related transactional data such as order ID, product variant,
-        quantity, amount, and payment status. We do <strong>not</strong> collect or store
-        payment card numbers, CVV, UPI PINs, or net-banking credentials.
+        We do <strong>NOT</strong> collect or store your card/UPI/bank details. All payment
+        information is handled directly by our payment processor, Razorpay, under their own
+        security standards.
       </p>
 
-      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>2. Why we collect this data</h2>
-      <p>We use your personal data only for:</p>
+      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>2. Why we collect it</h2>
       <ul>
-        <li>Processing prepaid orders and fulfilling delivery</li>
-        <li>Customer support related to your purchase, returns, or refunds</li>
-        <li>Transactional communication (order confirmation and shipping updates)</li>
-        <li>Compliance with applicable law and dispute resolution</li>
+        <li>To process and fulfil your orders</li>
+        <li>To communicate order and delivery updates</li>
+        <li>To handle returns, refunds, and support requests</li>
+        <li>To comply with legal and tax obligations</li>
+        <li>To prevent fraud and secure the Site</li>
       </ul>
-      <p>We do not sell your personal data. We do not use it for marketing without your explicit consent.</p>
 
-      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>3. How data is stored and protected</h2>
+      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>3. Legal basis</h2>
       <p>
-        Order and customer records are stored in a PostgreSQL database hosted on Neon,
-        accessed only through our secure server-side application. Website traffic is protected
-        with HTTPS/TLS. Payment processing is handled entirely by <strong>Razorpay</strong>;
-        payment credentials are never stored on our servers.
+        We process your data on the basis of your consent (given at checkout), to perform our
+        contract with you (fulfilling your order), and to meet legal obligations under Indian law.
       </p>
 
-      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>4. Retention</h2>
+      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>4. How we store and protect it</h2>
       <p>
-        We retain order and customer records for up to <strong>36 months</strong> from the date
-        of the order (or longer if required by law for tax, accounting, or dispute purposes).
-        After that period, we delete or anonymise personal data that is no longer needed.
+        Personal data is stored on secured, access-controlled database infrastructure (Neon
+        PostgreSQL). We apply reasonable technical and organisational security measures, including
+        encryption in transit (HTTPS) and restricted administrative access.
       </p>
 
-      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>5. Your rights under the DPDP Act</h2>
-      <p>Subject to applicable law, you may request:</p>
+      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>5. Data sharing</h2>
+      <p>
+        We share data only with: (a) Razorpay, to process payments; (b) our shipping/courier
+        partners, to deliver your order; (c) authorities, where required by law. We do not sell
+        your personal data.
+      </p>
+
+      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>6. Retention</h2>
+      <p>
+        We retain order and customer records for as long as needed to fulfil orders and for the
+        period required under applicable tax and commercial law, after which data is deleted or
+        anonymised.
+      </p>
+
+      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>7. Your rights (DPDP Act, 2023)</h2>
+      <p>
+        You have the right to access, correct, and request deletion of your personal data, and to
+        withdraw consent. To exercise these, contact our Grievance Officer below.
+      </p>
+
+      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>8. Grievance Officer</h2>
       <ul>
-        <li>Access to the personal data we hold about you</li>
-        <li>Correction of inaccurate or incomplete data</li>
-        <li>Deletion of your personal data (where we are not required to retain it by law)</li>
-        <li>Withdrawal of consent where processing is based on consent</li>
-      </ul>
-      <p>
-        To exercise these rights, email{" "}
-        <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a>. We will respond within a
-        reasonable period as required under applicable law.
-      </p>
-
-      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>6. Grievance redressal</h2>
-      <p>
-        For privacy-related grievances, contact our Grievance Officer:
-      </p>
-      <ul>
-        <li>Name / Role: {BUSINESS.grievanceOfficer}</li>
-        <li>Email: <a href={`mailto:${BUSINESS.grievanceEmail}`}>{BUSINESS.grievanceEmail}</a></li>
+        <li>Name: {BUSINESS.grievanceOfficer}</li>
+        <li>
+          Email:{" "}
+          <a href={`mailto:${BUSINESS.grievanceEmail}`}>{BUSINESS.grievanceEmail}</a>
+        </li>
         <li>Phone / WhatsApp: {BUSINESS.phone}</li>
+        <li>Address: India (online retail — contact support for correspondence)</li>
       </ul>
+      <p>
+        We will acknowledge grievances within <strong>3 days</strong> and resolve them within the
+        timelines prescribed under applicable law.
+      </p>
       <p>
         Full contact details are also listed on our{" "}
-        <Link href="/contact" style={{ textDecoration: "underline" }}>Contact Us</Link> page.
+        <Link href="/contact" style={{ textDecoration: "underline" }}>
+          Contact Us
+        </Link>{" "}
+        page.
       </p>
 
-      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>7. Third parties</h2>
+      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>9. Changes</h2>
       <p>
-        We share data only with service providers necessary to operate the store (payment
-        processing via Razorpay, hosting, email delivery, and logistics partners), under
-        confidentiality obligations. We do not share personal data with advertisers.
-      </p>
-
-      <p style={{ marginTop: "2rem", fontSize: "0.9rem", color: "var(--color-plum)" }}>
-        Product price reference on this site starts at ₹{PRODUCT_PRICE} INR (inclusive of free
-        standard delivery within India unless stated otherwise at checkout).
+        We may update this policy; changes take effect when posted here with a revised date.
       </p>
     </div>
   );

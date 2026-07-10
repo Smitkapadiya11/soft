@@ -1,4 +1,4 @@
-import { BUSINESS, PRODUCT_NAME, PRODUCT_PRICE } from "@/lib/constants";
+import { BUSINESS } from "@/lib/constants";
 import Link from "next/link";
 
 const pageStyle = {
@@ -21,75 +21,82 @@ export default function Terms() {
 
       <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>1. About us</h2>
       <p>
-        These Terms &amp; Conditions govern your use of the website operated by{" "}
-        <strong>{BUSINESS.legalName}</strong> (&ldquo;Silk Room&rdquo;, &ldquo;we&rdquo;,
-        &ldquo;us&rdquo;). We retail consumer wellness products, including cordless personal
-        muscle massage devices such as the <strong>{PRODUCT_NAME}</strong>, for home and
-        personal use in India.
+        silkroom.shop is operated by <strong>{BUSINESS.legalName}</strong>, a proprietorship
+        registered in India at India (online retail — contact support for correspondence). We are
+        an online retailer of condoms and sexual wellness products.
       </p>
 
-      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>2. Agreement</h2>
+      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>2. Eligibility</h2>
       <p>
-        By browsing or placing an order on {BUSINESS.website}, you agree to these Terms, our{" "}
-        <Link href="/privacy" style={{ textDecoration: "underline" }}>Privacy Policy</Link>,{" "}
-        <Link href="/shipping" style={{ textDecoration: "underline" }}>Shipping Policy</Link>, and{" "}
-        <Link href="/replacement" style={{ textDecoration: "underline" }}>Return &amp; Refund Policy</Link>.
-        If you do not agree, please do not use the website.
+        The products sold on this Site are intended for adults aged <strong>18 years and
+        above</strong>. By placing an order you confirm that you are 18 or older.
       </p>
 
-      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>3. Products &amp; pricing</h2>
+      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>3. Orders and pricing</h2>
       <p>
-        Product descriptions, specifications, and images are provided for accurate retail
-        information. Prices are displayed in Indian Rupees (INR). The listed price for the{" "}
-        {PRODUCT_NAME} is ₹{PRODUCT_PRICE} unless otherwise updated on the product page.
-        Standard delivery within India is free unless stated otherwise. We may update pricing
-        or discontinue products at any time.
+        All prices are in INR and inclusive of taxes as applicable. We accept{" "}
+        <strong>prepaid</strong> orders only, processed securely via Razorpay. We reserve the
+        right to cancel orders in cases of pricing errors, suspected fraud, or stock
+        unavailability, with a full refund.
       </p>
 
-      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>4. Orders &amp; payment</h2>
+      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>4. Product information</h2>
       <p>
-        Orders are accepted only after successful <strong>prepaid</strong> payment. We do not
-        offer Cash on Delivery (COD). Payments are processed by Razorpay (UPI, cards, and net
-        banking as available). An order confirmation does not guarantee stock; if an item cannot
-        be fulfilled after payment, we will refund you as described in our Return &amp; Refund Policy.
+        We sell genuine, sealed products sourced from licensed suppliers and authorised
+        distributors. Please check product details and expiry information on delivery. Use
+        products in accordance with the manufacturer&apos;s instructions printed on the packaging.
       </p>
 
-      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>5. User obligations</h2>
-      <ul>
-        <li>Provide accurate shipping and contact details</li>
-        <li>Use products only as intended for personal muscle massage / wellness use</li>
-        <li>Follow the care and safety instructions included with the product</li>
-        <li>Do not misuse the website or attempt unauthorised access</li>
-      </ul>
-
-      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>6. Shipping &amp; returns</h2>
+      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>5. Payments</h2>
       <p>
-        Delivery timelines and packaging are described in our Shipping Policy. Returns and
-        refunds are governed exclusively by our Return &amp; Refund Policy.
+        Payments are handled by Razorpay. We do not store your payment credentials. By placing an
+        order you agree to Razorpay&apos;s applicable terms for the payment transaction.
       </p>
 
-      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>7. Limitation of liability</h2>
+      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>6. Shipping, returns, refunds</h2>
       <p>
-        To the fullest extent permitted by Indian law, Silk Room is not liable for indirect,
-        incidental, or consequential damages arising from use of the website or products.
-        Nothing in these Terms excludes liability that cannot be excluded under applicable law
-        (including liability for proven manufacturing defects where required by consumer law).
-        Products must be used as intended; we are not responsible for misuse or failure to
-        follow safety instructions.
+        Governed by our{" "}
+        <Link href="/shipping" style={{ textDecoration: "underline" }}>
+          Shipping Policy
+        </Link>{" "}
+        and{" "}
+        <Link href="/replacement" style={{ textDecoration: "underline" }}>
+          Return &amp; Refund Policy
+        </Link>
+        , incorporated here by reference.
       </p>
 
-      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>8. Governing law</h2>
+      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>7. Acceptable use</h2>
+      <p>You agree to provide accurate information and to use the Site lawfully.</p>
+
+      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>8. Intellectual property</h2>
       <p>
-        These Terms are governed by the laws of India. Subject to applicable consumer
-        protection rights, courts in India shall have jurisdiction over disputes arising from
-        these Terms or your purchase.
+        All Site content and branding is owned by {BUSINESS.legalName} and may not be copied
+        without consent.
       </p>
 
-      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>9. Contact</h2>
+      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>9. Limitation of liability</h2>
       <p>
-        Questions about these Terms:{" "}
-        <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a> · {BUSINESS.phone}. See also{" "}
-        <Link href="/contact" style={{ textDecoration: "underline" }}>Contact Us</Link>.
+        To the extent permitted by law, our liability for any claim relating to a purchase is
+        limited to the amount paid for that order.
+      </p>
+
+      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>10. Governing law</h2>
+      <p>
+        These Terms are governed by the laws of India; courts at{" "}
+        <strong>Ahmedabad</strong> have jurisdiction.
+      </p>
+
+      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>11. Contact</h2>
+      <p>
+        <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a> · {BUSINESS.phone} · India
+        (online retail — contact support for correspondence)
+        <br />
+        See also{" "}
+        <Link href="/contact" style={{ textDecoration: "underline" }}>
+          Contact Us
+        </Link>
+        .
       </p>
     </div>
   );

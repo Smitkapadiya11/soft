@@ -1,8 +1,7 @@
 import Link from "next/link";
-import { BUSINESS } from "@/lib/constants";
 
-/** Legacy route — adult age-gate removed for general wellness products. */
-export default function PoliciesOverview() {
+/** Age policy page — gate itself is the AgeGate modal on first visit */
+export default function AgeVerificationPage() {
   return (
     <div
       style={{
@@ -14,30 +13,32 @@ export default function PoliciesOverview() {
       }}
     >
       <h1 style={{ fontFamily: "var(--font-serif)", fontSize: "2.5rem", marginBottom: "1rem" }}>
-        Store Policies
+        Age Requirement
       </h1>
       <p>
-        {BUSINESS.name} sells consumer wellness massage devices for personal muscle relief and
-        relaxation. By using this website and placing an order, you agree to our published
-        policies:
+        Silk Room sells condoms and sexual wellness products intended for adults aged{" "}
+        <strong>18 years and above</strong>. By using this website and placing an order, you
+        confirm that you meet this requirement.
+      </p>
+      <p style={{ marginTop: "1rem" }}>
+        We may cancel orders if we reasonably believe the purchaser is under 18, with a refund
+        as applicable under our policies.
       </p>
       <ul style={{ marginTop: "1.5rem" }}>
         <li>
-          <Link href="/terms" style={{ textDecoration: "underline" }}>Terms &amp; Conditions</Link>
-        </li>
-        <li>
-          <Link href="/privacy" style={{ textDecoration: "underline" }}>Privacy Policy</Link>
-        </li>
-        <li>
-          <Link href="/shipping" style={{ textDecoration: "underline" }}>Shipping Policy</Link>
-        </li>
-        <li>
-          <Link href="/replacement" style={{ textDecoration: "underline" }}>
-            Return &amp; Refund Policy
+          <Link href="/terms" style={{ textDecoration: "underline" }}>
+            Terms &amp; Conditions
           </Link>
         </li>
         <li>
-          <Link href="/contact" style={{ textDecoration: "underline" }}>Contact Us</Link>
+          <Link href="/privacy" style={{ textDecoration: "underline" }}>
+            Privacy Policy
+          </Link>
+        </li>
+        <li>
+          <Link href="/contact" style={{ textDecoration: "underline" }}>
+            Contact Us
+          </Link>
         </li>
       </ul>
     </div>

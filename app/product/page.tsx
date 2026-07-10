@@ -11,6 +11,7 @@ import {
   PRODUCT_PRICE,
   PRODUCT_NAME,
   PRODUCT_ID,
+  PRODUCT_PACK_SIZE,
   FALLBACK_STOCK,
   ALLOWED_VARIANTS,
   VARIANT_COLORS,
@@ -32,7 +33,7 @@ const productImages = [
 
 export default function ProductPage() {
   const { addToCart } = useCart();
-  const [selectedVariant, setSelectedVariant] = useState<(typeof PRODUCT.variants)[number]>("Pearl");
+  const [selectedVariant, setSelectedVariant] = useState<(typeof PRODUCT.variants)[number]>("Ultra Thin");
   const [quantity, setQuantity] = useState(1);
   const [stock, setStock] = useState<Record<string, number>>({ ...FALLBACK_STOCK });
   const [stockLoading, setStockLoading] = useState(true);
@@ -85,56 +86,54 @@ export default function ProductPage() {
   };
 
   const highlights = [
-    "Cordless percussion massage for muscle relief",
-    "6 adjustable speed levels",
-    "Quiet brushless motor",
-    "USB-C rechargeable · ~4 hour runtime",
-    "Soft silicone massage heads included",
-    "Lightweight design for home or travel",
+    "Natural latex · individually sealed foils",
+    `${PRODUCT_PACK_SIZE} per order`,
+    "Ultra Thin — barely-there comfort",
+    "Dotted — textured for added sensation",
+    "Designed for comfort for women & men",
+    "Discreet plain packaging on delivery",
   ];
 
   const faqs = [
     {
-      title: "What is this massager used for?",
+      title: "Who is this product for?",
       content:
-        "The Deep Relief Massager is a personal muscle massage device for everyday wellness. Use it on sore shoulders, neck, back, calves, and other large muscle groups to support recovery after workouts, long desk days, or general tension.",
+        "Silk Room Ultra Comfort condoms are for adults aged 18+. They support safer intimacy with options focused on comfort (Ultra Thin) and texture (Dotted) — suitable for couples who want reliable protection without compromising feel.",
     },
     {
-      title: "Is delivery free across India?",
-      content: `Yes — ₹${PRODUCT_PRICE} is your all-in price. We offer free doorstep delivery to every serviceable pincode in India. No hidden shipping fees at checkout.`,
+      title: "What material are they made of?",
+      content:
+        "Natural latex. If you have a latex allergy, do not use these products and consult a healthcare professional for alternatives.",
     },
     {
-      title: "When will my order arrive?",
+      title: "Is packaging discreet?",
       content:
-        "Orders are typically dispatched within 24–48 hours of payment confirmation. Delivery usually takes 2–4 business days in metro cities and 3–6 business days elsewhere in India.",
+        "Yes. Orders ship in a plain outer carton. Shipping labels do not list product names. Emails reference your order number for privacy.",
     },
     {
-      title: "Is payment secure?",
-      content:
-        "Yes. Checkout is prepaid only via Razorpay with bank-grade 256-bit SSL encryption. We never store your card number or UPI PIN on our servers.",
+      title: "Is delivery free?",
+      content: `Yes — ₹${PRODUCT_PRICE} is your all-in price for ${PRODUCT_PACK_SIZE}. Free standard delivery across serviceable pin codes in India.`,
     },
     {
-      title: "What is your return & refund policy?",
+      title: "Can I return opened packs?",
       content:
-        "Unused products in original packaging may be returned within 7 days of delivery. Defective or damaged items are eligible for replacement or refund. See our Return & Refund Policy for full details.",
+        "For hygiene reasons, opened or unsealed condoms cannot be returned unless defective or damaged on arrival. Unopened sealed packs may be returned within 7 days. See our Return & Refund Policy.",
     },
   ];
 
   const specs = [
     {
-      title: "Materials & Care",
-      content:
-        "Durable ABS housing with soft silicone massage attachments. Wipe the device and heads with a clean, slightly damp cloth after use. Do not immerse the motor unit in water. Store in the included pouch away from extreme heat.",
+      title: "Product details",
+      content: `Name: ${PRODUCT_NAME} · Category: Condoms / sexual wellness · Material: Natural latex · Pack size: ${PRODUCT_PACK_SIZE} · Variants: Ultra Thin (smooth, thinner feel) and Dotted (textured) · Use: as directed on the manufacturer packaging · Check expiry date on delivery`,
     },
     {
-      title: "Specifications",
+      title: "Benefits",
       content:
-        "Type: Cordless percussion muscle massager · Speeds: 6 levels · Motor: Quiet brushless · Battery: Rechargeable lithium-ion · Runtime: up to ~4 hours · Charge: USB-C, ~2–3 hours · Weight: approx. 450 g · Noise: designed for home use · Intended use: muscle relief & relaxation on large muscle groups",
+        "For men: reliable barrier protection with a comfortable fit. For women: smoother comfort-focused options and discreet delivery. For couples: two clear choices — Ultra Thin for sensitivity, Dotted for texture — without awkward in-store shopping.",
     },
     {
-      title: "What's in the Box",
-      content:
-        "Deep Relief Massager · Soft silicone massage heads · USB-C charging cable · Soft storage pouch · Quick-start guide",
+      title: "What's in the box",
+      content: `${PRODUCT_PACK_SIZE} of sealed ${selectedVariant} condoms · Outer retail carton · Shipped inside plain discreet packaging`,
     },
   ];
 
@@ -145,7 +144,7 @@ export default function ProductPage() {
           <div className={styles.mainImageContainer}>
             <Image
               src={mainImage}
-              alt={`${PRODUCT.name} in ${selectedVariant} — cordless muscle massage gun`}
+              alt={`${PRODUCT.name} ${selectedVariant} condoms — ${PRODUCT_PACK_SIZE}`}
               fill
               style={{ objectFit: "cover" }}
               className={styles.actualImage}
@@ -178,10 +177,13 @@ export default function ProductPage() {
                 <Star key={i} fill="#4a2c3a" size={16} color="#4a2c3a" aria-hidden />
               ))}
             </div>
-            <span>(128 verified reviews)</span>
+            <span>(128 verified reviews) · Adults 18+</span>
           </div>
 
           <h1 className={styles.title}>{PRODUCT.name}</h1>
+          <p style={{ color: "var(--color-plum)", marginBottom: "0.75rem", fontSize: "0.95rem" }}>
+            {PRODUCT_PACK_SIZE} · Natural latex condoms
+          </p>
 
           <div className={styles.priceRow}>
             <p className={styles.price}>₹{PRODUCT.price}</p>
@@ -191,9 +193,9 @@ export default function ProductPage() {
           </div>
 
           <p className={styles.description}>
-            A cordless percussion massager built for targeted muscle relief and everyday
-            relaxation. Six speed levels and a quiet brushless motor help you work through
-            tension in the neck, shoulders, back, and legs — at home, at the gym, or after a long day.
+            Premium sealed condoms for comfortable, confident intimacy. Choose{" "}
+            <strong>Ultra Thin</strong> for a barely-there feel, or <strong>Dotted</strong> for
+            gentle texture — both made from natural latex and shipped in discreet packaging.
           </p>
 
           <ul className={styles.highlights}>
@@ -203,8 +205,8 @@ export default function ProductPage() {
           </ul>
 
           <div className={styles.selector}>
-            <h3 className={styles.selectorLabel}>Color: {selectedVariant}</h3>
-            <div className={styles.swatches} role="radiogroup" aria-label="Select color variant">
+            <h3 className={styles.selectorLabel}>Type: {selectedVariant}</h3>
+            <div className={styles.swatches} role="radiogroup" aria-label="Select condom type">
               {PRODUCT.variants.map((variant) => {
                 const variantStock = stock[variant] ?? 0;
                 const out = !stockLoading && variantStock < 1;
@@ -220,20 +222,25 @@ export default function ProductPage() {
                     onClick={() => {
                       setSelectedVariant(variant);
                       setQuantity(1);
-                      if (variant === "Sage") setMainImage(productImages[2]);
-                      else setMainImage(productImages[0]);
+                      setMainImage(variant === "Dotted" ? productImages[1] : productImages[0]);
                     }}
                     style={{ backgroundColor: VARIANT_COLORS[variant] }}
+                    title={variant}
                   />
                 );
               })}
             </div>
+            <p className={styles.stockNote} style={{ marginTop: "0.5rem" }}>
+              {selectedVariant === "Ultra Thin"
+                ? "Ultra Thin — smooth, thinner feel for maximum sensitivity"
+                : "Dotted — textured surface for added sensation"}
+            </p>
             {stockLoading ? (
               <p className={styles.stockNote} aria-live="polite">Checking availability…</p>
             ) : isOutOfStock ? (
               <p className={styles.outOfStock} role="status">Out of Stock</p>
             ) : (
-              <p className={styles.inStock} role="status">In Stock — {selectedStock} available</p>
+              <p className={styles.inStock} role="status">In Stock — {selectedStock} packs available</p>
             )}
           </div>
 
@@ -241,23 +248,9 @@ export default function ProductPage() {
 
           <div className={styles.addToCartSection}>
             <div className={styles.quantity} aria-label="Quantity selector">
-              <button
-                type="button"
-                onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                disabled={isOutOfStock || quantity <= 1}
-                aria-label="Decrease quantity"
-              >
-                −
-              </button>
+              <button type="button" onClick={() => setQuantity(Math.max(1, quantity - 1))} disabled={isOutOfStock || quantity <= 1} aria-label="Decrease quantity">−</button>
               <span aria-live="polite">{quantity}</span>
-              <button
-                type="button"
-                onClick={() => setQuantity(Math.min(maxQty, quantity + 1))}
-                disabled={isOutOfStock || quantity >= maxQty}
-                aria-label="Increase quantity"
-              >
-                +
-              </button>
+              <button type="button" onClick={() => setQuantity(Math.min(maxQty, quantity + 1))} disabled={isOutOfStock || quantity >= maxQty} aria-label="Increase quantity">+</button>
             </div>
             <button
               type="button"
@@ -267,9 +260,7 @@ export default function ProductPage() {
               aria-busy={isAdding}
             >
               {isAdding ? (
-                <>
-                  <Loader2 size={18} className={styles.spinner} aria-hidden /> Adding…
-                </>
+                <><Loader2 size={18} className={styles.spinner} aria-hidden /> Adding…</>
               ) : isOutOfStock ? (
                 "Out of Stock"
               ) : (
@@ -297,9 +288,9 @@ export default function ProductPage() {
         <h2 className={styles.sectionTitle}>Real Customer Reviews</h2>
         <div className={styles.reviewGrid}>
           {[
-            { name: "A***i S.", city: "Mumbai", text: "Great for post-gym shoulder and calf relief. Quiet enough to use at home in the evening. Packaging was plain and delivery was free." },
-            { name: "P***a K.", city: "Bangalore", text: "Solid build for the price. Six speeds are useful — I keep it on mid for desk-day neck tension. Arrived in 3 days." },
-            { name: "R***h M.", city: "Delhi", text: "Checkout was smooth and prepaid felt secure. The Sage colour looks premium. Already using it after long workdays." },
+            { name: "A***i S.", city: "Mumbai", text: "Ultra Thin feels great and packaging was completely discreet. Delivery was free and fast." },
+            { name: "P***a K.", city: "Bangalore", text: "Ordered Dotted for my partner and me — quality seals, clear expiry, no awkward branding on the box." },
+            { name: "R***h M.", city: "Delhi", text: "Smooth Razorpay checkout. Good to have a trusted online option with a real return policy for unopened packs." },
           ].map((review) => (
             <div key={review.name} className={styles.reviewCard}>
               <div className={styles.stars} aria-label="5 out of 5 stars">

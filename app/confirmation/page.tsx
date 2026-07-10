@@ -28,8 +28,8 @@ function ConfirmationContent() {
       </div>
 
       <div className={styles.note}>
-        <p>Check your email for order updates referencing your order number.</p>
-        <p>Questions? Visit our Contact page or email support — we&apos;re happy to help with shipping and returns.</p>
+        <p>Check your email for updates referencing your order number only.</p>
+        <p>Your pack ships in plain, discreet packaging. Questions? See Contact Us or our Return &amp; Refund Policy.</p>
       </div>
 
       <Link href="/" className={styles.btn}>

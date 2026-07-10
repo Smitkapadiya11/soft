@@ -15,23 +15,24 @@ async function main() {
   const { username } = await syncAdminFromEnv(prisma);
 
   await prisma.inventory.upsert({
-    where: { variantName: "Pearl" },
-    update: { stockCount: 145 },
-    create: { variantName: "Pearl", stockCount: 145 },
+    where: { variantName: "Ultra Thin" },
+    update: { stockCount: 200 },
+    create: { variantName: "Ultra Thin", stockCount: 200 },
   });
 
   await prisma.inventory.upsert({
-    where: { variantName: "Sage" },
-    update: { stockCount: 120 },
-    create: { variantName: "Sage", stockCount: 120 },
+    where: { variantName: "Dotted" },
+    update: { stockCount: 180 },
+    create: { variantName: "Dotted", stockCount: 180 },
   });
 
-  // Remove legacy variant rows if present
   await prisma.inventory.deleteMany({
-    where: { variantName: { in: ["Blush", "Plum"] } },
+    where: {
+      variantName: { in: ["Blush", "Plum", "Pearl", "Sage"] },
+    },
   });
 
-  console.log(`Seeded admin user "${username}" and inventory (Pearl: 145, Sage: 120)`);
+  console.log(`Seeded admin "${username}" and inventory (Ultra Thin: 200, Dotted: 180)`);
 }
 
 main()

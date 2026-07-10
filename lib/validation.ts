@@ -9,7 +9,7 @@ export const customerSchema = z.object({
   phone: z
     .string()
     .trim()
-    .transform((v) => v.replace(/\s/g, ""))
+    .transform((v) => v.replace(/\s/g, "").replace(/^\+91/, "").replace(/^91/, ""))
     .pipe(z.string().regex(/^[6-9]\d{9}$/, "Valid 10-digit Indian phone number is required")),
   address1: z.string().trim().min(5, "Address is required").max(200).optional(),
   addressLine1: z.string().trim().min(5).max(200).optional(),

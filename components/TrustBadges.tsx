@@ -9,14 +9,14 @@ export default function TrustBadges() {
         <Lock size={20} />
         <div className={styles.text}>
           <span className={styles.title}>Secure Checkout</span>
-          <span className={styles.desc}>256-bit SSL via Razorpay</span>
+          <span className={styles.desc}>Razorpay · 256-bit SSL</span>
         </div>
       </div>
       <div className={styles.badge}>
         <ShieldCheck size={20} />
         <div className={styles.text}>
-          <span className={styles.title}>Privacy Protected</span>
-          <Link href="/privacy" className={styles.link}>Read Policy</Link>
+          <span className={styles.title}>Discreet &amp; Private</span>
+          <Link href="/privacy" className={styles.link}>Privacy Policy</Link>
         </div>
       </div>
       <div className={styles.badge}>
@@ -29,7 +29,7 @@ export default function TrustBadges() {
       <div className={styles.badge}>
         <CheckCircle size={20} />
         <div className={styles.text}>
-          <span className={styles.title}>7-Day Returns</span>
+          <span className={styles.title}>Returns</span>
           <Link href="/replacement" className={styles.link}>Return &amp; Refund</Link>
         </div>
       </div>

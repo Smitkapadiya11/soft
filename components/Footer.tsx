@@ -1,6 +1,6 @@
 import Link from "next/link";
 import styles from "./Footer.module.css";
-import { ShieldCheck, Truck, Lock, RotateCcw } from "lucide-react";
+import { ShieldCheck, Package, Lock, RotateCcw } from "lucide-react";
 import { BUSINESS } from "@/lib/constants";
 
 export default function Footer() {
@@ -8,8 +8,8 @@ export default function Footer() {
     <footer className={styles.footer}>
       <div className={styles.trustStrip}>
         <div className={styles.trustItem}>
-          <Truck size={24} />
-          <span>Free Delivery Across India</span>
+          <Package size={24} />
+          <span>Discreet Packaging</span>
         </div>
         <div className={styles.trustItem}>
           <Lock size={24} />
@@ -21,7 +21,7 @@ export default function Footer() {
         </div>
         <div className={styles.trustItem}>
           <RotateCcw size={24} />
-          <span>7-Day Returns &amp; Refunds</span>
+          <span>Easy Returns</span>
         </div>
       </div>
 
@@ -29,7 +29,7 @@ export default function Footer() {
         <div className={styles.brandInfo}>
           <h3 className={styles.brandName}>{BUSINESS.name}</h3>
           <p className={styles.tagline}>
-            Premium cordless massage devices for muscle relief and everyday relaxation.
+            Premium condoms &amp; sexual wellness, delivered discreetly.
           </p>
         </div>
 
@@ -37,8 +37,8 @@ export default function Footer() {
           <h4>Legal</h4>
           <Link href="/privacy">Privacy Policy</Link>
           <Link href="/terms">Terms &amp; Conditions</Link>
-          <Link href="/shipping">Shipping Policy</Link>
           <Link href="/replacement">Return &amp; Refund Policy</Link>
+          <Link href="/shipping">Shipping Policy</Link>
           <Link href="/contact">Contact Us</Link>
         </div>
 
@@ -52,7 +52,9 @@ export default function Footer() {
         </div>
       </div>
       <div className={styles.bottom}>
-        <p>&copy; {new Date().getFullYear()} {BUSINESS.name}. All rights reserved.</p>
+        <p>
+          &copy; {new Date().getFullYear()} {BUSINESS.name}. All rights reserved.
+        </p>
       </div>
     </footer>
   );

@@ -1,22 +1,18 @@
-# Silk Room — Wellness Massager Store
+# Silk Room — Condoms & Sexual Wellness
 
-**Silk Room** is a single-product e-commerce store selling the **Deep Relief Massager** — a cordless percussion muscle massage device for recovery and everyday relaxation in India.
-
-## Stack
-- Next.js 16 (App Router) · CSS Modules · Prisma + Neon Postgres · NextAuth · Razorpay Standard Checkout
+Online retailer of premium condoms for adults (18+) in India. Brand: **Silk Room** · Site: [silkroom.shop](https://silkroom.shop)
 
 ## Product
-- **Name:** Deep Relief Massager
-- **Price:** ₹549 INR (free standard delivery across India)
-- **Variants:** Pearl · Sage
+- **Silk Room Ultra Comfort** — natural latex condoms
+- **₹299** · Pack of 10 · Free delivery India
+- Variants: **Ultra Thin** · **Dotted**
 
-## Key routes
-- `/` Home · `/product` · `/checkout` · `/confirmation`
-- `/privacy` · `/terms` · `/shipping` · `/replacement` (Return & Refund) · `/contact`
-- `/admin` (protected)
+## Stack
+Next.js 16 · Prisma/Neon · NextAuth · Razorpay Standard Checkout
 
-## Local setup
-1. Copy `.env.example` → `.env.local` and fill values
-2. `npm install`
-3. `npm run db:seed` (or `npm run admin:sync`)
-4. `npm run dev`
+## Legal
+`/privacy` · `/terms` · `/shipping` · `/replacement` (Return & Refund) · `/contact` · 18+ AgeGate
+
+## Setup
+1. `.env.local` from `.env.example`
+2. `npm install` · `npm run db:seed` · `npm run dev`

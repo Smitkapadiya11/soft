@@ -109,69 +109,75 @@ export default function CheckoutPage() {
         throw new Error(paymentData.error ?? "Failed to initiate payment");
       }
 
-      // Prefer public env key; fall back to server config (never exposes KEY_SECRET)
-      let keyId = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID ?? "";
-      if (!keyId) {
-        const configRes = await fetch("/api/payment/config");
-        const configData = await configRes.json();
-        if (!configRes.ok || !configData.keyId) {
-          throw new Error("Payment gateway not configured");
-        }
-        keyId = configData.keyId;
+      // Always load key from server config (avoids stale NEXT_PUBLIC build cache)
+      const configRes = await fetch("/api/payment/config");
+      const configData = await configRes.json();
+      if (!configRes.ok || !configData.keyId) {
+        throw new Error("Payment gateway not configured. Please try again later.");
       }
+      const keyId = configData.keyId as string;
 
       const loaded = await loadRazorpayScript();
       if (!loaded) {
-        throw new Error("Failed to load payment gateway");
+        throw new Error("Failed to load Razorpay. Check your connection and try again.");
       }
 
       const orderId = paymentData.order_id ?? paymentData.razorpayOrderId;
+      if (!orderId || !paymentData.amount) {
+        throw new Error("Invalid payment order from server. Please retry.");
+      }
 
       setPaymentStep("awaiting_payment");
       const rzp = new window.Razorpay({
         key: keyId,
         amount: paymentData.amount,
-        currency: paymentData.currency,
+        currency: paymentData.currency || "INR",
         name: "Silk Room",
-        description: "Order Payment",
+        description: "Silk Room order — condoms & sexual wellness",
         order_id: orderId,
         prefill: {
-          name: paymentData.customerName,
-          email: paymentData.customerEmail,
-          contact: paymentData.customerPhone,
+          name: paymentData.customerName || formData.name,
+          email: paymentData.customerEmail || formData.email,
+          contact: paymentData.customerPhone || formData.phone,
         },
         theme: { color: "#4a2c3a" },
         handler: async (response) => {
           setPaymentStep("verifying");
-          const verifyRes = await fetch("/api/payment/verify", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              razorpay_payment_id: response.razorpay_payment_id,
-              razorpay_order_id: response.razorpay_order_id,
-              razorpay_signature: response.razorpay_signature,
-              checkoutGroupId: orderData.checkoutGroupId,
-            }),
-          });
+          try {
+            const verifyRes = await fetch("/api/payment/verify", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_signature: response.razorpay_signature,
+                checkoutGroupId: orderData.checkoutGroupId,
+              }),
+            });
 
-          const verifyData = await verifyRes.json();
-          if (!verifyRes.ok) {
-            setError(verifyData.error ?? "Payment verification failed");
+            const verifyData = await verifyRes.json();
+            if (!verifyRes.ok) {
+              setError(verifyData.error ?? "Payment verification failed");
+              setIsProcessing(false);
+              setPaymentStep("idle");
+              return;
+            }
+
+            clearCart();
             setIsProcessing(false);
             setPaymentStep("idle");
-            return;
+            router.push(`/confirmation?orderId=${verifyData.orderIds[0]}`);
+          } catch {
+            setError("Payment received but verification failed. Contact support with your payment ID.");
+            setIsProcessing(false);
+            setPaymentStep("idle");
           }
-
-          clearCart();
-          setIsProcessing(false);
-          setPaymentStep("idle");
-          router.push(`/confirmation?orderId=${verifyData.orderIds[0]}`);
         },
         modal: {
           ondismiss: () => {
             setIsProcessing(false);
             setPaymentStep("idle");
-            setError("Payment cancelled. Your order is saved as pending — you may retry.");
+            setError("Payment cancelled. Your order is saved as pending — you may retry checkout.");
           },
         },
       });
@@ -182,13 +188,18 @@ export default function CheckoutPage() {
         setError(
           response.error?.description ||
             response.error?.reason ||
-            "Payment failed. Please try again."
+            "Payment failed. Please try another method or card."
         );
       });
 
       rzp.open();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Checkout failed");
+      const message = err instanceof Error ? err.message : "Checkout failed";
+      const hint =
+        /price|variant|stock/i.test(message)
+          ? " Tip: clear your cart and add the product again (prices/types were updated)."
+          : "";
+      setError(message + hint);
       setIsProcessing(false);
       setPaymentStep("idle");
     }

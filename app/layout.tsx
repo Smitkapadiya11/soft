@@ -6,6 +6,7 @@ import Providers from "@/components/Providers";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CartDrawer from "@/components/CartDrawer";
+import AgeGate from "@/components/AgeGate";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -18,9 +19,9 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Silk Room — Deep Relief Massager | Muscle Recovery & Relaxation",
+  title: "Silk Room — Premium Condoms & Sexual Wellness | Discreet Delivery India",
   description:
-    "Shop the Silk Room Deep Relief Massager — a cordless percussion massage gun for muscle relief and everyday relaxation. Free delivery across India. Prepaid secure checkout.",
+    "Shop Silk Room Ultra Comfort condoms — natural latex, Ultra Thin & Dotted packs. Discreet packaging, free delivery across India, secure prepaid checkout via Razorpay. 18+ only.",
 };
 
 export default function RootLayout({
@@ -33,6 +34,7 @@ export default function RootLayout({
       <body className={`${inter.variable} ${playfair.variable}`}>
         <Providers>
           <CartProvider>
+            <AgeGate />
             <Navbar />
             <main style={{ minHeight: "calc(100vh - 400px)" }}>{children}</main>
             <CartDrawer />
