@@ -1,71 +1,95 @@
+import { BUSINESS, PRODUCT_NAME, PRODUCT_PRICE } from "@/lib/constants";
+import Link from "next/link";
+
+const pageStyle = {
+  maxWidth: "800px",
+  margin: "4rem auto",
+  padding: "0 1rem",
+  lineHeight: 1.7,
+  color: "var(--color-plum-dark)",
+} as const;
+
 export default function Terms() {
   return (
-    <div style={{ maxWidth: '800px', margin: '4rem auto', padding: '0 1rem', lineHeight: 1.7, color: 'var(--color-plum-dark)' }}>
-      <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: '2.5rem', marginBottom: '1rem' }}>Terms &amp; Conditions</h1>
-      <p style={{ color: 'var(--color-plum)', marginBottom: '2rem' }}>Last updated: July 7, 2026</p>
-
-      <h2 style={{ marginTop: '2rem', marginBottom: '1rem' }}>1. Agreement</h2>
-      <p>
-        By visiting or purchasing from Silk Room, you agree to these terms. If you do not agree,
-        please do not use our website.
+    <div style={pageStyle}>
+      <h1 style={{ fontFamily: "var(--font-serif)", fontSize: "2.5rem", marginBottom: "1rem" }}>
+        Terms &amp; Conditions
+      </h1>
+      <p style={{ color: "var(--color-plum)", marginBottom: "2rem" }}>
+        Last updated: July 10, 2026
       </p>
 
-      <h2 style={{ marginTop: '2rem', marginBottom: '1rem' }}>2. Age Requirement</h2>
+      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>1. About us</h2>
       <p>
-        You must be 18 years of age or older to purchase from Silk Room. By placing an order,
-        you confirm that you meet this requirement.
+        These Terms &amp; Conditions govern your use of the website operated by{" "}
+        <strong>{BUSINESS.legalName}</strong> (&ldquo;Silk Room&rdquo;, &ldquo;we&rdquo;,
+        &ldquo;us&rdquo;). We retail consumer wellness products, including cordless personal
+        muscle massage devices such as the <strong>{PRODUCT_NAME}</strong>, for home and
+        personal use in India.
       </p>
 
-      <h2 style={{ marginTop: '2rem', marginBottom: '1rem' }}>3. Products &amp; Pricing</h2>
+      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>2. Agreement</h2>
       <p>
-        All products are sold for personal use only. Prices are listed in Indian Rupees (INR) and
-        include free delivery across India unless stated otherwise. We reserve the right to
-        update pricing or discontinue products at any time.
+        By browsing or placing an order on {BUSINESS.website}, you agree to these Terms, our{" "}
+        <Link href="/privacy" style={{ textDecoration: "underline" }}>Privacy Policy</Link>,{" "}
+        <Link href="/shipping" style={{ textDecoration: "underline" }}>Shipping Policy</Link>, and{" "}
+        <Link href="/replacement" style={{ textDecoration: "underline" }}>Return &amp; Refund Policy</Link>.
+        If you do not agree, please do not use the website.
       </p>
 
-      <h2 style={{ marginTop: '2rem', marginBottom: '1rem' }}>4. Orders &amp; Payment</h2>
+      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>3. Products &amp; pricing</h2>
       <p>
-        Orders are confirmed only after successful prepaid payment. We do not offer Cash on
-        Delivery. All transactions are processed through Razorpay with bank-grade 256-bit SSL
-        encryption.
+        Product descriptions, specifications, and images are provided for accurate retail
+        information. Prices are displayed in Indian Rupees (INR). The listed price for the{" "}
+        {PRODUCT_NAME} is ₹{PRODUCT_PRICE} unless otherwise updated on the product page.
+        Standard delivery within India is free unless stated otherwise. We may update pricing
+        or discontinue products at any time.
       </p>
 
-      <h2 style={{ marginTop: '2rem', marginBottom: '1rem' }}>5. Your Privacy &amp; Security</h2>
+      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>4. Orders &amp; payment</h2>
       <p>
-        Your trust is everything to us. Every order placed on Silk Room is protected with
-        end-to-end encryption — from checkout to fulfillment. Your personal information is
-        stored securely and never sold or shared for marketing purposes. We use your details
-        solely to process and deliver your order with complete discretion.
-      </p>
-      <p>
-        Shipping labels and outer packaging contain no product descriptions. Order confirmation
-        emails reference your order number only — never product names.
+        Orders are accepted only after successful <strong>prepaid</strong> payment. We do not
+        offer Cash on Delivery (COD). Payments are processed by Razorpay (UPI, cards, and net
+        banking as available). An order confirmation does not guarantee stock; if an item cannot
+        be fulfilled after payment, we will refund you as described in our Return &amp; Refund Policy.
       </p>
 
-      <h2 style={{ marginTop: '2rem', marginBottom: '1rem' }}>6. Shipping &amp; Delivery</h2>
+      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>5. User obligations</h2>
+      <ul>
+        <li>Provide accurate shipping and contact details</li>
+        <li>Use products only as intended for personal muscle massage / wellness use</li>
+        <li>Follow the care and safety instructions included with the product</li>
+        <li>Do not misuse the website or attempt unauthorised access</li>
+      </ul>
+
+      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>6. Shipping &amp; returns</h2>
       <p>
-        We offer free delivery to all serviceable pin codes across India. Orders are dispatched
-        within 24 hours and typically arrive within 2–6 business days depending on your location.
-        See our <a href="/shipping" style={{ textDecoration: 'underline' }}>Shipping Policy</a> for details.
+        Delivery timelines and packaging are described in our Shipping Policy. Returns and
+        refunds are governed exclusively by our Return &amp; Refund Policy.
       </p>
 
-      <h2 style={{ marginTop: '2rem', marginBottom: '1rem' }}>7. Replacements</h2>
+      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>7. Limitation of liability</h2>
       <p>
-        Due to hygiene standards, general returns are not accepted. We offer a 7-day replacement
-        guarantee for products that arrive damaged or defective. See our{' '}
-        <a href="/replacement" style={{ textDecoration: 'underline' }}>Replacement Policy</a>.
+        To the fullest extent permitted by Indian law, Silk Room is not liable for indirect,
+        incidental, or consequential damages arising from use of the website or products.
+        Nothing in these Terms excludes liability that cannot be excluded under applicable law
+        (including liability for proven manufacturing defects where required by consumer law).
+        Products must be used as intended; we are not responsible for misuse or failure to
+        follow safety instructions.
       </p>
 
-      <h2 style={{ marginTop: '2rem', marginBottom: '1rem' }}>8. Limitation of Liability</h2>
+      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>8. Governing law</h2>
       <p>
-        Silk Room is not liable for misuse of products. Products must be used as intended and in
-        accordance with the care instructions provided.
+        These Terms are governed by the laws of India. Subject to applicable consumer
+        protection rights, courts in India shall have jurisdiction over disputes arising from
+        these Terms or your purchase.
       </p>
 
-      <h2 style={{ marginTop: '2rem', marginBottom: '1rem' }}>9. Contact</h2>
+      <h2 style={{ marginTop: "2rem", marginBottom: "1rem" }}>9. Contact</h2>
       <p>
-        For order support or replacement requests, contact us through the email provided on your
-        order confirmation.
+        Questions about these Terms:{" "}
+        <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a> · {BUSINESS.phone}. See also{" "}
+        <Link href="/contact" style={{ textDecoration: "underline" }}>Contact Us</Link>.
       </p>
     </div>
   );

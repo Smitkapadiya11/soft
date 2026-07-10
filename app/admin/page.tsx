@@ -220,7 +220,7 @@ export default function AdminDashboard() {
             <div className={styles.inventoryGrid}>
               {inventory.map((item) => (
                 <div key={item.variant} className={`${styles.inventoryCard} ${item.stock < 20 ? styles.lowStock : ""}`}>
-                  <div className={styles.variantColor} style={{ backgroundColor: item.variant === "Blush" ? "#f4e9e4" : "#4a2c3a" }} />
+                  <div className={styles.variantColor} style={{ backgroundColor: item.variant === "Pearl" ? "#e8e6e3" : item.variant === "Sage" ? "#8a9a7b" : "#4a2c3a" }} />
                   <div>
                     <h3>{item.variant}</h3>
                     <p className={styles.stockCount}>{item.stock} in stock</p>

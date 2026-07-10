@@ -222,7 +222,7 @@ export default function CheckoutPage() {
         <form className={styles.formSection} onSubmit={handlePlaceOrder}>
           <div className={styles.sectionHeader}>
             <h2>Shipping Information</h2>
-            <p>Your order will arrive in plain, unbranded packaging.</p>
+            <p>Your order ships in secure packaging with free delivery across India.</p>
           </div>
 
           {error && (
@@ -283,7 +283,16 @@ export default function CheckoutPage() {
             </div>
             <div className={styles.mockGateway}>
               <p><strong>Total Amount:</strong> ₹{cartTotal}</p>
-              <p className={styles.reassuranceNote}>Your order will arrive in plain, unbranded packaging.</p>
+              <p className={styles.reassuranceNote}>
+                Free delivery · Prepaid via Razorpay ·{" "}
+                <a href="/replacement" style={{ textDecoration: "underline" }}>
+                  Return &amp; Refund Policy
+                </a>{" "}
+                ·{" "}
+                <a href="/shipping" style={{ textDecoration: "underline" }}>
+                  Shipping
+                </a>
+              </p>
             </div>
           </div>
 

@@ -4,7 +4,7 @@ export async function sendOrderConfirmationEmail(
 ): Promise<void> {
   const orderRef = orderIds[0];
   const subject = `Order ${orderRef.slice(0, 12)} confirmed`;
-  const body = `Thank you for your order.\n\nOrder reference: ${orderRef}\n\nYour package will arrive in plain, unbranded packaging within 2-4 business days.\n\n— Silk Room`;
+  const body = `Thank you for your Silk Room order.\n\nOrder reference: ${orderRef}\n\nWe will notify you when your Deep Relief Massager ships. Standard delivery across India typically takes 2–6 business days after dispatch.\n\n— Silk Room`;
 
   const resendKey = process.env.RESEND_API_KEY;
   const from = process.env.EMAIL_FROM;

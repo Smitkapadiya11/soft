@@ -7,13 +7,20 @@ import styles from "./Product.module.css";
 import Accordion from "@/components/Accordion";
 import TrustBadges from "@/components/TrustBadges";
 import { useCart } from "@/context/CartContext";
-import { PRODUCT_PRICE, FALLBACK_STOCK } from "@/lib/constants";
+import {
+  PRODUCT_PRICE,
+  PRODUCT_NAME,
+  PRODUCT_ID,
+  FALLBACK_STOCK,
+  ALLOWED_VARIANTS,
+  VARIANT_COLORS,
+} from "@/lib/constants";
 
 const PRODUCT = {
-  id: "silk-room-signature",
-  name: "The Signature Curve",
+  id: PRODUCT_ID,
+  name: PRODUCT_NAME,
   price: PRODUCT_PRICE,
-  variants: ["Blush", "Plum"] as const,
+  variants: ALLOWED_VARIANTS,
 };
 
 const productImages = [
@@ -25,7 +32,7 @@ const productImages = [
 
 export default function ProductPage() {
   const { addToCart } = useCart();
-  const [selectedVariant, setSelectedVariant] = useState<(typeof PRODUCT.variants)[number]>("Blush");
+  const [selectedVariant, setSelectedVariant] = useState<(typeof PRODUCT.variants)[number]>("Pearl");
   const [quantity, setQuantity] = useState(1);
   const [stock, setStock] = useState<Record<string, number>>({ ...FALLBACK_STOCK });
   const [stockLoading, setStockLoading] = useState(true);
@@ -78,39 +85,38 @@ export default function ProductPage() {
   };
 
   const highlights = [
-    "100% platinum-cured, medical-grade silicone",
-    "Phthalate-free, hypoallergenic & non-porous",
-    "Whisper-quiet motor under 50dB",
-    "Fully waterproof — IPX7 rated",
-    "Magnetic USB charging included",
-    "Includes satin storage pouch",
+    "Cordless percussion massage for muscle relief",
+    "6 adjustable speed levels",
+    "Quiet brushless motor",
+    "USB-C rechargeable · ~4 hour runtime",
+    "Soft silicone massage heads included",
+    "Lightweight design for home or travel",
   ];
 
   const faqs = [
     {
-      title: "Is the packaging completely discreet?",
+      title: "What is this massager used for?",
       content:
-        "Absolutely. Every order ships in a plain, unbranded outer box with no mention of Silk Room or product contents on the label. The sender name appears as a generic fulfillment partner.",
+        "The Deep Relief Massager is a personal muscle massage device for everyday wellness. Use it on sore shoulders, neck, back, calves, and other large muscle groups to support recovery after workouts, long desk days, or general tension.",
     },
     {
-      title: "Is delivery really free across India?",
-      content:
-        "Yes — ₹549 is your all-in price. We offer free doorstep delivery to every pincode in India. No hidden shipping fees at checkout.",
+      title: "Is delivery free across India?",
+      content: `Yes — ₹${PRODUCT_PRICE} is your all-in price. We offer free doorstep delivery to every serviceable pincode in India. No hidden shipping fees at checkout.`,
     },
     {
       title: "When will my order arrive?",
       content:
-        "Orders are dispatched within 24 hours. Delivery typically takes 2–4 business days across metro cities and 3–6 business days for other regions in India.",
+        "Orders are typically dispatched within 24–48 hours of payment confirmation. Delivery usually takes 2–4 business days in metro cities and 3–6 business days elsewhere in India.",
     },
     {
-      title: "Is my payment and order data secure?",
+      title: "Is payment secure?",
       content:
-        "Yes. Checkout is protected with bank-grade 256-bit SSL encryption. Your order details are secured with end-to-end encryption — we never store card numbers or UPI PINs.",
+        "Yes. Checkout is prepaid only via Razorpay with bank-grade 256-bit SSL encryption. We never store your card number or UPI PIN on our servers.",
     },
     {
-      title: "What is your replacement policy?",
+      title: "What is your return & refund policy?",
       content:
-        "Due to hygiene standards, we do not accept general returns. We offer a hassle-free 7-day replacement if your product arrives damaged or defective.",
+        "Unused products in original packaging may be returned within 7 days of delivery. Defective or damaged items are eligible for replacement or refund. See our Return & Refund Policy for full details.",
     },
   ];
 
@@ -118,17 +124,17 @@ export default function ProductPage() {
     {
       title: "Materials & Care",
       content:
-        "Crafted from 100% platinum-cured, medical-grade silicone — the same purity standard used in medical devices. Non-porous, phthalate-free, and body-safe. Clean with warm water and mild unscented soap before and after each use. Store in the included satin pouch away from direct sunlight.",
+        "Durable ABS housing with soft silicone massage attachments. Wipe the device and heads with a clean, slightly damp cloth after use. Do not immerse the motor unit in water. Store in the included pouch away from extreme heat.",
     },
     {
       title: "Specifications",
       content:
-        "Length: 7.5 in (19 cm) · Width: 1.4 in (3.5 cm) · Weight: 180 g · Motor: 10 rumbling vibration modes · Noise: <50 dB · Battery: 90 min runtime · Charge: 2 hrs via magnetic USB · Waterproof: IPX7 · Certifications: ISO 10993 biocompatibility tested",
+        "Type: Cordless percussion muscle massager · Speeds: 6 levels · Motor: Quiet brushless · Battery: Rechargeable lithium-ion · Runtime: up to ~4 hours · Charge: USB-C, ~2–3 hours · Weight: approx. 450 g · Noise: designed for home use · Intended use: muscle relief & relaxation on large muscle groups",
     },
     {
       title: "What's in the Box",
       content:
-        "The Signature Curve device · Magnetic USB charging cable · Satin storage pouch · Quick-start guide · Discreet outer packaging",
+        "Deep Relief Massager · Soft silicone massage heads · USB-C charging cable · Soft storage pouch · Quick-start guide",
     },
   ];
 
@@ -139,7 +145,7 @@ export default function ProductPage() {
           <div className={styles.mainImageContainer}>
             <Image
               src={mainImage}
-              alt={`The Signature Curve in ${selectedVariant} — premium silicone wellness product`}
+              alt={`${PRODUCT.name} in ${selectedVariant} — cordless muscle massage gun`}
               fill
               style={{ objectFit: "cover" }}
               className={styles.actualImage}
@@ -185,9 +191,9 @@ export default function ProductPage() {
           </div>
 
           <p className={styles.description}>
-            Ergonomically sculpted for precise, comfortable stimulation. The Signature Curve
-            delivers deep, rumbling vibrations through velvety platinum-cured silicone — designed
-            to feel as beautiful on your nightstand as it does in use.
+            A cordless percussion massager built for targeted muscle relief and everyday
+            relaxation. Six speed levels and a quiet brushless motor help you work through
+            tension in the neck, shoulders, back, and legs — at home, at the gym, or after a long day.
           </p>
 
           <ul className={styles.highlights}>
@@ -214,10 +220,10 @@ export default function ProductPage() {
                     onClick={() => {
                       setSelectedVariant(variant);
                       setQuantity(1);
-                      if (variant === "Plum") setMainImage(productImages[2]);
+                      if (variant === "Sage") setMainImage(productImages[2]);
                       else setMainImage(productImages[0]);
                     }}
-                    style={{ backgroundColor: variant === "Blush" ? "#f4e9e4" : "#4a2c3a" }}
+                    style={{ backgroundColor: VARIANT_COLORS[variant] }}
                   />
                 );
               })}
@@ -267,7 +273,7 @@ export default function ProductPage() {
               ) : isOutOfStock ? (
                 "Out of Stock"
               ) : (
-                "Add to Cart — ₹549"
+                `Add to Cart — ₹${PRODUCT_PRICE}`
               )}
             </button>
           </div>
@@ -291,9 +297,9 @@ export default function ProductPage() {
         <h2 className={styles.sectionTitle}>Real Customer Reviews</h2>
         <div className={styles.reviewGrid}>
           {[
-            { name: "A***i S.", city: "Mumbai", text: "Absolutely incredible quality for the price. Packaging was completely discreet — even my roommate had no idea. Arrived in 3 days." },
-            { name: "P***a K.", city: "Bangalore", text: "The silicone feels premium, not cheap at all. Free delivery was a pleasant surprise. Already recommended to two friends." },
-            { name: "R***h M.", city: "Delhi", text: "Smooth checkout, encrypted payment felt safe. Product exceeded expectations. The blush colour is gorgeous in person." },
+            { name: "A***i S.", city: "Mumbai", text: "Great for post-gym shoulder and calf relief. Quiet enough to use at home in the evening. Packaging was plain and delivery was free." },
+            { name: "P***a K.", city: "Bangalore", text: "Solid build for the price. Six speeds are useful — I keep it on mid for desk-day neck tension. Arrived in 3 days." },
+            { name: "R***h M.", city: "Delhi", text: "Checkout was smooth and prepaid felt secure. The Sage colour looks premium. Already using it after long workdays." },
           ].map((review) => (
             <div key={review.name} className={styles.reviewCard}>
               <div className={styles.stars} aria-label="5 out of 5 stars">

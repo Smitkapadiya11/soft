@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { FALLBACK_STOCK } from "@/lib/constants";
+import { FALLBACK_STOCK, ALLOWED_VARIANTS } from "@/lib/constants";
 
 export async function GET() {
   try {
     const inventory = await prisma.inventory.findMany({
-      where: { variantName: { in: ["Blush", "Plum"] } },
+      where: { variantName: { in: [...ALLOWED_VARIANTS] } },
       select: { variantName: true, stockCount: true },
     });
 

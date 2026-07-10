@@ -5,7 +5,6 @@ import { CartProvider } from "@/context/CartContext";
 import Providers from "@/components/Providers";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import AgeGate from "@/components/AgeGate";
 import CartDrawer from "@/components/CartDrawer";
 
 const inter = Inter({
@@ -19,8 +18,9 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Silk Room - Premium Intimate Wellness",
-  description: "Experience premium intimate wellness products designed for ultimate comfort and discretion.",
+  title: "Silk Room — Deep Relief Massager | Muscle Recovery & Relaxation",
+  description:
+    "Shop the Silk Room Deep Relief Massager — a cordless percussion massage gun for muscle relief and everyday relaxation. Free delivery across India. Prepaid secure checkout.",
 };
 
 export default function RootLayout({
@@ -32,15 +32,12 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.variable} ${playfair.variable}`}>
         <Providers>
-        <CartProvider>
-          <AgeGate />
-          <Navbar />
-          <main style={{ minHeight: 'calc(100vh - 400px)' }}>
-            {children}
-          </main>
-          <CartDrawer />
-          <Footer />
-        </CartProvider>
+          <CartProvider>
+            <Navbar />
+            <main style={{ minHeight: "calc(100vh - 400px)" }}>{children}</main>
+            <CartDrawer />
+            <Footer />
+          </CartProvider>
         </Providers>
       </body>
     </html>
