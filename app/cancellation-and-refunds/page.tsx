@@ -4,9 +4,9 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Cancellation and Refunds | Silk Room",
+  title: "Return & Refund Policy | Silk Room",
   description:
-    "Cancellation and Refunds policy for silkroom.shop — order cancellation before dispatch, returns for sealed products, refund timelines via Razorpay.",
+    "Return and refund policy for silkroom.shop — cancellation before dispatch, hygiene rules for personal-care devices, refund timelines via Razorpay.",
   robots: { index: true, follow: true },
 };
 
@@ -15,12 +15,12 @@ export const revalidate = 86400;
 export default function CancellationAndRefundsPage() {
   return (
     <LegalLayout
-      title="Cancellation and Refunds"
+      title="Return & Refund Policy"
       lastUpdated="11 July 2026"
       subtitle={`${BUSINESS.name} · silkroom.shop`}
     >
       <p>
-        This Cancellation and Refunds policy applies to all prepaid orders placed on{" "}
+        This Return &amp; Refund Policy applies to all prepaid orders placed on{" "}
         <a href={BUSINESS.website}>{BUSINESS.website}</a>. Payments are processed by Razorpay.
         Please read this policy before placing an order.
       </p>
@@ -43,20 +43,21 @@ export default function CancellationAndRefundsPage() {
 
       <h2>2. Returns</h2>
       <p>
-        Because condoms are an intimate hygiene product, for health and safety reasons we accept
-        returns only when the product is:
+        Because wellness massagers are personal-care devices, for health and hygiene reasons we
+        accept returns only when the product is:
       </p>
       <ul>
         <li>
-          <strong>Unopened</strong> and in its original sealed packaging,{" "}
-          <strong>and</strong> returned within <strong>7 days</strong> of delivery; <strong>or</strong>
+          <strong>Unused</strong> and in its original sealed packaging,{" "}
+          <strong>and</strong> returned within <strong>7 days</strong> of delivery;{" "}
+          <strong>or</strong>
         </li>
         <li>
-          Defective, damaged in transit, incorrectly supplied, or past / near expiry on arrival.
+          Defective, damaged in transit, or incorrectly supplied on arrival.
         </li>
       </ul>
       <p>
-        Opened or unsealed products cannot be returned unless they were defective or damaged on
+        Opened or used devices cannot be returned unless they were defective or damaged on
         arrival.
       </p>
 
@@ -67,7 +68,7 @@ export default function CancellationAndRefundsPage() {
           {BUSINESS.whatsapp} with your order number.
         </li>
         <li>
-          For damaged / defective / expiry issues, attach clear photos.
+          For damaged or defective items, attach clear photos.
         </li>
         <li>
           We respond within <strong>2 business days</strong> with next steps (cancellation
@@ -99,7 +100,7 @@ export default function CancellationAndRefundsPage() {
 
       <h2>6. Non-refundable situations</h2>
       <ul>
-        <li>Opened or unsealed products (except defective / damaged on arrival)</li>
+        <li>Opened or used products (except defective / damaged on arrival)</li>
         <li>Change-of-mind requests after the 7-day return window</li>
         <li>Damage caused by misuse or improper storage after delivery</li>
       </ul>
@@ -132,7 +133,7 @@ export default function CancellationAndRefundsPage() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "WebPage",
-            name: "Cancellation and Refunds - Silk Room",
+            name: "Return & Refund Policy - Silk Room",
             url: "https://silkroom.shop/cancellation-and-refunds",
             lastReviewed: "2026-07-11",
             isPartOf: { "@type": "WebSite", name: "Silk Room", url: "https://silkroom.shop" },

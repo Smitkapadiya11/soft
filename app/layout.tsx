@@ -18,9 +18,9 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Silk Room — Premium Condoms & Sexual Wellness | Discreet Delivery India",
+  title: "Silk Room — Personal Wellness Massager | Everyday Pain Relief India",
   description:
-    "Shop Silk Room Ultra Comfort condoms — natural latex, Ultra Thin & Dotted packs. Discreet packaging, free delivery across India, secure prepaid checkout via Razorpay. 18+ only.",
+    "Shop Silk Room Ease — a personal wellness massager for muscle tension, cramps, and everyday aches. Soft Rose & Mist Grey. Discreet packaging, free delivery across India, secure prepaid checkout.",
 };
 
 export default function RootLayout({

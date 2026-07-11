@@ -60,7 +60,7 @@ function Footer() {
             <BrandMark className={styles.logo} />
           </Link>
           <p className={styles.tagline}>
-            Premium condoms &amp; sexual wellness, delivered discreetly.
+            Personal wellness massagers for everyday pain relief, delivered discreetly.
           </p>
           <div className={styles.social}>
             <a href="#" className={styles.socialLink} aria-label="Instagram">

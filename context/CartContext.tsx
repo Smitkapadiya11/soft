@@ -29,11 +29,15 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   useEffect(() => {
+    // Hydrate cart from localStorage after mount (client-only)
     const saved = localStorage.getItem("silk-room-cart");
     if (saved) {
       try {
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional hydration
         setItems(JSON.parse(saved));
-      } catch (e) {}
+      } catch {
+        /* ignore corrupt cart */
+      }
     }
   }, []);
 

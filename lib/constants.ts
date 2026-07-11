@@ -1,21 +1,26 @@
-export const PRODUCT_PRICE = 299;
-export const PRODUCT_NAME = "Silk Room Ultra Comfort";
-export const PRODUCT_ID = "silk-room-ultra-comfort";
-export const ALLOWED_VARIANTS = ["Ultra Thin", "Dotted"] as const;
+export const PRODUCT_PRICE = 599;
+export const PRODUCT_NAME = "Silk Room Ease";
+export const PRODUCT_ID = "silk-room-ease";
+export const ALLOWED_VARIANTS = ["Soft Rose", "Mist Grey"] as const;
 
 export const FALLBACK_STOCK: Record<string, number> = {
-  "Ultra Thin": 200,
-  Dotted: 180,
+  "Soft Rose": 120,
+  "Mist Grey": 120,
 };
 
 export const VARIANT_COLORS: Record<(typeof ALLOWED_VARIANTS)[number], string> = {
-  "Ultra Thin": "#f4e9e4",
-  Dotted: "#4a2c3a",
+  "Soft Rose": "#c4a4a4",
+  "Mist Grey": "#8a9099",
 };
 
-export const PRODUCT_PACK_SIZE = "Pack of 10";
+export const PRODUCT_TAGLINE = "Personal wellness massager";
+export const PRODUCT_SHORT_DESC =
+  "Targeted vibration for everyday muscle tension, cramps, and neck, shoulder, and back discomfort.";
 
-/** Business details shown on Contact / legal pages — Razorpay website review reads these */
+/** @deprecated Use PRODUCT_TAGLINE — kept for any remaining pack-size references */
+export const PRODUCT_PACK_SIZE = "Complete kit";
+
+/** Business details shown on Contact / legal pages */
 export const BUSINESS = {
   name: "Silk Room",
   legalName: "Silk Room",
@@ -26,7 +31,8 @@ export const BUSINESS = {
   grievanceEmail: "grievance@silkroom.co",
   grievanceOfficer: "Customer Grievance Officer",
   website: "https://silkroom.shop",
-  address: "India — online retail of condoms and sexual wellness products. For postal correspondence, email support@silkroom.co",
+  address:
+    "India — online retail of personal wellness massagers for everyday pain relief. For postal correspondence, email support@silkroom.co",
   jurisdiction: "Ahmedabad, Gujarat, India",
   hours: "Monday–Saturday, 10:00 AM – 6:00 PM IST",
   gstin: "Will be displayed here upon GST registration (if applicable)",
@@ -35,11 +41,11 @@ export const BUSINESS = {
   grievanceResolutionDays: 30,
 } as const;
 
-/** Exact policy links Razorpay website review expects */
+/** Footer / checkout policy links */
 export const POLICY_LINKS = [
   { href: "/terms", label: "Terms and Conditions" },
   { href: "/privacy", label: "Privacy Policy" },
   { href: "/shipping", label: "Shipping Policy" },
   { href: "/contact", label: "Contact Us" },
-  { href: "/cancellation-and-refunds", label: "Cancellation and Refunds" },
+  { href: "/cancellation-and-refunds", label: "Return & Refund Policy" },
 ] as const;

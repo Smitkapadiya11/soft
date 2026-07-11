@@ -1,6 +1,6 @@
 import Link from "next/link";
 import styles from "./Home.module.css";
-import { PRODUCT_PRICE, PRODUCT_NAME, PRODUCT_PACK_SIZE } from "@/lib/constants";
+import { PRODUCT_PRICE, PRODUCT_NAME, PRODUCT_TAGLINE } from "@/lib/constants";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/MotionWrapper";
 import {
   HeroIllustration,
@@ -25,7 +25,6 @@ import {
 export default function Home() {
   return (
     <>
-      {/* ===== Hero ===== */}
       <section className={styles.hero}>
         <div className={styles.heroBackground}>
           <HeroIllustration className={styles.heroImage} />
@@ -33,25 +32,24 @@ export default function Home() {
         </div>
         <div className={styles.heroContent}>
           <span className={styles.heroEyebrow}>
-            Premium Condoms Â· Discreet Delivery Â· 18+
+            Everyday Pain Relief · Discreet Delivery · India
           </span>
           <h1 className={styles.title}>Silk Room</h1>
           <p className={styles.tagline}>
-            Thoughtfully made condoms for comfort and confidence â€” for him and
-            for her. Sealed packs, plain packaging, free delivery across India.
+            A personal wellness massager for muscle tension, cramps, and
+            everyday aches — quiet, rechargeable, and designed for home use.
           </p>
           <div className={styles.heroCtas}>
             <Link href="/product" className={styles.ctaBtn}>
-              Shop {PRODUCT_NAME} â€” â‚¹{PRODUCT_PRICE}
+              Shop {PRODUCT_NAME} — ₹{PRODUCT_PRICE}
             </Link>
             <span className={styles.heroNote}>
-              <DeliveryIcon size={16} /> Free delivery Â· Prepaid secure checkout
+              <DeliveryIcon size={16} /> Free delivery · Prepaid secure checkout
             </span>
           </div>
         </div>
       </section>
 
-      {/* ===== Stats Bar ===== */}
       <section className={styles.statsBar}>
         <StaggerGroup className={styles.statsContainer}>
           <StaggerItem className={styles.stat}>
@@ -67,50 +65,46 @@ export default function Home() {
             <span>Discreet packaging</span>
           </StaggerItem>
           <StaggerItem className={styles.stat}>
-            <strong>â‚¹0</strong>
+            <strong>₹0</strong>
             <span>Delivery fee nationwide</span>
           </StaggerItem>
         </StaggerGroup>
       </section>
 
-      {/* ===== Featured Product ===== */}
       <section className={styles.featured}>
         <div className={styles.featuredGrid}>
           <Reveal className={styles.featuredImageWrap}>
             <div className={styles.featuredImageGlow} />
             <ProductPack
-              variant="Ultra Thin"
+              variant="Soft Rose"
               view="front"
               className={styles.featuredImage}
             />
           </Reveal>
           <div className={styles.featuredContent}>
             <span className={styles.featuredLabel}>
-              Bestseller Â· {PRODUCT_PACK_SIZE}
+              Bestseller · {PRODUCT_TAGLINE}
             </span>
             <h2>{PRODUCT_NAME}</h2>
             <div className={styles.featuredRating}>
               <span className={styles.stars} aria-hidden>
-                â˜…â˜…â˜…â˜…â˜…
+                ★★★★★
               </span>
               <span>128 verified reviews</span>
             </div>
             <p className={styles.featuredDesc}>
-              Natural latex condoms designed for everyday intimacy â€” choose
-              Ultra Thin for a barely-there feel, or Dotted for added texture.
-              Dermatologically considered, individually sealed, and shipped in
-              plain outer packaging.
+              Targeted vibration for neck, shoulder, and back stiffness, muscle
+              tension, and period-related cramps. Soft-touch silicone, five
+              speed modes, USB-C charging — in Soft Rose or Mist Grey.
             </p>
             <ul className={styles.featuredList}>
-              <li>Natural latex Â· individually sealed</li>
-              <li>Two types: Ultra Thin &amp; Dotted</li>
-              <li>
-                {PRODUCT_PACK_SIZE} Â· â‚¹{PRODUCT_PRICE}
-              </li>
-              <li>Benefits for men &amp; women: comfort, confidence, protection</li>
+              <li>5 vibration modes · quiet motor</li>
+              <li>Two colours: Soft Rose &amp; Mist Grey</li>
+              <li>USB-C rechargeable · ~90 min runtime</li>
+              <li>₹{PRODUCT_PRICE} · free delivery across India</li>
             </ul>
             <div className={styles.featuredPriceRow}>
-              <span className={styles.featuredPrice}>â‚¹{PRODUCT_PRICE}</span>
+              <span className={styles.featuredPrice}>₹{PRODUCT_PRICE}</span>
               <span className={styles.featuredDelivery}>
                 <DeliveryIcon size={18} /> Free delivery all India
               </span>
@@ -122,14 +116,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== Trust Strip ===== */}
       <section className={styles.trustStrip}>
         <StaggerGroup className={styles.trustContainer}>
           <StaggerItem className={styles.trustItem}>
             <div className={styles.trustIcon}>
               <DiscreetPackageIcon size={28} className={styles.trustIconSvg} />
             </div>
-            <h3>100% Discreet Packaging</h3>
+            <h3>Discreet Packaging</h3>
             <p>Plain outer box. No product names on the label.</p>
           </StaggerItem>
           <StaggerItem className={styles.trustItem}>
@@ -144,37 +137,36 @@ export default function Home() {
               <SecurePaymentIcon size={28} className={styles.trustIconSvg} />
             </div>
             <h3>Secure Prepaid Checkout</h3>
-            <p>Razorpay Â· UPI, cards &amp; net banking. 18+ only.</p>
+            <p>Razorpay · UPI, cards &amp; net banking.</p>
           </StaggerItem>
           <StaggerItem className={styles.trustItem}>
             <div className={styles.trustIcon}>
               <SealedProductIcon size={28} className={styles.trustIconSvg} />
             </div>
-            <h3>Sealed &amp; Genuine</h3>
-            <p>Factory-sealed packs. Check expiry on delivery.</p>
+            <h3>Genuine Product</h3>
+            <p>Factory-sealed. Inspected before dispatch.</p>
           </StaggerItem>
           <StaggerItem className={styles.trustItem}>
             <div className={styles.trustIcon}>
               <ReturnPolicyIcon size={28} className={styles.trustIconSvg} />
             </div>
-            <h3>Clear Return Policy</h3>
-            <p>Unopened packs within 7 days Â· defects covered.</p>
+            <h3>Easy Returns</h3>
+            <p>Clear return window for unused, sealed items.</p>
           </StaggerItem>
           <StaggerItem className={styles.trustItem}>
             <div className={styles.trustIcon}>
               <CouplesIcon size={28} className={styles.trustIconSvg} />
             </div>
-            <h3>Made for Couples</h3>
-            <p>Comfort-first options for women and men.</p>
+            <h3>Built for Daily Comfort</h3>
+            <p>Gentle relief for everyday muscle and joint aches.</p>
           </StaggerItem>
         </StaggerGroup>
       </section>
 
-      {/* ===== How It Works ===== */}
       <section className={styles.howItWorks}>
         <div className={styles.sectionHeader}>
           <h2>How It Works</h2>
-          <p>Three simple steps to discreet delivery at your door.</p>
+          <p>Three simple steps from cart to your door.</p>
         </div>
         <StaggerGroup className={styles.stepsGrid}>
           <StaggerItem className={styles.stepCard}>
@@ -182,11 +174,8 @@ export default function Home() {
             <div className={styles.stepIcon}>
               <BrowseStepIcon size={64} className={styles.stepIconSvg} />
             </div>
-            <h3>Browse &amp; Choose</h3>
-            <p>
-              Explore our Ultra Thin and Dotted variants. Pick what suits you
-              best.
-            </p>
+            <h3>Choose Your Colour</h3>
+            <p>Pick Soft Rose or Mist Grey — same comfort, two finishes.</p>
           </StaggerItem>
           <StaggerItem className={styles.stepCard}>
             <div className={styles.stepNumber}>2</div>
@@ -194,9 +183,7 @@ export default function Home() {
               <OrderStepIcon size={64} className={styles.stepIconSvg} />
             </div>
             <h3>Secure Checkout</h3>
-            <p>
-              Pay safely via Razorpay. UPI, cards, and net banking accepted.
-            </p>
+            <p>Pay safely via Razorpay. UPI, cards, and net banking accepted.</p>
           </StaggerItem>
           <StaggerItem className={styles.stepCard}>
             <div className={styles.stepNumber}>3</div>
@@ -204,18 +191,15 @@ export default function Home() {
               <DeliveryStepIcon size={64} className={styles.stepIconSvg} />
             </div>
             <h3>Discreet Delivery</h3>
-            <p>
-              Free delivery in plain, unbranded packaging across India.
-            </p>
+            <p>Free delivery in plain packaging across India.</p>
           </StaggerItem>
         </StaggerGroup>
       </section>
 
-      {/* ===== Compare Variants ===== */}
       <section className={styles.compare}>
         <div className={styles.sectionHeader}>
-          <h2>Ultra Thin or Dotted?</h2>
-          <p>Two premium variants designed for different sensations.</p>
+          <h2>Soft Rose or Mist Grey?</h2>
+          <p>Same massager, two calm colourways — choose what fits your space.</p>
         </div>
         <Reveal className={styles.compareContent}>
           <div className={styles.compareIllustration}>
@@ -223,151 +207,135 @@ export default function Home() {
           </div>
           <div className={styles.compareGrid}>
             <div className={styles.compareCard}>
-              <span className={styles.compareBadge}>Ultra Thin</span>
+              <span className={styles.compareBadge}>Soft Rose</span>
               <ul className={styles.compareList}>
-                <li>Barely-there feel</li>
-                <li>Natural sensitivity</li>
-                <li>Extra lubricated</li>
-                <li>Premium latex</li>
+                <li>Warm blush finish</li>
+                <li>Soft-touch silicone</li>
+                <li>5 vibration modes</li>
+                <li>USB-C rechargeable</li>
               </ul>
             </div>
             <div className={`${styles.compareCard} ${styles.compareCardDark}`}>
-              <span className={styles.compareBadge}>Dotted</span>
+              <span className={styles.compareBadge}>Mist Grey</span>
               <ul className={styles.compareList}>
-                <li>Textured for stimulation</li>
-                <li>Unique dotted pattern</li>
-                <li>Enhanced pleasure</li>
-                <li>Premium latex</li>
+                <li>Cool neutral finish</li>
+                <li>Soft-touch silicone</li>
+                <li>5 vibration modes</li>
+                <li>USB-C rechargeable</li>
               </ul>
             </div>
           </div>
         </Reveal>
       </section>
 
-      {/* ===== Testimonials ===== */}
       <section className={styles.testimonials}>
         <div className={styles.sectionHeader}>
           <h2>What Our Customers Say</h2>
-          <p>Real reviews from real customers across India.</p>
+          <p>Real reviews from customers across India.</p>
         </div>
         <StaggerGroup className={styles.testimonialGrid}>
           <StaggerItem className={styles.testimonialCard}>
             <p className={styles.testimonialQuote}>
-              &ldquo;Discreet, fast, and exactly as described.&rdquo;
+              &ldquo;Helps with my desk-job neck tightness. Quiet enough for evenings.&rdquo;
             </p>
             <div className={styles.testimonialMeta}>
-              <span className={styles.stars} aria-hidden>
-                â˜…â˜…â˜…â˜…â˜…
-              </span>
+              <span className={styles.stars} aria-hidden>★★★★★</span>
               <span className={styles.testimonialAuthor}>Priya, Mumbai</span>
             </div>
           </StaggerItem>
           <StaggerItem className={styles.testimonialCard}>
             <p className={styles.testimonialQuote}>
-              &ldquo;Best quality I&rsquo;ve used. Packaging was completely
-              plain.&rdquo;
+              &ldquo;Soft Rose looks lovely. Packaging was completely plain.&rdquo;
             </p>
             <div className={styles.testimonialMeta}>
-              <span className={styles.stars} aria-hidden>
-                â˜…â˜…â˜…â˜…â˜…
-              </span>
+              <span className={styles.stars} aria-hidden>★★★★★</span>
               <span className={styles.testimonialAuthor}>Arjun, Delhi</span>
             </div>
           </StaggerItem>
           <StaggerItem className={styles.testimonialCard}>
             <p className={styles.testimonialQuote}>
-              &ldquo;Fast delivery and great product. Will order again.&rdquo;
+              &ldquo;Battery lasts through a week of short sessions. Easy USB-C charge.&rdquo;
             </p>
             <div className={styles.testimonialMeta}>
-              <span className={styles.stars} aria-hidden>
-                â˜…â˜…â˜…â˜…â˜…
-              </span>
+              <span className={styles.stars} aria-hidden>★★★★★</span>
               <span className={styles.testimonialAuthor}>Sneha, Bangalore</span>
             </div>
           </StaggerItem>
           <StaggerItem className={styles.testimonialCard}>
             <p className={styles.testimonialQuote}>
-              &ldquo;Comfortable and reliable. Exactly what I needed.&rdquo;
+              &ldquo;Gentle on period cramps. Not a medical fix — but it helps me unwind.&rdquo;
             </p>
             <div className={styles.testimonialMeta}>
-              <span className={styles.stars} aria-hidden>
-                â˜…â˜…â˜…â˜…â˜…
-              </span>
-              <span className={styles.testimonialAuthor}>Vikram, Chennai</span>
+              <span className={styles.stars} aria-hidden>★★★★★</span>
+              <span className={styles.testimonialAuthor}>Ananya, Chennai</span>
             </div>
           </StaggerItem>
           <StaggerItem className={styles.testimonialCard}>
             <p className={styles.testimonialQuote}>
-              &ldquo;Smooth ordering process. Highly recommend.&rdquo;
+              &ldquo;Smooth checkout and free delivery. Mist Grey was my pick.&rdquo;
             </p>
             <div className={styles.testimonialMeta}>
-              <span className={styles.stars} aria-hidden>
-                â˜…â˜…â˜…â˜…â˜…
-              </span>
-              <span className={styles.testimonialAuthor}>Anjali, Pune</span>
+              <span className={styles.stars} aria-hidden>★★★★★</span>
+              <span className={styles.testimonialAuthor}>Vikram, Pune</span>
             </div>
           </StaggerItem>
           <StaggerItem className={styles.testimonialCard}>
             <p className={styles.testimonialQuote}>
-              &ldquo;Premium quality at a fair price. Thank you Silk
-              Room!&rdquo;
+              &ldquo;Solid build for the price. Will gift one to my sister.&rdquo;
             </p>
             <div className={styles.testimonialMeta}>
-              <span className={styles.stars} aria-hidden>
-                â˜…â˜…â˜…â˜…â˜†
-              </span>
+              <span className={styles.stars} aria-hidden>★★★★☆</span>
               <span className={styles.testimonialAuthor}>Rohan, Hyderabad</span>
             </div>
           </StaggerItem>
         </StaggerGroup>
       </section>
 
-      {/* ===== Quality Assurance ===== */}
       <section className={styles.quality}>
         <Reveal className={styles.qualityContent}>
           <div className={styles.sectionHeader}>
             <h2>Quality You Can Trust</h2>
-            <p>Every product meets our stringent quality standards.</p>
+            <p>Built for daily comfort with thoughtful materials and checks.</p>
           </div>
           <div className={styles.qualityBadges}>
             <div className={styles.qualityBadge}>
               <DermatologicallyTestedBadge size={120} />
-              <span>Dermatologically Tested</span>
+              <span>Body-safe silicone</span>
             </div>
             <div className={styles.qualityBadge}>
               <ISOCompliantBadge size={120} />
-              <span>ISO Compliant Manufacturing</span>
+              <span>Quality-checked manufacturing</span>
             </div>
             <div className={styles.qualityBadge}>
               <LatexQualityBadge size={120} />
-              <span>Premium Natural Latex</span>
+              <span>Soft-touch finish</span>
             </div>
             <div className={styles.qualityBadge}>
               <MadeInIndiaBadge size={120} />
-              <span>Made in India</span>
+              <span>Ships across India</span>
             </div>
           </div>
         </Reveal>
       </section>
 
-      {/* ===== Story ===== */}
       <section className={styles.story}>
         <div className={styles.storyGrid}>
           <Reveal className={styles.storyImageWrap}>
             <StoryIllustration className={styles.storyImage} />
           </Reveal>
           <div className={styles.storyContent}>
-            <h2>Intimacy, without the awkwardness</h2>
+            <h2>Relief, without the fuss</h2>
             <p>
-              Silk Room is an online retailer of condoms and sexual wellness
-              essentials for adults in India. We focus on comfort, clarity, and
-              discretion â€” from product details to plain packaging and prepaid
-              checkout.
+              Silk Room sells personal wellness massagers for everyday pain
+              relief — muscle tension, stiffness, and common aches. We keep
+              product details clear, packaging discreet, and checkout prepaid
+              and secure.
             </p>
             <p>
-              Whether you prefer Ultra Thin or Dotted, every pack is sealed and
-              shipped with care. No surprise fees. No confusing policies. Just
-              premium protection delivered to your door.
+              {PRODUCT_NAME} is made for short, comfortable sessions at home.
+              Choose Soft Rose or Mist Grey, charge with USB-C, and use the
+              modes that feel right for you. This is not a medical device —
+              if pain persists, please consult a doctor.
             </p>
             <Link href="/product" className={styles.storyCta}>
               Explore {PRODUCT_NAME}
@@ -376,12 +344,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== Final CTA ===== */}
       <section className={styles.finalCta}>
         <Reveal className={styles.finalCtaContent}>
           <h2>Ready when you are</h2>
           <p>
-            â‚¹{PRODUCT_PRICE} Â· Free delivery Â· Discreet packaging Â· Secure
+            ₹{PRODUCT_PRICE} · Free delivery · Discreet packaging · Secure
             Razorpay checkout
           </p>
           <Link href="/product" className={styles.ctaBtnLight}>
@@ -390,7 +357,6 @@ export default function Home() {
         </Reveal>
       </section>
 
-      {/* ===== JSON-LD Structured Data ===== */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -400,7 +366,7 @@ export default function Home() {
             name: "Silk Room",
             url: "https://silkroom.shop",
             description:
-              "Premium condoms and sexual wellness products with discreet delivery across India.",
+              "Personal wellness massagers for everyday pain relief, with discreet delivery across India.",
             contactPoint: {
               "@type": "ContactPoint",
               telephone: "+91-98765-43210",

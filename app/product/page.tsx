@@ -19,7 +19,8 @@ import {
   PRODUCT_PRICE,
   PRODUCT_NAME,
   PRODUCT_ID,
-  PRODUCT_PACK_SIZE,
+  PRODUCT_TAGLINE,
+  PRODUCT_SHORT_DESC,
   FALLBACK_STOCK,
   ALLOWED_VARIANTS,
   VARIANT_COLORS,
@@ -35,24 +36,37 @@ const PRODUCT = {
 const galleryViews = ["front", "side", "detail", "lifestyle"] as const;
 
 const ratingDistribution = [
-  { stars: 5, count: 120 },
-  { stars: 4, count: 8 },
-  { stars: 3, count: 2 },
-  { stars: 2, count: 0 },
+  { stars: 5, count: 110 },
+  { stars: 4, count: 14 },
+  { stars: 3, count: 3 },
+  { stars: 2, count: 1 },
   { stars: 1, count: 0 },
 ];
 
 const maxRatingCount = Math.max(...ratingDistribution.map((r) => r.count));
 
 const reviews = [
-  { name: "A***i S.", city: "Mumbai", text: "Ultra Thin feels great and packaging was completely discreet. Delivery was free and fast." },
-  { name: "P***a K.", city: "Bangalore", text: "Ordered Dotted for my partner and me — quality seals, clear expiry, no awkward branding on the box." },
-  { name: "R***h M.", city: "Delhi", text: "Smooth Razorpay checkout. Good to have a trusted online option with a real return policy for unopened packs." },
+  {
+    name: "A***i S.",
+    city: "Mumbai",
+    text: "Soft Rose is lovely. Helps after long laptop days — neck and shoulders feel looser. Packaging was plain.",
+  },
+  {
+    name: "P***a K.",
+    city: "Bangalore",
+    text: "Quiet enough to use in the evening. USB-C charging is convenient. Mist Grey looks clean on my desk.",
+  },
+  {
+    name: "R***h M.",
+    city: "Delhi",
+    text: "Smooth Razorpay checkout and free delivery. Not a miracle cure, but solid for everyday muscle tension.",
+  },
 ];
 
 export default function ProductPage() {
   const { addToCart } = useCart();
-  const [selectedVariant, setSelectedVariant] = useState<(typeof PRODUCT.variants)[number]>("Ultra Thin");
+  const [selectedVariant, setSelectedVariant] =
+    useState<(typeof PRODUCT.variants)[number]>("Soft Rose");
   const [quantity, setQuantity] = useState(1);
   const [stock, setStock] = useState<Record<string, number>>({ ...FALLBACK_STOCK });
   const [stockLoading, setStockLoading] = useState(true);
@@ -76,6 +90,7 @@ export default function ProductPage() {
   }, []);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- fetch stock on mount
     fetchStock();
   }, [fetchStock]);
 
@@ -108,83 +123,95 @@ export default function ProductPage() {
   };
 
   const highlights = [
-    "Natural latex · individually sealed foils",
-    `${PRODUCT_PACK_SIZE} per order`,
-    "Ultra Thin — barely-there comfort",
-    "Dotted — textured for added sensation",
-    "Designed for comfort for women & men",
+    "Targeted relief for muscle tension & everyday aches",
+    "5 vibration modes · quiet motor",
+    "Soft-touch body-safe silicone",
+    "USB-C rechargeable · ~90 min runtime",
+    "IPX5 splash-resistant housing",
     "Discreet plain packaging on delivery",
   ];
 
   const faqs = [
     {
-      title: "Who is this product for?",
+      title: "How long does delivery take?",
       content:
-        "Silk Room Ultra Comfort condoms are for adults aged 18+. They support safer intimacy with options focused on comfort (Ultra Thin) and texture (Dotted) — suitable for couples who want reliable protection without compromising feel.",
-    },
-    {
-      title: "What material are they made of?",
-      content:
-        "Natural latex. If you have a latex allergy, do not use these products and consult a healthcare professional for alternatives.",
+        "Orders usually dispatch within 1–2 business days. Standard delivery across serviceable Indian pin codes typically takes 3–7 business days depending on your location. You will receive tracking once your order ships.",
     },
     {
       title: "Is packaging discreet?",
       content:
-        "Yes. Orders ship in a plain outer carton. Shipping labels do not list product names. Emails reference your order number for privacy.",
+        "Yes. Orders ship in a plain outer carton. Shipping labels do not list the product name. Emails reference your order number for privacy.",
     },
     {
-      title: "Is delivery free?",
-      content: `Yes — ₹${PRODUCT_PRICE} is your all-in price for ${PRODUCT_PACK_SIZE}. Free standard delivery across serviceable pin codes in India.`,
-    },
-    {
-      title: "Can I return opened packs?",
+      title: "How do I charge it?",
       content:
-        "For hygiene reasons, opened or unsealed condoms cannot be returned unless defective or damaged on arrival. Unopened sealed packs may be returned within 7 days. See our Return & Refund Policy.",
+        "Use the included USB-C cable with a standard 5V USB power adapter (adapter not included). A full charge takes about 1.5–2 hours and provides roughly 90 minutes of use depending on vibration mode.",
     },
     {
-      title: "Usage Instructions",
-      content: (
-        <ul className={styles.infoList}>
-          <li>Store in a cool, dry place away from direct sunlight</li>
-          <li>Check expiry date before use</li>
-          <li>Use a new condom for each act of intercourse</li>
-          <li>Dispose of responsibly after use</li>
-        </ul>
-      ),
+      title: "Is it quiet?",
+      content:
+        "The motor is designed for home use and stays relatively quiet on lower modes. Higher modes are more noticeable but suitable for private spaces. Exact volume varies by surface and mode.",
     },
     {
-      title: "Safety Information",
-      content: (
-        <ul className={styles.infoList}>
-          <li>This product is for adult use only (18+)</li>
-          <li>Not a medical device — does not guarantee 100% protection</li>
-          <li>If irritation occurs, discontinue use and consult a doctor</li>
-          <li>Do not use if the packaging is damaged</li>
-        </ul>
-      ),
+      title: "What warranty do I get?",
+      content:
+        "Silk Room Ease includes a 6-month limited warranty against manufacturing defects from the date of delivery. Damage from misuse, liquid ingress beyond the splash rating, or unauthorized repair is not covered. Contact support@silkroom.co with your order number.",
+    },
+    {
+      title: "Can I return it?",
+      content:
+        "For hygiene reasons, opened or used personal-care devices cannot be returned unless defective or damaged on arrival. Unused items in original sealed packaging may be returned within 7 days of delivery. See our Return & Refund Policy.",
+    },
+    {
+      title: "Is it safe for daily use?",
+      content:
+        "Yes for short sessions on healthy adults when used as directed. Start on a low mode, avoid broken skin, and do not use while bathing (splash-resistant only, not submersible). If you have a medical condition, pacemaker, or pain that persists, consult a doctor before use. This is not a medical device.",
+    },
+    {
+      title: "How do I clean it?",
+      content:
+        "Power off and wipe with a soft cloth dampened with mild soap and water or a toy/device cleaner safe for silicone. Do not immerse in water. Dry thoroughly before storage. Keep away from extreme heat and direct sunlight.",
     },
   ];
 
   const specs = [
     {
       title: "Product details",
-      content: `Name: ${PRODUCT_NAME} · Category: Condoms / sexual wellness · Material: Natural latex · Pack size: ${PRODUCT_PACK_SIZE} · Variants: Ultra Thin (smooth, thinner feel) and Dotted (textured) · Use: as directed on the manufacturer packaging · Check expiry date on delivery`,
+      content: `Name: ${PRODUCT_NAME} · Category: Personal wellness massager · Material: Soft-touch body-safe silicone over ABS · Dimensions: approx. 18 cm × 4.5 cm · Weight: approx. 180 g · Motor: 5 vibration speed modes · Battery: rechargeable lithium-ion · Charging: USB-C · Runtime: ~90 minutes · Charge time: ~1.5–2 hours · Water resistance: IPX5 splash-resistant (not for immersion) · Colours: Soft Rose, Mist Grey`,
     },
     {
-      title: "Benefits",
-      content:
-        "For men: reliable barrier protection with a comfortable fit. For women: smoother comfort-focused options and discreet delivery. For couples: two clear choices — Ultra Thin for sensitivity, Dotted for texture — without awkward in-store shopping.",
+      title: "How to use",
+      content: (
+        <ul className={styles.infoList}>
+          <li>Fully charge before first use via the USB-C port</li>
+          <li>Press the power button to turn on; press again to cycle modes</li>
+          <li>Apply gently to tense areas (neck, shoulders, back, calves, lower abdomen)</li>
+          <li>Use for short sessions (5–15 minutes); stop if discomfort increases</li>
+          <li>Power off, wipe clean, and store in a cool, dry place</li>
+        </ul>
+      ),
+    },
+    {
+      title: "Care & safety",
+      content: (
+        <ul className={styles.infoList}>
+          <li>For external use on intact skin only</li>
+          <li>Not a medical device — does not diagnose, treat, or cure disease</li>
+          <li>Consult a doctor if pain persists or for pregnancy, injury, or implanted devices</li>
+          <li>Keep away from children; intended for adults</li>
+          <li>Do not use while charging or submerged in water</li>
+        </ul>
+      ),
     },
     {
       title: "What's in the box",
-      content: `${PRODUCT_PACK_SIZE} of sealed ${selectedVariant} condoms · Outer retail carton · Shipped inside plain discreet packaging`,
+      content: `${PRODUCT_NAME} (${selectedVariant}) · USB-C charging cable · Quick-start guide · Shipped inside plain discreet packaging`,
     },
   ];
 
   return (
     <div className={styles.container}>
       <div className={styles.productLayout}>
-        {/* Gallery */}
         <div className={styles.gallery}>
           <div className={styles.mainImageContainer}>
             <AnimatePresence mode="wait">
@@ -205,15 +232,14 @@ export default function ProductPage() {
             </AnimatePresence>
             <span className={styles.variantBadge}>{selectedVariant}</span>
           </div>
-          <div className={styles.thumbnails} role="list" aria-label="Product image thumbnails">
+          <div className={styles.thumbnails} role="group" aria-label="Product image thumbnails">
             {galleryViews.map((view, index) => (
               <motion.button
-                key={index}
+                key={view}
                 type="button"
-                role="listitem"
                 className={`${styles.thumb} ${selectedImageIndex === index ? styles.thumbActive : ""}`}
                 onClick={() => setSelectedImageIndex(index)}
-                aria-label={`View product image ${index + 1}`}
+                aria-label={`View product image ${index + 1}: ${view}`}
                 aria-pressed={selectedImageIndex === index}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -229,20 +255,19 @@ export default function ProductPage() {
           </div>
         </div>
 
-        {/* Details */}
         <div className={styles.details}>
           <div className={styles.reviews}>
-            <div className={styles.stars} aria-label="5 out of 5 stars">
+            <div className={styles.stars} aria-label="4.9 out of 5 stars">
               {[...Array(5)].map((_, i) => (
                 <Star key={i} fill="#4a2c3a" size={16} color="#4a2c3a" aria-hidden />
               ))}
             </div>
-            <span>(128 verified reviews) · Adults 18+</span>
+            <span>(128 verified reviews)</span>
           </div>
 
           <h1 className={styles.title}>{PRODUCT.name}</h1>
           <p style={{ color: "var(--color-plum)", marginBottom: "0.75rem", fontSize: "0.95rem" }}>
-            {PRODUCT_PACK_SIZE} · Natural latex condoms
+            {PRODUCT_TAGLINE}
           </p>
 
           <div className={styles.priceRow}>
@@ -253,9 +278,10 @@ export default function ProductPage() {
           </div>
 
           <p className={styles.description}>
-            Premium sealed condoms for comfortable, confident intimacy. Choose{" "}
-            <strong>Ultra Thin</strong> for a barely-there feel, or <strong>Dotted</strong> for
-            gentle texture — both made from natural latex and shipped in discreet packaging.
+            {PRODUCT_SHORT_DESC} Soft-touch silicone feels gentle on skin; five
+            vibration modes let you dial intensity up or down. Choose{" "}
+            <strong>Soft Rose</strong> or <strong>Mist Grey</strong> — same
+            performance, two calm finishes.
           </p>
 
           <ul className={styles.highlights}>
@@ -265,8 +291,8 @@ export default function ProductPage() {
           </ul>
 
           <div className={styles.selector}>
-            <h3 className={styles.selectorLabel}>Type: {selectedVariant}</h3>
-            <div className={styles.swatches} role="radiogroup" aria-label="Select condom type">
+            <h3 className={styles.selectorLabel}>Colour: {selectedVariant}</h3>
+            <div className={styles.swatches} role="radiogroup" aria-label="Select colour">
               {PRODUCT.variants.map((variant) => {
                 const variantStock = stock[variant] ?? 0;
                 const out = !stockLoading && variantStock < 1;
@@ -293,26 +319,50 @@ export default function ProductPage() {
               })}
             </div>
             <p className={styles.stockNote} style={{ marginTop: "0.5rem" }}>
-              {selectedVariant === "Ultra Thin"
-                ? "Ultra Thin — smooth, thinner feel for maximum sensitivity"
-                : "Dotted — textured surface for added sensation"}
+              {selectedVariant === "Soft Rose"
+                ? "Soft Rose — warm blush finish"
+                : "Mist Grey — cool neutral finish"}
             </p>
             {stockLoading ? (
-              <p className={styles.stockNote} aria-live="polite">Checking availability…</p>
+              <p className={styles.stockNote} aria-live="polite">
+                Checking availability…
+              </p>
             ) : isOutOfStock ? (
-              <p className={styles.outOfStock} role="status">Out of Stock</p>
+              <p className={styles.outOfStock} role="status">
+                Out of Stock
+              </p>
             ) : (
-              <p className={styles.inStock} role="status">In Stock — {selectedStock} packs available</p>
+              <p className={styles.inStock} role="status">
+                In Stock — {selectedStock} available
+              </p>
             )}
           </div>
 
-          {addError && <p className={styles.addError} role="alert">{addError}</p>}
+          {addError && (
+            <p className={styles.addError} role="alert">
+              {addError}
+            </p>
+          )}
 
           <div className={styles.addToCartSection}>
             <div className={styles.quantity} aria-label="Quantity selector">
-              <button type="button" onClick={() => setQuantity(Math.max(1, quantity - 1))} disabled={isOutOfStock || quantity <= 1} aria-label="Decrease quantity">−</button>
+              <button
+                type="button"
+                onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                disabled={isOutOfStock || quantity <= 1}
+                aria-label="Decrease quantity"
+              >
+                −
+              </button>
               <span aria-live="polite">{quantity}</span>
-              <button type="button" onClick={() => setQuantity(Math.min(maxQty, quantity + 1))} disabled={isOutOfStock || quantity >= maxQty} aria-label="Increase quantity">+</button>
+              <button
+                type="button"
+                onClick={() => setQuantity(Math.min(maxQty, quantity + 1))}
+                disabled={isOutOfStock || quantity >= maxQty}
+                aria-label="Increase quantity"
+              >
+                +
+              </button>
             </div>
             <motion.button
               type="button"
@@ -326,11 +376,15 @@ export default function ProductPage() {
               transition={smooth}
             >
               {isAdding ? (
-                <><Loader2 size={18} className={styles.spinner} aria-hidden /> Adding…</>
+                <>
+                  <Loader2 size={18} className={styles.spinner} aria-hidden /> Adding…
+                </>
               ) : isOutOfStock ? (
                 "Out of Stock"
               ) : justAdded ? (
-                <><Check size={18} aria-hidden /> Added!</>
+                <>
+                  <Check size={18} aria-hidden /> Added!
+                </>
               ) : (
                 `Add to Cart — ₹${PRODUCT_PRICE}`
               )}
@@ -345,7 +399,6 @@ export default function ProductPage() {
         </div>
       </div>
 
-      {/* Compare Variants */}
       <motion.div
         className={styles.compareSection}
         variants={fadeInUp}
@@ -354,14 +407,14 @@ export default function ProductPage() {
         viewport={scrollRevealConfig}
         transition={smooth}
       >
-        <h2 className={styles.sectionTitle}>Compare Variants</h2>
+        <h2 className={styles.sectionTitle}>Compare Colours</h2>
         <button
           type="button"
           className={styles.compareToggle}
           onClick={() => setShowCompare(!showCompare)}
           aria-expanded={showCompare}
         >
-          {showCompare ? "Hide Comparison" : "Compare Ultra Thin vs Dotted"}
+          {showCompare ? "Hide Comparison" : "Compare Soft Rose vs Mist Grey"}
         </button>
         <AnimatePresence>
           {showCompare && (
@@ -373,23 +426,23 @@ export default function ProductPage() {
               transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
             >
               <div className={styles.compareCard}>
-                <ProductPack variant="Ultra Thin" view="front" className={styles.comparePack} />
-                <h3 className={styles.compareTitle}>Ultra Thin</h3>
+                <ProductPack variant="Soft Rose" view="front" className={styles.comparePack} />
+                <h3 className={styles.compareTitle}>Soft Rose</h3>
                 <ul className={styles.compareList}>
-                  <li>Smooth, thinner feel for maximum sensitivity</li>
-                  <li>Thickness ~0.05mm</li>
-                  <li>Silk-smooth silicone lubricant</li>
-                  <li>Barely-there comfort</li>
+                  <li>Warm blush finish</li>
+                  <li>Same 5 vibration modes</li>
+                  <li>USB-C rechargeable</li>
+                  <li>Soft-touch silicone</li>
                 </ul>
               </div>
               <div className={styles.compareCard}>
-                <ProductPack variant="Dotted" view="front" className={styles.comparePack} />
-                <h3 className={styles.compareTitle}>Dotted</h3>
+                <ProductPack variant="Mist Grey" view="front" className={styles.comparePack} />
+                <h3 className={styles.compareTitle}>Mist Grey</h3>
                 <ul className={styles.compareList}>
-                  <li>Textured surface for added sensation</li>
-                  <li>Thickness ~0.07mm</li>
-                  <li>Silicone-based lubricant</li>
-                  <li>Raised dotted texture</li>
+                  <li>Cool neutral finish</li>
+                  <li>Same 5 vibration modes</li>
+                  <li>USB-C rechargeable</li>
+                  <li>Soft-touch silicone</li>
                 </ul>
               </div>
             </motion.div>
@@ -397,7 +450,6 @@ export default function ProductPage() {
         </AnimatePresence>
       </motion.div>
 
-      {/* Material & Composition */}
       <motion.div
         className={styles.compositionSection}
         variants={fadeInUp}
@@ -406,30 +458,29 @@ export default function ProductPage() {
         viewport={scrollRevealConfig}
         transition={smooth}
       >
-        <h2 className={styles.sectionTitle}>Material &amp; Composition</h2>
+        <h2 className={styles.sectionTitle}>Specifications</h2>
         <div className={styles.compositionCard}>
           <div className={styles.compositionList}>
             <div className={styles.compositionItem}>
               <span className={styles.compositionLabel}>Material</span>
-              <span className={styles.compositionValue}>Premium natural latex rubber</span>
+              <span className={styles.compositionValue}>Body-safe soft-touch silicone / ABS</span>
             </div>
             <div className={styles.compositionItem}>
-              <span className={styles.compositionLabel}>Lubrication</span>
-              <span className={styles.compositionValue}>Silicone-based lubricant</span>
+              <span className={styles.compositionLabel}>Modes</span>
+              <span className={styles.compositionValue}>5 vibration speed settings</span>
             </div>
             <div className={styles.compositionItem}>
-              <span className={styles.compositionLabel}>Thickness</span>
-              <span className={styles.compositionValue}>Ultra Thin ~0.05mm / Dotted ~0.07mm</span>
+              <span className={styles.compositionLabel}>Battery</span>
+              <span className={styles.compositionValue}>USB-C · ~90 min runtime · ~2 hr charge</span>
             </div>
             <div className={styles.compositionItem}>
-              <span className={styles.compositionLabel}>Shelf life</span>
-              <span className={styles.compositionValue}>5 years from manufacture date</span>
+              <span className={styles.compositionLabel}>Water resistance</span>
+              <span className={styles.compositionValue}>IPX5 splash-resistant (not submersible)</span>
             </div>
           </div>
         </div>
       </motion.div>
 
-      {/* FAQ */}
       <div className={styles.bottomSection}>
         <h2 className={styles.sectionTitle}>Frequently Asked Questions</h2>
         <div className={styles.faqWrapper}>
@@ -437,7 +488,6 @@ export default function ProductPage() {
         </div>
       </div>
 
-      {/* Reviews */}
       <div className={styles.reviewsSection}>
         <h2 className={styles.sectionTitle}>Real Customer Reviews</h2>
 
@@ -475,7 +525,9 @@ export default function ProductPage() {
               </div>
               <p className={styles.reviewText}>&ldquo;{review.text}&rdquo;</p>
               <div className={styles.reviewer}>
-                <span className={styles.reviewerName}>{review.name} · {review.city}</span>
+                <span className={styles.reviewerName}>
+                  {review.name} · {review.city}
+                </span>
                 <span className={styles.verified}>
                   <ShieldCheck size={14} aria-hidden /> Verified Buyer
                 </span>
@@ -491,12 +543,12 @@ export default function ProductPage() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Product",
-            name: "Silk Room Ultra Comfort",
+            name: PRODUCT_NAME,
             brand: { "@type": "Brand", name: "Silk Room" },
-            description: "Natural latex condoms — Ultra Thin & Dotted variants. Pack of 10.",
+            description: PRODUCT_SHORT_DESC,
             offers: {
               "@type": "Offer",
-              price: "299",
+              price: String(PRODUCT_PRICE),
               priceCurrency: "INR",
               availability: "https://schema.org/InStock",
             },

@@ -15,24 +15,26 @@ async function main() {
   const { username } = await syncAdminFromEnv(prisma);
 
   await prisma.inventory.upsert({
-    where: { variantName: "Ultra Thin" },
-    update: { stockCount: 200 },
-    create: { variantName: "Ultra Thin", stockCount: 200 },
+    where: { variantName: "Soft Rose" },
+    update: { stockCount: 120 },
+    create: { variantName: "Soft Rose", stockCount: 120 },
   });
 
   await prisma.inventory.upsert({
-    where: { variantName: "Dotted" },
-    update: { stockCount: 180 },
-    create: { variantName: "Dotted", stockCount: 180 },
+    where: { variantName: "Mist Grey" },
+    update: { stockCount: 120 },
+    create: { variantName: "Mist Grey", stockCount: 120 },
   });
 
   await prisma.inventory.deleteMany({
     where: {
-      variantName: { in: ["Blush", "Plum", "Pearl", "Sage"] },
+      variantName: {
+        in: ["Ultra Thin", "Dotted", "Blush", "Plum", "Pearl", "Sage"],
+      },
     },
   });
 
-  console.log(`Seeded admin "${username}" and inventory (Ultra Thin: 200, Dotted: 180)`);
+  console.log(`Seeded admin "${username}" and inventory (Soft Rose: 120, Mist Grey: 120)`);
 }
 
 main()

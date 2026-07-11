@@ -1,18 +1,22 @@
-# Silk Room — Condoms & Sexual Wellness
+# Silk Room — Personal Wellness Massager
 
-Online retailer of premium condoms for adults (18+) in India. Brand: **Silk Room** · Site: [silkroom.shop](https://silkroom.shop)
+Online store for a personal wellness massager for everyday pain relief in India.
+Brand: **Silk Room** · Site: [silkroom.shop](https://silkroom.shop)
 
 ## Product
-- **Silk Room Ultra Comfort** — natural latex condoms
-- **₹299** · Pack of 10 · Free delivery India
-- Variants: **Ultra Thin** · **Dotted**
+
+- **Silk Room Ease** — personal wellness massager (₹599)
+- Variants: **Soft Rose** · **Mist Grey**
+- Soft-touch silicone, 5 vibration modes, USB-C rechargeable
 
 ## Stack
-Next.js 16 · Prisma/Neon · NextAuth · Razorpay Standard Checkout
 
-## Legal
-`/privacy` · `/terms` · `/shipping` · `/replacement` (Return & Refund) · `/contact` · 18+ AgeGate
+Next.js App Router · Prisma · PostgreSQL · NextAuth · Razorpay · Framer Motion
 
-## Setup
-1. `.env.local` from `.env.example`
-2. `npm install` · `npm run db:seed` · `npm run dev`
+## Scripts
+
+```bash
+npm run dev
+npm run build
+npm run db:seed
+```

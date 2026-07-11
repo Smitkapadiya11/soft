@@ -133,7 +133,7 @@ export default function CheckoutPage() {
         amount: paymentData.amount,
         currency: paymentData.currency || "INR",
         name: "Silk Room",
-        description: "Silk Room order — condoms & sexual wellness",
+        description: "Silk Room order — wellness massager",
         order_id: orderId,
         prefill: {
           name: paymentData.customerName || formData.name,
@@ -309,7 +309,7 @@ export default function CheckoutPage() {
                 </a>{" "}
                 ·{" "}
                 <a href="/cancellation-and-refunds" style={{ textDecoration: "underline" }}>
-                  Cancellation and Refunds
+                  Return &amp; Refund Policy
                 </a>{" "}
                 ·{" "}
                 <a href="/contact" style={{ textDecoration: "underline" }}>

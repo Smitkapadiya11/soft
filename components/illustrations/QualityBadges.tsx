@@ -109,10 +109,10 @@ function ISOCompliantBadgeBase({ className, size = 120 }: QualityBadgeProps) {
   );
 }
 
-/** Latex quality — a latex droplet with a check mark. */
+/** Soft-touch quality — droplet with check mark. */
 function LatexQualityBadgeBase({ className, size = 120 }: QualityBadgeProps) {
   return (
-    <Medallion className={className} size={size} label="LATEX QUALITY">
+    <Medallion className={className} size={size} label="SOFT TOUCH">
       <g transform="translate(70,66)">
         <path
           d="M0 -28 C -8 -16, -15 -8, -15 0 C -15 11, -8 19, 0 19 C 8 19, 15 11, 15 0 C 15 -8, 8 -16, 0 -28 Z"

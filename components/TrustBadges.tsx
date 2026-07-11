@@ -32,7 +32,7 @@ function TrustBadges() {
         <div className={styles.text}>
           <span className={styles.title}>Returns</span>
           <Link href="/cancellation-and-refunds" className={styles.link}>
-            Cancellation and Refunds
+            Return &amp; Refund Policy
           </Link>
         </div>
       </div>

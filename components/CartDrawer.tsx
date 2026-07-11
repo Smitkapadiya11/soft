@@ -95,7 +95,7 @@ export default function CartDrawer() {
                       >
                         <div className={styles.itemImagePlaceholder}>
                           <ProductPack
-                            variant={item.variant as "Ultra Thin" | "Dotted"}
+                            variant={item.variant as "Soft Rose" | "Mist Grey"}
                             className={styles.cartItemImage}
                           />
                         </div>

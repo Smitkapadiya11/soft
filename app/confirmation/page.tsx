@@ -6,7 +6,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import styles from "./Confirmation.module.css";
 import { SuccessIllustration } from "@/components/illustrations";
-import { staggerContainer, staggerItem, smooth } from "@/lib/motion";
+import { staggerContainer, staggerItem } from "@/lib/motion";
 
 const nextSteps = [
   "Check your email for order confirmation",
@@ -50,9 +50,9 @@ function ConfirmationContent() {
       <div className={styles.note}>
         <p>Check your email for updates referencing your order number only.</p>
         <p>
-          Your pack ships in plain, discreet packaging. Questions? See{" "}
+          Your order ships in plain, discreet packaging. Questions? See{" "}
           <a href="/contact">Contact Us</a> or our{" "}
-          <a href="/cancellation-and-refunds">Cancellation and Refunds</a> policy.
+          <a href="/cancellation-and-refunds">Return &amp; Refund Policy</a>.
         </p>
       </div>
 

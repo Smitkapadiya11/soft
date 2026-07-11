@@ -30,6 +30,8 @@ export default function AgeGate() {
   );
 
   useEffect(() => {
+    // Client-only gate: read localStorage after mount
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional client hydration
     setMounted(true);
     if (isOpenPath) {
       setIsOpen(false);
@@ -74,16 +76,17 @@ export default function AgeGate() {
             transition={spring}
           >
             <AgeGateIllustration className={styles.illustration} />
-            <h2 className={styles.title}>Are you 18 or older?</h2>
+            <h2 className={styles.title}>Before you continue</h2>
             <p className={styles.subtitle}>
-              This website sells sexual wellness products intended for adults aged 18 and above.
+              Silk Room sells personal wellness massagers for everyday pain relief.
+              By continuing you confirm you are 18 or older and agree to our Terms and Privacy Policy.
             </p>
             <div className={styles.actions}>
               <button className={styles.btnYes} onClick={() => handleVerify(true)}>
-                Yes, I am 18 or older
+                I am 18+ and agree
               </button>
               <button className={styles.btnNo} onClick={() => handleVerify(false)}>
-                No, I am under 18
+                Exit
               </button>
             </div>
             <p className={styles.policyNote}>

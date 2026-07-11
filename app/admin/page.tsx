@@ -84,6 +84,7 @@ export default function AdminDashboard() {
   }, [activeTab, router]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- load admin data on tab change
     fetchData();
   }, [fetchData]);
 
@@ -220,7 +221,7 @@ export default function AdminDashboard() {
             <div className={styles.inventoryGrid}>
               {inventory.map((item) => (
                 <div key={item.variant} className={`${styles.inventoryCard} ${item.stock < 20 ? styles.lowStock : ""}`}>
-                  <div className={styles.variantColor} style={{ backgroundColor: item.variant === "Ultra Thin" ? "#f4e9e4" : item.variant === "Dotted" ? "#4a2c3a" : "#ccc" }} />
+                  <div className={styles.variantColor} style={{ backgroundColor: item.variant === "Soft Rose" ? "#c4a4a4" : item.variant === "Mist Grey" ? "#8a9099" : "#ccc" }} />
                   <div>
                     <h3>{item.variant}</h3>
                     <p className={styles.stockCount}>{item.stock} in stock</p>

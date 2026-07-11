@@ -6,7 +6,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Terms and Conditions | Silk Room",
   description:
-    "Terms and Conditions for using silkroom.shop — an online retailer of premium condoms and sexual wellness products for adults aged 18 and above.",
+    "Terms and Conditions for using silkroom.shop — an online retailer of personal wellness massagers for everyday pain relief in India.",
   robots: { index: true, follow: true },
 };
 
@@ -18,14 +18,15 @@ export default function Terms() {
       <h2>1. About us</h2>
       <p>
         silkroom.shop is operated by <strong>{BUSINESS.legalName}</strong>, a {BUSINESS.entityType}
-        {" "}registered in India at {BUSINESS.address}. We are an online retailer of condoms and
-        sexual wellness products.
+        {" "}registered in India at {BUSINESS.address}. We are an online retailer of personal
+        wellness massagers for everyday pain relief.
       </p>
 
       <h2>2. Eligibility</h2>
       <p>
-        The products sold on this Site are intended for adults aged <strong>18 years and
-        above</strong>. By placing an order you confirm that you are 18 or older.
+        Products sold on this Site are intended for adults aged <strong>18 years and
+        above</strong>. By placing an order you confirm that you are 18 or older and accept
+        these Terms.
       </p>
 
       <h2>3. Orders and pricing</h2>
@@ -38,9 +39,9 @@ export default function Terms() {
 
       <h2>4. Product information</h2>
       <p>
-        We sell genuine, sealed products sourced from licensed suppliers and authorised
-        distributors. Please check product details and expiry information on delivery. Use
-        products in accordance with the manufacturer&apos;s instructions printed on the packaging.
+        We sell genuine products inspected before dispatch. Please check the device and
+        accessories on delivery. Use products in accordance with the included quick-start guide
+        and these Terms.
       </p>
 
       <h2>5. Payments</h2>
@@ -57,7 +58,7 @@ export default function Terms() {
         </Link>{" "}
         and{" "}
         <Link href="/cancellation-and-refunds">
-          Cancellation and Refunds
+          Return &amp; Refund Policy
         </Link>
         , incorporated here by reference.
       </p>
@@ -119,11 +120,13 @@ export default function Terms() {
 
       <h2>15. Product Disclaimers</h2>
       <p>
-        Our products are not medical devices and are not intended to diagnose, treat, cure, or
-        prevent any disease, pregnancy, or sexually transmitted infections. While condoms
-        significantly reduce the risk of pregnancy and STI transmission when used correctly, no
-        contraceptive method provides 100% protection. Products are intended for adult use (18+)
-        only. For health-related concerns, please consult a qualified healthcare professional.
+        Silk Room Ease and related products are personal wellness devices for temporary comfort
+        related to everyday muscle tension and similar discomfort. They are{" "}
+        <strong>not medical devices</strong> and are not intended to diagnose, treat, cure, or
+        prevent any disease or medical condition. Do not use on broken skin or while bathing
+        (splash-resistant only). If you are pregnant, have a pacemaker or other implanted device,
+        or if pain persists, consult a qualified healthcare professional before use. Products are
+        intended for adult use (18+) only.
       </p>
 
       <h2>16. Prohibited Activities</h2>
