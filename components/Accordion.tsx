@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import styles from "./Accordion.module.css";
 
 interface AccordionItem {
@@ -37,21 +38,30 @@ export default function Accordion({ items }: AccordionProps) {
               aria-controls={panelId}
             >
               <span className={styles.title}>{item.title}</span>
-              <ChevronDown
-                size={20}
-                className={`${styles.icon} ${isOpen ? styles.open : ""}`}
-                aria-hidden
-              />
+              <motion.div
+                animate={{ rotate: isOpen ? 180 : 0 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                style={{ display: "flex", alignItems: "center" }}
+              >
+                <ChevronDown size={20} aria-hidden />
+              </motion.div>
             </button>
-            <div
-              id={panelId}
-              role="region"
-              aria-labelledby={headerId}
-              className={styles.content}
-              style={{ maxHeight: isOpen ? "500px" : "0" }}
-            >
-              <div className={styles.innerContent}>{item.content}</div>
-            </div>
+            <AnimatePresence initial={false}>
+              {isOpen && (
+                <motion.div
+                  id={panelId}
+                  role="region"
+                  aria-labelledby={headerId}
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                  style={{ overflow: "hidden" }}
+                >
+                  <div className={styles.innerContent}>{item.content}</div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         );
       })}

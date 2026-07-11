@@ -1,8 +1,9 @@
+import React from "react";
 import { ShieldCheck, Lock, CheckCircle, Truck } from "lucide-react";
 import styles from "./TrustBadges.module.css";
 import Link from "next/link";
 
-export default function TrustBadges() {
+function TrustBadges() {
   return (
     <div className={styles.container}>
       <div className={styles.badge}>
@@ -30,9 +31,13 @@ export default function TrustBadges() {
         <CheckCircle size={20} />
         <div className={styles.text}>
           <span className={styles.title}>Returns</span>
-          <Link href="/replacement" className={styles.link}>Return &amp; Refund</Link>
+          <Link href="/cancellation-and-refunds" className={styles.link}>
+            Cancellation and Refunds
+          </Link>
         </div>
       </div>
     </div>
   );
 }
+
+export default React.memo(TrustBadges);

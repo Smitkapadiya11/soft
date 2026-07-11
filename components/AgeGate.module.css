@@ -3,6 +3,111 @@
   inset: 0;
   background-color: rgba(26, 15, 20, 0.85);
   backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-md);
+  contain: layout paint;
+}
+
+.modal {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: var(--space-3xl) var(--space-xl);
+  border-radius: var(--radius-xl);
+  max-width: 450px;
+  width: 100%;
+  text-align: center;
+  box-shadow: var(--shadow-lg);
+}
+
+.illustration {
+  display: block;
+  max-width: 120px;
+  width: 100%;
+  margin: 0 auto var(--space-lg);
+}
+
+.title {
+  color: var(--color-plum-dark);
+  font-family: var(--font-serif);
+  font-size: 1.8rem;
+  margin-bottom: var(--space-md);
+}
+
+.policyNote {
+  margin-top: 1.25rem;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--color-plum);
+}
+
+.policyNote a {
+  text-decoration: underline;
+  color: var(--color-plum-dark);
+}
+
+.subtitle {
+  color: var(--color-plum);
+  font-size: 1rem;
+  margin-bottom: var(--space-xl);
+  line-height: 1.5;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.btnYes,
+.btnNo {
+  padding: var(--space-md);
+  border: none;
+  border-radius: var(--radius-md);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform var(--duration-fast) var(--ease-premium),
+              box-shadow var(--duration-fast) var(--ease-premium),
+              background-color var(--duration-fast) var(--ease-premium);
+}
+
+.btnYes {
+  background: var(--gradient-plum);
+  color: white;
+}
+
+.btnYes:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glow);
+}
+
+.btnNo {
+  background-color: transparent;
+  color: var(--color-plum-dark);
+  border: 1px solid var(--color-plum-dark);
+}
+
+.btnNo:hover {
+  background-color: rgba(74, 44, 58, 0.05);
+  transform: translateY(-1px);
+}
+
+.btnYes:focus-visible,
+.btnNo:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(26, 15, 20, 0.85);
+  backdrop-filter: blur(8px);
   z-index: 9999;
   display: flex;
   align-items: center;

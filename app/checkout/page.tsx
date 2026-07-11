@@ -296,12 +296,24 @@ export default function CheckoutPage() {
               <p><strong>Total Amount:</strong> ₹{cartTotal}</p>
               <p className={styles.reassuranceNote}>
                 Free delivery · Prepaid via Razorpay ·{" "}
-                <a href="/replacement" style={{ textDecoration: "underline" }}>
-                  Return &amp; Refund Policy
+                <a href="/terms" style={{ textDecoration: "underline" }}>
+                  Terms and Conditions
+                </a>{" "}
+                ·{" "}
+                <a href="/privacy" style={{ textDecoration: "underline" }}>
+                  Privacy Policy
                 </a>{" "}
                 ·{" "}
                 <a href="/shipping" style={{ textDecoration: "underline" }}>
-                  Shipping
+                  Shipping Policy
+                </a>{" "}
+                ·{" "}
+                <a href="/cancellation-and-refunds" style={{ textDecoration: "underline" }}>
+                  Cancellation and Refunds
+                </a>{" "}
+                ·{" "}
+                <a href="/contact" style={{ textDecoration: "underline" }}>
+                  Contact Us
                 </a>
               </p>
             </div>

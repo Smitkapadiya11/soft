@@ -14,7 +14,11 @@ export async function GET() {
       stock[item.variantName] = item.stockCount;
     }
 
-    return NextResponse.json({ stock });
+    return NextResponse.json({ stock }, {
+      headers: {
+        "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
+      },
+    });
   } catch (err) {
     console.error("GET /api/stock:", err);
     return NextResponse.json({ stock: FALLBACK_STOCK });

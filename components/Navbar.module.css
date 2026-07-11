@@ -1,6 +1,169 @@
 .header {
   position: sticky;
   top: 0;
+  z-index: var(--z-header);
+  background: rgba(250, 247, 242, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-border);
+  contain: layout paint;
+}
+
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: var(--space-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+.logoLink {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.logo {
+  height: 32px;
+  width: auto;
+  color: var(--color-plum-dark);
+  transition: color var(--duration-fast) var(--ease-premium);
+}
+
+.logoLink:hover .logo {
+  color: var(--color-gold);
+}
+
+.nav {
+  display: flex;
+  gap: var(--space-xl);
+}
+
+.navLink {
+  position: relative;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-plum);
+  transition: color var(--duration-fast) var(--ease-premium);
+  padding-bottom: 4px;
+}
+
+.navLink::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--gradient-plum);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--duration-normal) var(--ease-premium);
+  border-radius: var(--radius-full);
+}
+
+.navLink:hover {
+  color: var(--color-plum-dark);
+}
+
+.navLink:hover::after {
+  transform: scaleX(1);
+}
+
+.menuButton {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--color-plum-dark);
+  cursor: pointer;
+  padding: var(--space-xs);
+  transition: color var(--duration-fast) var(--ease-premium);
+}
+
+.menuButton:hover {
+  color: var(--color-gold);
+}
+
+.cartButton {
+  background: none;
+  border: none;
+  color: var(--color-plum-dark);
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xs);
+  transition: transform var(--duration-fast) var(--ease-premium),
+              color var(--duration-fast) var(--ease-premium);
+}
+
+.cartButton:hover {
+  transform: scale(1.05);
+  color: var(--color-gold);
+}
+
+.badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: var(--gradient-plum);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 700;
+  border-radius: var(--radius-full);
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-sm);
+}
+
+.mobileNav {
+  overflow: hidden;
+  background: rgba(250, 247, 242, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.mobileNavLink {
+  display: block;
+  padding: var(--space-md);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-plum);
+  border-bottom: 1px solid var(--color-border);
+  transition: background-color var(--duration-fast) var(--ease-premium),
+              color var(--duration-fast) var(--ease-premium);
+}
+
+.mobileNavLink:hover {
+  background-color: rgba(74, 44, 58, 0.05);
+  color: var(--color-plum-dark);
+}
+
+.mobileNavLink:last-child {
+  border-bottom: none;
+}
+
+@media (max-width: 768px) {
+  .menuButton {
+    display: block;
+  }
+
+  .nav {
+    display: none;
+  }
+}
+.header {
+  position: sticky;
+  top: 0;
   z-index: 50;
   background-color: rgba(250, 247, 242, 0.9);
   backdrop-filter: blur(10px);

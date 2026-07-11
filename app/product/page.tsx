@@ -1,8 +1,16 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import Image from "next/image";
-import { Star, ShieldCheck, Loader2, Truck } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Star, ShieldCheck, Loader2, Truck, Check } from "lucide-react";
+import { ProductPack } from "@/components/illustrations";
+import {
+  fadeInUp,
+  staggerContainer,
+  staggerItem,
+  smooth,
+  scrollRevealConfig,
+} from "@/lib/motion";
 import styles from "./Product.module.css";
 import Accordion from "@/components/Accordion";
 import TrustBadges from "@/components/TrustBadges";
@@ -24,11 +32,22 @@ const PRODUCT = {
   variants: ALLOWED_VARIANTS,
 };
 
-const productImages = [
-  "/product-1.png",
-  "/product-2.png",
-  "/product-3.png",
-  "/product-4.png",
+const galleryViews = ["front", "side", "detail", "lifestyle"] as const;
+
+const ratingDistribution = [
+  { stars: 5, count: 120 },
+  { stars: 4, count: 8 },
+  { stars: 3, count: 2 },
+  { stars: 2, count: 0 },
+  { stars: 1, count: 0 },
+];
+
+const maxRatingCount = Math.max(...ratingDistribution.map((r) => r.count));
+
+const reviews = [
+  { name: "A***i S.", city: "Mumbai", text: "Ultra Thin feels great and packaging was completely discreet. Delivery was free and fast." },
+  { name: "P***a K.", city: "Bangalore", text: "Ordered Dotted for my partner and me — quality seals, clear expiry, no awkward branding on the box." },
+  { name: "R***h M.", city: "Delhi", text: "Smooth Razorpay checkout. Good to have a trusted online option with a real return policy for unopened packs." },
 ];
 
 export default function ProductPage() {
@@ -39,7 +58,9 @@ export default function ProductPage() {
   const [stockLoading, setStockLoading] = useState(true);
   const [isAdding, setIsAdding] = useState(false);
   const [addError, setAddError] = useState("");
-  const [mainImage, setMainImage] = useState(productImages[0]);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [justAdded, setJustAdded] = useState(false);
+  const [showCompare, setShowCompare] = useState(false);
 
   const fetchStock = useCallback(async () => {
     setStockLoading(true);
@@ -78,8 +99,9 @@ export default function ProductPage() {
         price: PRODUCT.price,
         variant: selectedVariant,
         quantity,
-        image: "/placeholder.png",
       });
+      setJustAdded(true);
+      setTimeout(() => setJustAdded(false), 1500);
     } finally {
       setIsAdding(false);
     }
@@ -119,6 +141,28 @@ export default function ProductPage() {
       content:
         "For hygiene reasons, opened or unsealed condoms cannot be returned unless defective or damaged on arrival. Unopened sealed packs may be returned within 7 days. See our Return & Refund Policy.",
     },
+    {
+      title: "Usage Instructions",
+      content: (
+        <ul className={styles.infoList}>
+          <li>Store in a cool, dry place away from direct sunlight</li>
+          <li>Check expiry date before use</li>
+          <li>Use a new condom for each act of intercourse</li>
+          <li>Dispose of responsibly after use</li>
+        </ul>
+      ),
+    },
+    {
+      title: "Safety Information",
+      content: (
+        <ul className={styles.infoList}>
+          <li>This product is for adult use only (18+)</li>
+          <li>Not a medical device — does not guarantee 100% protection</li>
+          <li>If irritation occurs, discontinue use and consult a doctor</li>
+          <li>Do not use if the packaging is damaged</li>
+        </ul>
+      ),
+    },
   ];
 
   const specs = [
@@ -140,36 +184,52 @@ export default function ProductPage() {
   return (
     <div className={styles.container}>
       <div className={styles.productLayout}>
+        {/* Gallery */}
         <div className={styles.gallery}>
           <div className={styles.mainImageContainer}>
-            <Image
-              src={mainImage}
-              alt={`${PRODUCT.name} ${selectedVariant} condoms — ${PRODUCT_PACK_SIZE}`}
-              fill
-              style={{ objectFit: "cover" }}
-              className={styles.actualImage}
-              priority
-              sizes="(max-width: 900px) 100vw, 50vw"
-            />
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={selectedImageIndex + selectedVariant}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className={styles.mainImageWrapper}
+              >
+                <ProductPack
+                  variant={selectedVariant}
+                  view={galleryViews[selectedImageIndex]}
+                  className={styles.mainImage}
+                />
+              </motion.div>
+            </AnimatePresence>
             <span className={styles.variantBadge}>{selectedVariant}</span>
           </div>
           <div className={styles.thumbnails} role="list" aria-label="Product image thumbnails">
-            {productImages.map((img, index) => (
-              <button
+            {galleryViews.map((view, index) => (
+              <motion.button
                 key={index}
                 type="button"
                 role="listitem"
-                className={`${styles.thumb} ${mainImage === img ? styles.thumbActive : ""}`}
-                onClick={() => setMainImage(img)}
+                className={`${styles.thumb} ${selectedImageIndex === index ? styles.thumbActive : ""}`}
+                onClick={() => setSelectedImageIndex(index)}
                 aria-label={`View product image ${index + 1}`}
-                aria-pressed={mainImage === img}
+                aria-pressed={selectedImageIndex === index}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                <Image src={img} alt="" fill style={{ objectFit: "cover" }} className={styles.thumbImage} aria-hidden sizes="80px" />
-              </button>
+                <ProductPack
+                  variant={selectedVariant}
+                  view={view}
+                  className={styles.thumbnail}
+                  ariaHidden
+                />
+              </motion.button>
             ))}
           </div>
         </div>
 
+        {/* Details */}
         <div className={styles.details}>
           <div className={styles.reviews}>
             <div className={styles.stars} aria-label="5 out of 5 stars">
@@ -211,7 +271,7 @@ export default function ProductPage() {
                 const variantStock = stock[variant] ?? 0;
                 const out = !stockLoading && variantStock < 1;
                 return (
-                  <button
+                  <motion.button
                     key={variant}
                     type="button"
                     role="radio"
@@ -222,10 +282,12 @@ export default function ProductPage() {
                     onClick={() => {
                       setSelectedVariant(variant);
                       setQuantity(1);
-                      setMainImage(variant === "Dotted" ? productImages[1] : productImages[0]);
                     }}
                     style={{ backgroundColor: VARIANT_COLORS[variant] }}
                     title={variant}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
                   />
                 );
               })}
@@ -252,21 +314,27 @@ export default function ProductPage() {
               <span aria-live="polite">{quantity}</span>
               <button type="button" onClick={() => setQuantity(Math.min(maxQty, quantity + 1))} disabled={isOutOfStock || quantity >= maxQty} aria-label="Increase quantity">+</button>
             </div>
-            <button
+            <motion.button
               type="button"
               className={`${styles.addBtn} ${isOutOfStock ? styles.addBtnDisabled : ""}`}
               onClick={handleAddToCart}
               disabled={isOutOfStock || isAdding || stockLoading}
               aria-busy={isAdding}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              animate={justAdded ? { scale: [1, 0.96, 1.03, 1] } : { scale: 1 }}
+              transition={smooth}
             >
               {isAdding ? (
                 <><Loader2 size={18} className={styles.spinner} aria-hidden /> Adding…</>
               ) : isOutOfStock ? (
                 "Out of Stock"
+              ) : justAdded ? (
+                <><Check size={18} aria-hidden /> Added!</>
               ) : (
                 `Add to Cart — ₹${PRODUCT_PRICE}`
               )}
-            </button>
+            </motion.button>
           </div>
 
           <TrustBadges />
@@ -277,6 +345,91 @@ export default function ProductPage() {
         </div>
       </div>
 
+      {/* Compare Variants */}
+      <motion.div
+        className={styles.compareSection}
+        variants={fadeInUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={scrollRevealConfig}
+        transition={smooth}
+      >
+        <h2 className={styles.sectionTitle}>Compare Variants</h2>
+        <button
+          type="button"
+          className={styles.compareToggle}
+          onClick={() => setShowCompare(!showCompare)}
+          aria-expanded={showCompare}
+        >
+          {showCompare ? "Hide Comparison" : "Compare Ultra Thin vs Dotted"}
+        </button>
+        <AnimatePresence>
+          {showCompare && (
+            <motion.div
+              className={styles.compareGrid}
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <div className={styles.compareCard}>
+                <ProductPack variant="Ultra Thin" view="front" className={styles.comparePack} />
+                <h3 className={styles.compareTitle}>Ultra Thin</h3>
+                <ul className={styles.compareList}>
+                  <li>Smooth, thinner feel for maximum sensitivity</li>
+                  <li>Thickness ~0.05mm</li>
+                  <li>Silk-smooth silicone lubricant</li>
+                  <li>Barely-there comfort</li>
+                </ul>
+              </div>
+              <div className={styles.compareCard}>
+                <ProductPack variant="Dotted" view="front" className={styles.comparePack} />
+                <h3 className={styles.compareTitle}>Dotted</h3>
+                <ul className={styles.compareList}>
+                  <li>Textured surface for added sensation</li>
+                  <li>Thickness ~0.07mm</li>
+                  <li>Silicone-based lubricant</li>
+                  <li>Raised dotted texture</li>
+                </ul>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
+
+      {/* Material & Composition */}
+      <motion.div
+        className={styles.compositionSection}
+        variants={fadeInUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={scrollRevealConfig}
+        transition={smooth}
+      >
+        <h2 className={styles.sectionTitle}>Material &amp; Composition</h2>
+        <div className={styles.compositionCard}>
+          <div className={styles.compositionList}>
+            <div className={styles.compositionItem}>
+              <span className={styles.compositionLabel}>Material</span>
+              <span className={styles.compositionValue}>Premium natural latex rubber</span>
+            </div>
+            <div className={styles.compositionItem}>
+              <span className={styles.compositionLabel}>Lubrication</span>
+              <span className={styles.compositionValue}>Silicone-based lubricant</span>
+            </div>
+            <div className={styles.compositionItem}>
+              <span className={styles.compositionLabel}>Thickness</span>
+              <span className={styles.compositionValue}>Ultra Thin ~0.05mm / Dotted ~0.07mm</span>
+            </div>
+            <div className={styles.compositionItem}>
+              <span className={styles.compositionLabel}>Shelf life</span>
+              <span className={styles.compositionValue}>5 years from manufacture date</span>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* FAQ */}
       <div className={styles.bottomSection}>
         <h2 className={styles.sectionTitle}>Frequently Asked Questions</h2>
         <div className={styles.faqWrapper}>
@@ -284,15 +437,37 @@ export default function ProductPage() {
         </div>
       </div>
 
+      {/* Reviews */}
       <div className={styles.reviewsSection}>
         <h2 className={styles.sectionTitle}>Real Customer Reviews</h2>
-        <div className={styles.reviewGrid}>
-          {[
-            { name: "A***i S.", city: "Mumbai", text: "Ultra Thin feels great and packaging was completely discreet. Delivery was free and fast." },
-            { name: "P***a K.", city: "Bangalore", text: "Ordered Dotted for my partner and me — quality seals, clear expiry, no awkward branding on the box." },
-            { name: "R***h M.", city: "Delhi", text: "Smooth Razorpay checkout. Good to have a trusted online option with a real return policy for unopened packs." },
-          ].map((review) => (
-            <div key={review.name} className={styles.reviewCard}>
+
+        <div className={styles.ratingDistribution}>
+          {ratingDistribution.map((rating) => (
+            <div key={rating.stars} className={styles.ratingBar}>
+              <span className={styles.ratingBarLabel}>{rating.stars}★</span>
+              <div className={styles.ratingBarTrack}>
+                <motion.div
+                  className={styles.ratingBarFill}
+                  initial={{ width: 0 }}
+                  whileInView={{ width: `${(rating.count / maxRatingCount) * 100}%` }}
+                  viewport={scrollRevealConfig}
+                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                />
+              </div>
+              <span className={styles.ratingBarCount}>{rating.count}</span>
+            </div>
+          ))}
+        </div>
+
+        <motion.div
+          className={styles.reviewGrid}
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={scrollRevealConfig}
+        >
+          {reviews.map((review) => (
+            <motion.div key={review.name} className={styles.reviewCard} variants={staggerItem}>
               <div className={styles.stars} aria-label="5 out of 5 stars">
                 {[...Array(5)].map((_, j) => (
                   <Star key={j} fill="#4a2c3a" size={14} color="#4a2c3a" aria-hidden />
@@ -305,10 +480,34 @@ export default function ProductPage() {
                   <ShieldCheck size={14} aria-hidden /> Verified Buyer
                 </span>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            name: "Silk Room Ultra Comfort",
+            brand: { "@type": "Brand", name: "Silk Room" },
+            description: "Natural latex condoms — Ultra Thin & Dotted variants. Pack of 10.",
+            offers: {
+              "@type": "Offer",
+              price: "299",
+              priceCurrency: "INR",
+              availability: "https://schema.org/InStock",
+            },
+            aggregateRating: {
+              "@type": "AggregateRating",
+              ratingValue: "4.9",
+              reviewCount: "128",
+            },
+          }),
+        }}
+      />
     </div>
   );
 }
