@@ -1,21 +1,20 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
-import { CartProvider } from "@/context/CartContext";
-import Providers from "@/components/Providers";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import CartDrawer from "@/components/CartDrawer";
-import AgeGate from "@/components/AgeGate";
+import AppShell from "@/components/AppShell";
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
+  display: "swap",
+  preload: true,
 });
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-serif",
+  display: "swap",
+  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -32,15 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${playfair.variable}`}>
-        <Providers>
-          <CartProvider>
-            <AgeGate />
-            <Navbar />
-            <main style={{ minHeight: "calc(100vh - 400px)" }}>{children}</main>
-            <CartDrawer />
-            <Footer />
-          </CartProvider>
-        </Providers>
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   );
