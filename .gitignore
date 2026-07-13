@@ -45,3 +45,7 @@ next-env.d.ts
 # graphify tooling output
 /graphify-out/
 .graphify_python
+
+# Never serve key dumps or CSV exports from public/
+public/*.csv
+

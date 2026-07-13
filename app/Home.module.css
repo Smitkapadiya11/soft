@@ -13,6 +13,8 @@
   min-height: min(88vh, 820px);
   background: linear-gradient(115deg, #f7f0f2 0%, #f3e6ea 42%, #efe4e8 100%);
   overflow: hidden;
+  width: 100%;
+  max-width: 100%;
 }
 
 .heroLeft {

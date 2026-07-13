@@ -10,13 +10,16 @@
 }
 
 .container {
-  max-width: var(--container-max);
+  max-width: min(var(--container-max), 100%);
+  width: 100%;
   margin: 0 auto;
-  padding: var(--space-md);
+  padding: 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-md);
+  box-sizing: border-box;
+  min-width: 0;
 }
 
 .logoLink {

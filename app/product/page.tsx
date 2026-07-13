@@ -77,10 +77,19 @@ export default function ProductPage() {
   const touchStartX = useRef<number | null>(null);
 
   const gallery = PRODUCT_GALLERY[selectedVariant];
+  const safeIndex = Math.min(selectedImageIndex, Math.max(0, gallery.length - 1));
+  const activeSrc = gallery[safeIndex] ?? gallery[1] ?? gallery[0];
   const isCoverImage =
-    selectedImageIndex === 0 ||
-    gallery[selectedImageIndex]?.includes("product-cover-model") ||
-    gallery[selectedImageIndex] === PRODUCT_COVER_IMAGE;
+    safeIndex === 0 ||
+    activeSrc?.includes("product-cover-model") ||
+    activeSrc === PRODUCT_COVER_IMAGE;
+
+  const handleImageError = () => {
+    // If lifestyle cover fails to load, fall through to first product shot
+    if (safeIndex === 0 && gallery.length > 1) {
+      setSelectedImageIndex(1);
+    }
+  };
 
   const fetchStock = useCallback(async () => {
     setStockLoading(true);
@@ -243,7 +252,7 @@ export default function ProductPage() {
           >
             <AnimatePresence mode="wait">
               <motion.div
-                key={gallery[selectedImageIndex] + selectedVariant}
+                key={activeSrc + selectedVariant}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -251,12 +260,13 @@ export default function ProductPage() {
                 className={styles.mainImageWrapper}
               >
                 <Image
-                  src={gallery[selectedImageIndex]}
-                  alt={`${PRODUCT_NAME} ${selectedVariant} — view ${selectedImageIndex + 1}`}
+                  src={activeSrc}
+                  alt={`${PRODUCT_NAME} ${selectedVariant} — view ${safeIndex + 1}`}
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
                   className={styles.mainPhoto}
-                  priority={selectedImageIndex === 0}
+                  priority={safeIndex === 0}
+                  onError={handleImageError}
                 />
               </motion.div>
             </AnimatePresence>
@@ -267,9 +277,9 @@ export default function ProductPage() {
               <button
                 key={`dot-${index}`}
                 type="button"
-                className={`${styles.galleryDot} ${selectedImageIndex === index ? styles.galleryDotActive : ""}`}
+                className={`${styles.galleryDot} ${safeIndex === index ? styles.galleryDotActive : ""}`}
                 aria-label={`Go to image ${index + 1}`}
-                aria-current={selectedImageIndex === index}
+                aria-current={safeIndex === index}
                 onClick={() => setSelectedImageIndex(index)}
               />
             ))}
@@ -279,10 +289,10 @@ export default function ProductPage() {
               <motion.button
                 key={src}
                 type="button"
-                className={`${styles.thumb} ${selectedImageIndex === index ? styles.thumbActive : ""}`}
+                className={`${styles.thumb} ${safeIndex === index ? styles.thumbActive : ""}`}
                 onClick={() => setSelectedImageIndex(index)}
                 aria-label={`View image ${index + 1}`}
-                aria-pressed={selectedImageIndex === index}
+                aria-pressed={safeIndex === index}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -292,6 +302,10 @@ export default function ProductPage() {
                   width={152}
                   height={152}
                   className={styles.thumbnail}
+                  onError={(e) => {
+                    // Hide broken thumb chrome without leaving a blank selected main
+                    (e.currentTarget as HTMLImageElement).style.visibility = "hidden";
+                  }}
                 />
               </motion.button>
             ))}

@@ -27,8 +27,8 @@ export const PRODUCT_SPECS = {
   base: "Industrial-strength suction cup",
 } as const;
 
-/** Lifestyle model cover — first in gallery for both variants */
-export const PRODUCT_COVER_IMAGE = "/products/product-cover-model.png";
+/** Lifestyle model cover — first in gallery for both variants (optimized JPG) */
+export const PRODUCT_COVER_IMAGE = "/products/product-cover-model.jpg";
 
 /** Gallery: lifestyle cover first, then product close-ups */
 export const PRODUCT_GALLERY: Record<(typeof ALLOWED_VARIANTS)[number], string[]> = {
