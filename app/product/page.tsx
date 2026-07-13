@@ -250,7 +250,13 @@ export default function ProductPage() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Image src={src} alt="" width={80} height={80} className={styles.thumbnail} />
+                <Image
+                  src={src}
+                  alt=""
+                  width={152}
+                  height={152}
+                  className={styles.thumbnail}
+                />
               </motion.button>
             ))}
           </div>

@@ -4,7 +4,6 @@ import styles from "./Home.module.css";
 import {
   PRODUCT_PRICE,
   PRODUCT_NAME,
-  PRODUCT_TAGLINE,
   HOME_HERO_IMAGE,
   HOME_FEATURE_IMAGE,
 } from "@/lib/constants";
@@ -14,106 +13,111 @@ import {
   ShieldCheck,
   RotateCcw,
   Lock,
-  Sparkles,
-  Droplets,
   Leaf,
+  Volume2,
+  Droplets,
   Heart,
 } from "lucide-react";
 
-const trustBar = [
-  { icon: Package, label: "Discreet packaging" },
-  { icon: ShieldCheck, label: "Body-safe materials" },
-  { icon: Lock, label: "Private checkout" },
-  { icon: RotateCcw, label: "Easy returns" },
-];
-
-const pillars = [
+const features = [
   {
     icon: Leaf,
-    title: "Body-safe silicone",
-    text: "Dual-density liquid silicone — soft to the touch, built to last.",
+    title: "Body-Safe Materials",
+    text: "100% body-safe dual-density silicone",
+  },
+  {
+    icon: Volume2,
+    title: "Discreet by Design",
+    text: "Plain packaging, private delivery",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Trusted Quality",
+    text: "Secure prepaid checkout",
   },
   {
     icon: Droplets,
-    title: "Easy to clean",
-    text: "Waterproof design. Warm water, mild soap, done.",
-  },
-  {
-    icon: Package,
-    title: "Total privacy",
-    text: "Plain outer box. No product names on the label.",
-  },
-  {
-    icon: Heart,
-    title: "Made for you",
-    text: "Two calm finishes. One clear price. No awkward store runs.",
+    title: "Easy to Clean",
+    text: "Fully waterproof & shower-ready",
   },
 ];
 
-const stories = [
-  {
-    quote: "Felt premium from the box to the product. Packaging was completely plain.",
-    name: "Neha",
-    city: "Mumbai",
-  },
-  {
-    quote: "Soft feel, solid quality. Checkout was smooth and delivery was free.",
-    name: "Riya",
-    city: "Pune",
-  },
-  {
-    quote: "I ordered for myself and felt respected — no spammy branding anywhere.",
-    name: "Anjali",
-    city: "Delhi",
-  },
+const trustBar = [
+  { icon: Package, label: "Discreet packaging" },
+  { icon: RotateCcw, label: "Easy returns" },
+  { icon: Lock, label: "Private & secure checkout" },
+  { icon: Heart, label: "Made for women" },
 ];
 
 export default function Home() {
   return (
     <>
       <section className={styles.hero}>
-        <div className={styles.heroCopy}>
-          <span className={styles.trustPill}>Trusted women&apos;s self-care brand</span>
+        <div className={styles.heroLeft}>
+          <span className={styles.trustBadge}>
+            <Heart size={14} aria-hidden />
+            Trusted by 10,000+ women
+          </span>
+
           <p className={styles.brand}>Silk Room</p>
           <h1 className={styles.headline}>
-            Your calm.
-            <br />
-            Your way.
+            Your pleasure. Your way. <span aria-hidden>♡</span>
           </h1>
           <p className={styles.sub}>
-            Premium intimate self-care — body-safe dual-density silicone, discreet delivery,
-            and a price that feels fair.
+            Explore intimacy, embrace yourself and feel the difference.
           </p>
-          <div className={styles.ctaRow}>
+
+          <ul className={styles.featureRow}>
+            {features.map(({ icon: Icon, title, text }) => (
+              <li key={title} className={styles.featureItem}>
+                <span className={styles.featureIcon}>
+                  <Icon size={18} aria-hidden />
+                </span>
+                <div>
+                  <strong>{title}</strong>
+                  <span>{text}</span>
+                </div>
+              </li>
+            ))}
+          </ul>
+
+          <div className={styles.selfLove}>
+            <p className={styles.selfLoveTitle}>Not just a product, it&apos;s self-love.</p>
+            <p className={styles.selfLoveText}>
+              Rediscover your body. Reclaim your pleasure.
+            </p>
+          </div>
+
+          <div className={styles.ctaBlock}>
             <Link href="/product" className={styles.cta}>
               Shop {PRODUCT_NAME}
-              <span className={styles.price}>₹{PRODUCT_PRICE}</span>
+              <span className={styles.priceChip}>₹{PRODUCT_PRICE}</span>
             </Link>
-            <p className={styles.fine}>18+ · Free discreet delivery · Secure prepaid</p>
+            <p className={styles.fine}>18+ · Free discreet delivery · Prepaid secure</p>
           </div>
         </div>
-        <div className={styles.heroVisual}>
+
+        <div className={styles.heroRight}>
           <Image
             src={HOME_HERO_IMAGE}
             alt="Silk Room — premium self-care"
             fill
             priority
-            sizes="(max-width: 900px) 100vw, 50vw"
+            sizes="(max-width: 900px) 100vw, 55vw"
             className={styles.heroImg}
           />
-          <div className={styles.heroFade} />
         </div>
       </section>
 
-      <section className={styles.trustStrip} aria-label="Why shop with us">
-        <StaggerGroup className={styles.trustInner}>
+      <section className={styles.trustStrip} aria-label="Shopping guarantees">
+        <div className={styles.trustInner}>
           {trustBar.map(({ icon: Icon, label }) => (
-            <StaggerItem key={label} className={styles.trustItem}>
+            <div key={label} className={styles.trustItem}>
               <Icon size={18} aria-hidden />
               <span>{label}</span>
-            </StaggerItem>
+            </div>
           ))}
-        </StaggerGroup>
+        </div>
       </section>
 
       <section className={styles.featured}>
@@ -121,59 +125,49 @@ export default function Home() {
           <Reveal className={styles.featuredMedia}>
             <Image
               src={HOME_FEATURE_IMAGE}
-              alt="Discreet packaging and private delivery"
-              width={900}
-              height={900}
+              alt="Discreet packaging"
+              width={800}
+              height={800}
               className={styles.featuredImg}
             />
           </Reveal>
           <div className={styles.featuredCopy}>
-            <span className={styles.eyebrow}>{PRODUCT_TAGLINE}</span>
+            <span className={styles.eyebrow}>Bestseller · ₹{PRODUCT_PRICE}</span>
             <h2>{PRODUCT_NAME}</h2>
             <p>
-              Soft outer feel. Supportive core. Secure base. Fully waterproof. Choose Natural
-              or Espresso — same craftsmanship, two finishes.
+              Dual-density body-safe silicone with a soft outer feel, supportive core, and
+              waterproof design. Choose Natural or Espresso.
             </p>
-            <ul className={styles.specList}>
-              <li>Dual-density body-safe silicone</li>
-              <li>Natural &amp; Espresso colourways</li>
-              <li>
-                All-in price <strong className={styles.priceInline}>₹{PRODUCT_PRICE}</strong>
-              </li>
-              <li>Free discreet delivery across India</li>
-            </ul>
             <Link href="/product" className={styles.ctaSecondary}>
-              View details
+              View product details
             </Link>
           </div>
         </div>
       </section>
 
-      <section className={styles.pillars}>
-        <div className={styles.sectionHead}>
-          <h2>Designed for trust</h2>
-          <p>Clear materials. Private packaging. Checkout that feels safe.</p>
-        </div>
-        <StaggerGroup className={styles.pillarGrid}>
-          {pillars.map(({ icon: Icon, title, text }) => (
-            <StaggerItem key={title} className={styles.pillar}>
-              <span className={styles.pillarIcon}>
-                <Icon size={22} aria-hidden />
-              </span>
-              <h3>{title}</h3>
-              <p>{text}</p>
-            </StaggerItem>
-          ))}
-        </StaggerGroup>
-      </section>
-
       <section className={styles.stories}>
         <div className={styles.sectionHead}>
-          <h2>Loved quietly</h2>
-          <p>Real customers. Private deliveries. Honest reviews.</p>
+          <h2>Real women. Real stories.</h2>
+          <p>Thousands choosing pleasure &amp; self-care — delivered privately.</p>
         </div>
         <StaggerGroup className={styles.storyGrid}>
-          {stories.map((s) => (
+          {[
+            {
+              quote: "Finally something that understands women's bodies.",
+              name: "Neha",
+              city: "Mumbai",
+            },
+            {
+              quote: "Super soft, premium feel — and packaging was completely plain.",
+              name: "Riya",
+              city: "Pune",
+            },
+            {
+              quote: "My self-care routine just got so much better.",
+              name: "Anjali",
+              city: "Delhi",
+            },
+          ].map((s) => (
             <StaggerItem key={s.name} className={styles.storyCard}>
               <span className={styles.stars} aria-hidden>
                 ★★★★★
@@ -188,7 +182,6 @@ export default function Home() {
       </section>
 
       <section className={styles.final}>
-        <Sparkles size={22} aria-hidden className={styles.finalIcon} />
         <h2>Ready when you are</h2>
         <p>
           <span className={styles.priceInline}>₹{PRODUCT_PRICE}</span> · Discreet box · Razorpay
