@@ -1,358 +1,192 @@
+import Image from "next/image";
 import Link from "next/link";
 import styles from "./Home.module.css";
-import { PRODUCT_PRICE, PRODUCT_NAME, PRODUCT_TAGLINE } from "@/lib/constants";
+import {
+  PRODUCT_PRICE,
+  PRODUCT_NAME,
+  PRODUCT_TAGLINE,
+  HOME_HERO_IMAGE,
+  HOME_FEATURE_IMAGE,
+  PRODUCT_GALLERY,
+} from "@/lib/constants";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/MotionWrapper";
 import {
-  HeroIllustration,
-  ProductPack,
-  StoryIllustration,
-  ComparisonIllustration,
-  DiscreetPackageIcon,
-  DeliveryIcon,
-  SecurePaymentIcon,
-  SealedProductIcon,
-  ReturnPolicyIcon,
-  CouplesIcon,
-  BrowseStepIcon,
-  OrderStepIcon,
-  DeliveryStepIcon,
-  DermatologicallyTestedBadge,
-  ISOCompliantBadge,
-  LatexQualityBadge,
-  MadeInIndiaBadge,
-} from "@/components/illustrations";
+  Heart,
+  Leaf,
+  Volume2,
+  Droplets,
+  Package,
+  ShieldCheck,
+  RotateCcw,
+  Lock,
+  Sparkles,
+  Smile,
+  Activity,
+} from "lucide-react";
+
+const features = [
+  { icon: Heart, title: "Made for real pleasure", text: "Anatomical curves, lifelike texture, dual-density feel." },
+  { icon: Leaf, title: "Body-safe silicone", text: "100% liquid silicone — non-porous and easy to clean." },
+  { icon: Volume2, title: "Discreet by design", text: "Plain packaging. No product names on the box." },
+  { icon: Droplets, title: "Fully waterproof", text: "Shower-ready. Wash with warm water and mild soap." },
+];
+
+const trustBar = [
+  { icon: Package, label: "Discreet packaging" },
+  { icon: ShieldCheck, label: "Body-safe & hygienic" },
+  { icon: RotateCcw, label: "Easy returns" },
+  { icon: Lock, label: "Private checkout" },
+];
+
+const testimonials = [
+  { quote: "Finally something that feels premium and ships completely discreet.", name: "Neha", city: "Mumbai" },
+  { quote: "Soft outer skin, solid core — dual density is real. Espresso looks stunning.", name: "Riya", city: "Pune" },
+  { quote: "Suction cup is strong. Cleanup is easy. Will order again.", name: "Anjali", city: "Delhi" },
+];
+
+const benefits = [
+  { icon: Sparkles, label: "Enhances intimacy with yourself" },
+  { icon: Activity, label: "Relieves stress & tension" },
+  { icon: Smile, label: "Boosts confidence & self-love" },
+  { icon: Heart, label: "Safe, secure & adult-focused" },
+];
 
 export default function Home() {
   return (
     <>
       <section className={styles.hero}>
-        <div className={styles.heroBackground}>
-          <HeroIllustration className={styles.heroImage} />
-          <div className={styles.heroOverlay} />
+        <div className={styles.heroMedia}>
+          <Image
+            src={HOME_HERO_IMAGE}
+            alt="Silk Room — intimate self-care for adults"
+            fill
+            priority
+            sizes="100vw"
+            className={styles.heroImg}
+          />
+          <div className={styles.heroScrim} />
         </div>
-        <div className={styles.heroContent}>
-          <span className={styles.heroEyebrow}>
-            Everyday Pain Relief · Discreet Delivery · India
-          </span>
-          <h1 className={styles.title}>Silk Room</h1>
-          <p className={styles.tagline}>
-            A personal wellness massager for muscle tension, cramps, and
-            everyday aches — quiet, rechargeable, and designed for home use.
+        <div className={styles.heroInner}>
+          <span className={styles.trustPill}>Trusted by thousands of adults across India</span>
+          <p className={styles.brandMark}>Silk Room</p>
+          <h1 className={styles.heroTitle}>Your pleasure. Your way.</h1>
+          <p className={styles.heroSub}>
+            Explore intimacy, embrace yourself, and feel the difference — with dual-density
+            liquid silicone designed for lifelike comfort.
           </p>
+          <ul className={styles.heroFeatures}>
+            {features.map(({ icon: Icon, title, text }) => (
+              <li key={title}>
+                <Icon size={18} aria-hidden />
+                <div>
+                  <strong>{title}</strong>
+                  <span>{text}</span>
+                </div>
+              </li>
+            ))}
+          </ul>
           <div className={styles.heroCtas}>
-            <Link href="/product" className={styles.ctaBtn}>
+            <Link href="/product" className={styles.ctaPrimary}>
               Shop {PRODUCT_NAME} — ₹{PRODUCT_PRICE}
             </Link>
-            <span className={styles.heroNote}>
-              <DeliveryIcon size={16} /> Free delivery · Prepaid secure checkout
-            </span>
+            <p className={styles.heroNote}>18+ · Free discreet delivery · Prepaid secure checkout</p>
           </div>
+          <aside className={styles.selfLoveCard}>
+            Not just a product — it&apos;s self-love. Rediscover your body on your terms.
+          </aside>
         </div>
       </section>
 
-      <section className={styles.statsBar}>
-        <StaggerGroup className={styles.statsContainer}>
-          <StaggerItem className={styles.stat}>
-            <strong>2,400+</strong>
-            <span>Happy customers</span>
-          </StaggerItem>
-          <StaggerItem className={styles.stat}>
-            <strong>4.9</strong>
-            <span>Average rating</span>
-          </StaggerItem>
-          <StaggerItem className={styles.stat}>
-            <strong>100%</strong>
-            <span>Discreet packaging</span>
-          </StaggerItem>
-          <StaggerItem className={styles.stat}>
-            <strong>₹0</strong>
-            <span>Delivery fee nationwide</span>
-          </StaggerItem>
+      <section className={styles.policyBar} aria-label="Shopping guarantees">
+        <StaggerGroup className={styles.policyInner}>
+          {trustBar.map(({ icon: Icon, label }) => (
+            <StaggerItem key={label} className={styles.policyItem}>
+              <Icon size={22} aria-hidden />
+              <span>{label}</span>
+            </StaggerItem>
+          ))}
         </StaggerGroup>
       </section>
 
       <section className={styles.featured}>
         <div className={styles.featuredGrid}>
-          <Reveal className={styles.featuredImageWrap}>
-            <div className={styles.featuredImageGlow} />
-            <ProductPack
-              variant="Soft Rose"
-              view="front"
-              className={styles.featuredImage}
+          <Reveal className={styles.featuredVisual}>
+            <Image
+              src={HOME_FEATURE_IMAGE}
+              alt={`${PRODUCT_NAME} product cover`}
+              width={720}
+              height={900}
+              className={styles.featuredImg}
+              priority
             />
           </Reveal>
-          <div className={styles.featuredContent}>
-            <span className={styles.featuredLabel}>
-              Bestseller · {PRODUCT_TAGLINE}
-            </span>
+          <div className={styles.featuredCopy}>
+            <span className={styles.eyebrow}>{PRODUCT_TAGLINE}</span>
             <h2>{PRODUCT_NAME}</h2>
-            <div className={styles.featuredRating}>
+            <p>
+              Rigid core for structure. Velvety-soft outer skin that warms to your body.
+              Strong suction cup for hands-free play. Fully waterproof for shower sessions.
+            </p>
+            <ul>
+              <li>Total length {`8.3"`} · insertable {`6.3"`}</li>
+              <li>Two finishes: Natural &amp; Espresso</li>
+              <li>Body-safe liquid silicone · non-porous</li>
+              <li>₹{PRODUCT_PRICE} · free discreet delivery India-wide</li>
+            </ul>
+            <div className={styles.colorRow}>
+              <Link href="/product" className={styles.swatchLink} aria-label="Shop Natural">
+                <Image src={PRODUCT_GALLERY.Natural[1]} alt="" width={72} height={72} />
+                <span>Natural</span>
+              </Link>
+              <Link href="/product" className={styles.swatchLink} aria-label="Shop Espresso">
+                <Image src={PRODUCT_GALLERY.Espresso[1]} alt="" width={72} height={72} />
+                <span>Espresso</span>
+              </Link>
+            </div>
+            <Link href="/product" className={styles.ctaPrimary}>
+              View product details
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className={styles.stories}>
+        <div className={styles.sectionHead}>
+          <h2>Real people. Real stories.</h2>
+          <p>Adults choosing pleasure and self-care — delivered privately.</p>
+        </div>
+        <StaggerGroup className={styles.storyGrid}>
+          {testimonials.map((t) => (
+            <StaggerItem key={t.name} className={styles.storyCard}>
               <span className={styles.stars} aria-hidden>
                 ★★★★★
               </span>
-              <span>128 verified reviews</span>
-            </div>
-            <p className={styles.featuredDesc}>
-              Targeted vibration for neck, shoulder, and back stiffness, muscle
-              tension, and period-related cramps. Soft-touch silicone, five
-              speed modes, USB-C charging — in Soft Rose or Mist Grey.
-            </p>
-            <ul className={styles.featuredList}>
-              <li>5 vibration modes · quiet motor</li>
-              <li>Two colours: Soft Rose &amp; Mist Grey</li>
-              <li>USB-C rechargeable · ~90 min runtime</li>
-              <li>₹{PRODUCT_PRICE} · free delivery across India</li>
-            </ul>
-            <div className={styles.featuredPriceRow}>
-              <span className={styles.featuredPrice}>₹{PRODUCT_PRICE}</span>
-              <span className={styles.featuredDelivery}>
-                <DeliveryIcon size={18} /> Free delivery all India
+              <p>&ldquo;{t.quote}&rdquo;</p>
+              <span className={styles.storyAuthor}>
+                {t.name}, {t.city}
               </span>
-            </div>
-            <Link href="/product" className={styles.ctaBtn}>
-              View Product Details
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      <section className={styles.trustStrip}>
-        <StaggerGroup className={styles.trustContainer}>
-          <StaggerItem className={styles.trustItem}>
-            <div className={styles.trustIcon}>
-              <DiscreetPackageIcon size={28} className={styles.trustIconSvg} />
-            </div>
-            <h3>Discreet Packaging</h3>
-            <p>Plain outer box. No product names on the label.</p>
-          </StaggerItem>
-          <StaggerItem className={styles.trustItem}>
-            <div className={styles.trustIcon}>
-              <DeliveryIcon size={28} className={styles.trustIconSvg} />
-            </div>
-            <h3>Free Delivery Nationwide</h3>
-            <p>Every serviceable pincode in India. No hidden fees.</p>
-          </StaggerItem>
-          <StaggerItem className={styles.trustItem}>
-            <div className={styles.trustIcon}>
-              <SecurePaymentIcon size={28} className={styles.trustIconSvg} />
-            </div>
-            <h3>Secure Prepaid Checkout</h3>
-            <p>Razorpay · UPI, cards &amp; net banking.</p>
-          </StaggerItem>
-          <StaggerItem className={styles.trustItem}>
-            <div className={styles.trustIcon}>
-              <SealedProductIcon size={28} className={styles.trustIconSvg} />
-            </div>
-            <h3>Genuine Product</h3>
-            <p>Factory-sealed. Inspected before dispatch.</p>
-          </StaggerItem>
-          <StaggerItem className={styles.trustItem}>
-            <div className={styles.trustIcon}>
-              <ReturnPolicyIcon size={28} className={styles.trustIconSvg} />
-            </div>
-            <h3>Easy Returns</h3>
-            <p>Clear return window for unused, sealed items.</p>
-          </StaggerItem>
-          <StaggerItem className={styles.trustItem}>
-            <div className={styles.trustIcon}>
-              <CouplesIcon size={28} className={styles.trustIconSvg} />
-            </div>
-            <h3>Built for Daily Comfort</h3>
-            <p>Gentle relief for everyday muscle and joint aches.</p>
-          </StaggerItem>
+            </StaggerItem>
+          ))}
         </StaggerGroup>
       </section>
 
-      <section className={styles.howItWorks}>
-        <div className={styles.sectionHeader}>
-          <h2>How It Works</h2>
-          <p>Three simple steps from cart to your door.</p>
-        </div>
-        <StaggerGroup className={styles.stepsGrid}>
-          <StaggerItem className={styles.stepCard}>
-            <div className={styles.stepNumber}>1</div>
-            <div className={styles.stepIcon}>
-              <BrowseStepIcon size={64} className={styles.stepIconSvg} />
+      <section className={styles.benefitBar} aria-label="Benefits">
+        <div className={styles.benefitInner}>
+          {benefits.map(({ icon: Icon, label }) => (
+            <div key={label} className={styles.benefitItem}>
+              <Icon size={22} aria-hidden />
+              <span>{label}</span>
             </div>
-            <h3>Choose Your Colour</h3>
-            <p>Pick Soft Rose or Mist Grey — same comfort, two finishes.</p>
-          </StaggerItem>
-          <StaggerItem className={styles.stepCard}>
-            <div className={styles.stepNumber}>2</div>
-            <div className={styles.stepIcon}>
-              <OrderStepIcon size={64} className={styles.stepIconSvg} />
-            </div>
-            <h3>Secure Checkout</h3>
-            <p>Pay safely via Razorpay. UPI, cards, and net banking accepted.</p>
-          </StaggerItem>
-          <StaggerItem className={styles.stepCard}>
-            <div className={styles.stepNumber}>3</div>
-            <div className={styles.stepIcon}>
-              <DeliveryStepIcon size={64} className={styles.stepIconSvg} />
-            </div>
-            <h3>Discreet Delivery</h3>
-            <p>Free delivery in plain packaging across India.</p>
-          </StaggerItem>
-        </StaggerGroup>
-      </section>
-
-      <section className={styles.compare}>
-        <div className={styles.sectionHeader}>
-          <h2>Soft Rose or Mist Grey?</h2>
-          <p>Same massager, two calm colourways — choose what fits your space.</p>
-        </div>
-        <Reveal className={styles.compareContent}>
-          <div className={styles.compareIllustration}>
-            <ComparisonIllustration className={styles.compareImage} />
-          </div>
-          <div className={styles.compareGrid}>
-            <div className={styles.compareCard}>
-              <span className={styles.compareBadge}>Soft Rose</span>
-              <ul className={styles.compareList}>
-                <li>Warm blush finish</li>
-                <li>Soft-touch silicone</li>
-                <li>5 vibration modes</li>
-                <li>USB-C rechargeable</li>
-              </ul>
-            </div>
-            <div className={`${styles.compareCard} ${styles.compareCardDark}`}>
-              <span className={styles.compareBadge}>Mist Grey</span>
-              <ul className={styles.compareList}>
-                <li>Cool neutral finish</li>
-                <li>Soft-touch silicone</li>
-                <li>5 vibration modes</li>
-                <li>USB-C rechargeable</li>
-              </ul>
-            </div>
-          </div>
-        </Reveal>
-      </section>
-
-      <section className={styles.testimonials}>
-        <div className={styles.sectionHeader}>
-          <h2>What Our Customers Say</h2>
-          <p>Real reviews from customers across India.</p>
-        </div>
-        <StaggerGroup className={styles.testimonialGrid}>
-          <StaggerItem className={styles.testimonialCard}>
-            <p className={styles.testimonialQuote}>
-              &ldquo;Helps with my desk-job neck tightness. Quiet enough for evenings.&rdquo;
-            </p>
-            <div className={styles.testimonialMeta}>
-              <span className={styles.stars} aria-hidden>★★★★★</span>
-              <span className={styles.testimonialAuthor}>Priya, Mumbai</span>
-            </div>
-          </StaggerItem>
-          <StaggerItem className={styles.testimonialCard}>
-            <p className={styles.testimonialQuote}>
-              &ldquo;Soft Rose looks lovely. Packaging was completely plain.&rdquo;
-            </p>
-            <div className={styles.testimonialMeta}>
-              <span className={styles.stars} aria-hidden>★★★★★</span>
-              <span className={styles.testimonialAuthor}>Arjun, Delhi</span>
-            </div>
-          </StaggerItem>
-          <StaggerItem className={styles.testimonialCard}>
-            <p className={styles.testimonialQuote}>
-              &ldquo;Battery lasts through a week of short sessions. Easy USB-C charge.&rdquo;
-            </p>
-            <div className={styles.testimonialMeta}>
-              <span className={styles.stars} aria-hidden>★★★★★</span>
-              <span className={styles.testimonialAuthor}>Sneha, Bangalore</span>
-            </div>
-          </StaggerItem>
-          <StaggerItem className={styles.testimonialCard}>
-            <p className={styles.testimonialQuote}>
-              &ldquo;Gentle on period cramps. Not a medical fix — but it helps me unwind.&rdquo;
-            </p>
-            <div className={styles.testimonialMeta}>
-              <span className={styles.stars} aria-hidden>★★★★★</span>
-              <span className={styles.testimonialAuthor}>Ananya, Chennai</span>
-            </div>
-          </StaggerItem>
-          <StaggerItem className={styles.testimonialCard}>
-            <p className={styles.testimonialQuote}>
-              &ldquo;Smooth checkout and free delivery. Mist Grey was my pick.&rdquo;
-            </p>
-            <div className={styles.testimonialMeta}>
-              <span className={styles.stars} aria-hidden>★★★★★</span>
-              <span className={styles.testimonialAuthor}>Vikram, Pune</span>
-            </div>
-          </StaggerItem>
-          <StaggerItem className={styles.testimonialCard}>
-            <p className={styles.testimonialQuote}>
-              &ldquo;Solid build for the price. Will gift one to my sister.&rdquo;
-            </p>
-            <div className={styles.testimonialMeta}>
-              <span className={styles.stars} aria-hidden>★★★★☆</span>
-              <span className={styles.testimonialAuthor}>Rohan, Hyderabad</span>
-            </div>
-          </StaggerItem>
-        </StaggerGroup>
-      </section>
-
-      <section className={styles.quality}>
-        <Reveal className={styles.qualityContent}>
-          <div className={styles.sectionHeader}>
-            <h2>Quality You Can Trust</h2>
-            <p>Built for daily comfort with thoughtful materials and checks.</p>
-          </div>
-          <div className={styles.qualityBadges}>
-            <div className={styles.qualityBadge}>
-              <DermatologicallyTestedBadge size={120} />
-              <span>Body-safe silicone</span>
-            </div>
-            <div className={styles.qualityBadge}>
-              <ISOCompliantBadge size={120} />
-              <span>Quality-checked manufacturing</span>
-            </div>
-            <div className={styles.qualityBadge}>
-              <LatexQualityBadge size={120} />
-              <span>Soft-touch finish</span>
-            </div>
-            <div className={styles.qualityBadge}>
-              <MadeInIndiaBadge size={120} />
-              <span>Ships across India</span>
-            </div>
-          </div>
-        </Reveal>
-      </section>
-
-      <section className={styles.story}>
-        <div className={styles.storyGrid}>
-          <Reveal className={styles.storyImageWrap}>
-            <StoryIllustration className={styles.storyImage} />
-          </Reveal>
-          <div className={styles.storyContent}>
-            <h2>Relief, without the fuss</h2>
-            <p>
-              Silk Room sells personal wellness massagers for everyday pain
-              relief — muscle tension, stiffness, and common aches. We keep
-              product details clear, packaging discreet, and checkout prepaid
-              and secure.
-            </p>
-            <p>
-              {PRODUCT_NAME} is made for short, comfortable sessions at home.
-              Choose Soft Rose or Mist Grey, charge with USB-C, and use the
-              modes that feel right for you. This is not a medical device —
-              if pain persists, please consult a doctor.
-            </p>
-            <Link href="/product" className={styles.storyCta}>
-              Explore {PRODUCT_NAME}
-            </Link>
-          </div>
+          ))}
         </div>
       </section>
 
       <section className={styles.finalCta}>
-        <Reveal className={styles.finalCtaContent}>
+        <Reveal className={styles.finalInner}>
           <h2>Ready when you are</h2>
-          <p>
-            ₹{PRODUCT_PRICE} · Free delivery · Discreet packaging · Secure
-            Razorpay checkout
-          </p>
-          <Link href="/product" className={styles.ctaBtnLight}>
-            Shop Now
+          <p>₹{PRODUCT_PRICE} · Discreet packaging · Razorpay prepaid checkout · 18+</p>
+          <Link href="/product" className={styles.ctaLight}>
+            Shop now
           </Link>
         </Reveal>
       </section>
@@ -366,24 +200,7 @@ export default function Home() {
             name: "Silk Room",
             url: "https://silkroom.shop",
             description:
-              "Personal wellness massagers for everyday pain relief, with discreet delivery across India.",
-            contactPoint: {
-              "@type": "ContactPoint",
-              telephone: "+91-98765-43210",
-              email: "support@silkroom.co",
-              contactType: "customer service",
-            },
-          }),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebSite",
-            name: "Silk Room",
-            url: "https://silkroom.shop",
+              "Adult intimate wellness products with discreet delivery across India. 18+ only.",
           }),
         }}
       />

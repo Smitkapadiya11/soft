@@ -6,7 +6,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Terms and Conditions | Silk Room",
   description:
-    "Terms and Conditions for using silkroom.shop — an online retailer of personal wellness massagers for everyday pain relief in India.",
+    "Terms and Conditions for using silkroom.shop — an online retailer of adult intimate products for customers aged 18 and above in India.",
   robots: { index: true, follow: true },
 };
 
@@ -18,8 +18,8 @@ export default function Terms() {
       <h2>1. About us</h2>
       <p>
         silkroom.shop is operated by <strong>{BUSINESS.legalName}</strong>, a {BUSINESS.entityType}
-        {" "}registered in India at {BUSINESS.address}. We are an online retailer of personal
-        wellness massagers for everyday pain relief.
+        {" "}registered in India at {BUSINESS.address}. We are an online retailer of adult intimate
+        products for customers aged 18 and above.
       </p>
 
       <h2>2. Eligibility</h2>
@@ -120,13 +120,10 @@ export default function Terms() {
 
       <h2>15. Product Disclaimers</h2>
       <p>
-        Silk Room Ease and related products are personal wellness devices for temporary comfort
-        related to everyday muscle tension and similar discomfort. They are{" "}
-        <strong>not medical devices</strong> and are not intended to diagnose, treat, cure, or
-        prevent any disease or medical condition. Do not use on broken skin or while bathing
-        (splash-resistant only). If you are pregnant, have a pacemaker or other implanted device,
-        or if pain persists, consult a qualified healthcare professional before use. Products are
-        intended for adult use (18+) only.
+        Products sold on this Site are adult intimate / pleasure products for customers aged 18+.
+        They are <strong>not medical devices</strong> and are not intended to diagnose, treat, cure,
+        or prevent any disease. Follow care instructions. Use water-based lubricant with silicone
+        products. If irritation occurs, discontinue use. Keep out of reach of minors.
       </p>
 
       <h2>16. Prohibited Activities</h2>

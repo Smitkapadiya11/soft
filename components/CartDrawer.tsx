@@ -1,13 +1,21 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 import { X, Minus, Plus, Trash2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "@/context/CartContext";
-import { ProductPack } from "@/components/illustrations";
+import { PRODUCT_GALLERY, ALLOWED_VARIANTS } from "@/lib/constants";
 import { staggerContainer, staggerItem } from "@/lib/motion";
 import styles from "./CartDrawer.module.css";
 import Link from "next/link";
+
+function cartThumb(variant: string) {
+  if ((ALLOWED_VARIANTS as readonly string[]).includes(variant)) {
+    return PRODUCT_GALLERY[variant as (typeof ALLOWED_VARIANTS)[number]][0];
+  }
+  return "/products/cover.png";
+}
 
 export default function CartDrawer() {
   const { items, isCartOpen, setIsCartOpen, updateQuantity, removeFromCart, cartTotal } = useCart();
@@ -94,8 +102,11 @@ export default function CartDrawer() {
                         transition={{ duration: 0.2 }}
                       >
                         <div className={styles.itemImagePlaceholder}>
-                          <ProductPack
-                            variant={item.variant as "Soft Rose" | "Mist Grey"}
+                          <Image
+                            src={cartThumb(item.variant)}
+                            alt=""
+                            width={64}
+                            height={64}
                             className={styles.cartItemImage}
                           />
                         </div>

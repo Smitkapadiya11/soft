@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Star, ShieldCheck, Loader2, Truck, Check } from "lucide-react";
-import { ProductPack } from "@/components/illustrations";
 import {
   fadeInUp,
   staggerContainer,
@@ -21,6 +21,8 @@ import {
   PRODUCT_ID,
   PRODUCT_TAGLINE,
   PRODUCT_SHORT_DESC,
+  PRODUCT_SPECS,
+  PRODUCT_GALLERY,
   FALLBACK_STOCK,
   ALLOWED_VARIANTS,
   VARIANT_COLORS,
@@ -33,40 +35,37 @@ const PRODUCT = {
   variants: ALLOWED_VARIANTS,
 };
 
-const galleryViews = ["front", "side", "detail", "lifestyle"] as const;
-
 const ratingDistribution = [
-  { stars: 5, count: 110 },
-  { stars: 4, count: 14 },
-  { stars: 3, count: 3 },
+  { stars: 5, count: 96 },
+  { stars: 4, count: 18 },
+  { stars: 3, count: 4 },
   { stars: 2, count: 1 },
   { stars: 1, count: 0 },
 ];
-
 const maxRatingCount = Math.max(...ratingDistribution.map((r) => r.count));
 
 const reviews = [
   {
-    name: "A***i S.",
+    name: "N***a M.",
     city: "Mumbai",
-    text: "Soft Rose is lovely. Helps after long laptop days — neck and shoulders feel looser. Packaging was plain.",
+    text: "Natural finish looks and feels premium. Dual density is noticeable — soft outside, stable core. Packaging was totally plain.",
   },
   {
-    name: "P***a K.",
+    name: "R***a K.",
     city: "Bangalore",
-    text: "Quiet enough to use in the evening. USB-C charging is convenient. Mist Grey looks clean on my desk.",
+    text: "Espresso is gorgeous. Suction cup holds on tile. Fully waterproof as promised — easy to clean.",
   },
   {
-    name: "R***h M.",
+    name: "A***i S.",
     city: "Delhi",
-    text: "Smooth Razorpay checkout and free delivery. Not a miracle cure, but solid for everyday muscle tension.",
+    text: "Smooth Razorpay checkout and free discreet delivery. Size is as described. Would recommend for self-care nights.",
   },
 ];
 
 export default function ProductPage() {
   const { addToCart } = useCart();
   const [selectedVariant, setSelectedVariant] =
-    useState<(typeof PRODUCT.variants)[number]>("Soft Rose");
+    useState<(typeof PRODUCT.variants)[number]>("Natural");
   const [quantity, setQuantity] = useState(1);
   const [stock, setStock] = useState<Record<string, number>>({ ...FALLBACK_STOCK });
   const [stockLoading, setStockLoading] = useState(true);
@@ -74,7 +73,8 @@ export default function ProductPage() {
   const [addError, setAddError] = useState("");
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [justAdded, setJustAdded] = useState(false);
-  const [showCompare, setShowCompare] = useState(false);
+
+  const gallery = PRODUCT_GALLERY[selectedVariant];
 
   const fetchStock = useCallback(async () => {
     setStockLoading(true);
@@ -94,15 +94,18 @@ export default function ProductPage() {
     fetchStock();
   }, [fetchStock]);
 
+  useEffect(() => {
+    setSelectedImageIndex(0);
+  }, [selectedVariant]);
+
   const selectedStock = stock[selectedVariant] ?? 0;
   const isOutOfStock = !stockLoading && selectedStock < 1;
   const maxQty = Math.min(selectedStock, 10);
 
-  const handleAddToCart = async () => {
+  const handleAddToCart = () => {
     if (isOutOfStock || isAdding) return;
     setIsAdding(true);
     setAddError("");
-
     try {
       if (quantity > selectedStock) {
         setAddError(`Only ${selectedStock} available for ${selectedVariant}`);
@@ -123,11 +126,11 @@ export default function ProductPage() {
   };
 
   const highlights = [
-    "Targeted relief for muscle tension & everyday aches",
-    "5 vibration modes · quiet motor",
-    "Soft-touch body-safe silicone",
-    "USB-C rechargeable · ~90 min runtime",
-    "IPX5 splash-resistant housing",
+    "Dual-density liquid silicone — soft skin, firm core",
+    `${PRODUCT_SPECS.totalLength} total · ${PRODUCT_SPECS.insertableLength} insertable`,
+    "Industrial-strength suction cup for hands-free play",
+    "100% waterproof · shower-ready · easy clean",
+    "Body-safe, non-porous material",
     "Discreet plain packaging on delivery",
   ];
 
@@ -135,59 +138,59 @@ export default function ProductPage() {
     {
       title: "How long does delivery take?",
       content:
-        "Orders usually dispatch within 1–2 business days. Standard delivery across serviceable Indian pin codes typically takes 3–7 business days depending on your location. You will receive tracking once your order ships.",
+        "Orders usually dispatch within 1–2 business days. Standard delivery across serviceable Indian pin codes typically takes 3–7 business days. Tracking is emailed once shipped.",
     },
     {
       title: "Is packaging discreet?",
       content:
-        "Yes. Orders ship in a plain outer carton. Shipping labels do not list the product name. Emails reference your order number for privacy.",
+        "Yes. Orders ship in a plain outer carton with no product name or adult branding on the label. Emails reference your order number only.",
     },
     {
-      title: "How do I charge it?",
+      title: "What is dual density?",
       content:
-        "Use the included USB-C cable with a standard 5V USB power adapter (adapter not included). A full charge takes about 1.5–2 hours and provides roughly 90 minutes of use depending on vibration mode.",
+        "A firmer inner core for structure and thrusting stability, wrapped in a softer outer silicone layer that feels more skin-like and warms to body temperature.",
     },
     {
-      title: "Is it quiet?",
+      title: "Is it waterproof?",
       content:
-        "The motor is designed for home use and stays relatively quiet on lower modes. Higher modes are more noticeable but suitable for private spaces. Exact volume varies by surface and mode.",
+        "Yes — fully waterproof for shower or bath use. Clean with warm water and mild soap (or a toy cleaner safe for silicone). Dry thoroughly before storage.",
     },
     {
       title: "What warranty do I get?",
       content:
-        "Silk Room Ease includes a 6-month limited warranty against manufacturing defects from the date of delivery. Damage from misuse, liquid ingress beyond the splash rating, or unauthorized repair is not covered. Contact support@silkroom.co with your order number.",
+        "6-month limited warranty against manufacturing defects from delivery date. Misuse, improper cleaning, or unauthorized modifications are not covered. Email support@silkroom.co with your order number.",
     },
     {
       title: "Can I return it?",
       content:
-        "For hygiene reasons, opened or used personal-care devices cannot be returned unless defective or damaged on arrival. Unused items in original sealed packaging may be returned within 7 days of delivery. See our Return & Refund Policy.",
+        "For hygiene reasons, opened or used intimate products cannot be returned unless defective or damaged on arrival. Unused items in original sealed packaging may be returned within 7 days. See our Return & Refund Policy.",
     },
     {
       title: "Is it safe for daily use?",
       content:
-        "Yes for short sessions on healthy adults when used as directed. Start on a low mode, avoid broken skin, and do not use while bathing (splash-resistant only, not submersible). If you have a medical condition, pacemaker, or pain that persists, consult a doctor before use. This is not a medical device.",
+        "Yes for healthy adults 18+ when used with water-based lubricant as desired. Do not use oil-based lubes with silicone. Stop if irritation occurs. This is an adult pleasure product, not a medical device.",
     },
     {
-      title: "How do I clean it?",
+      title: "Natural vs Espresso?",
       content:
-        "Power off and wipe with a soft cloth dampened with mild soap and water or a toy/device cleaner safe for silicone. Do not immerse in water. Dry thoroughly before storage. Keep away from extreme heat and direct sunlight.",
+        "Same dual-density design and size — Natural is a soft flesh tone; Espresso is a deep cocoa finish. Choose the look you prefer.",
     },
   ];
 
   const specs = [
     {
       title: "Product details",
-      content: `Name: ${PRODUCT_NAME} · Category: Personal wellness massager · Material: Soft-touch body-safe silicone over ABS · Dimensions: approx. 18 cm × 4.5 cm · Weight: approx. 180 g · Motor: 5 vibration speed modes · Battery: rechargeable lithium-ion · Charging: USB-C · Runtime: ~90 minutes · Charge time: ~1.5–2 hours · Water resistance: IPX5 splash-resistant (not for immersion) · Colours: Soft Rose, Mist Grey`,
+      content: `Name: ${PRODUCT_NAME} · Material: ${PRODUCT_SPECS.material} · Total length: ${PRODUCT_SPECS.totalLength} · Insertable: ${PRODUCT_SPECS.insertableLength} · Diameter: ${PRODUCT_SPECS.diameter} · Weight: ${PRODUCT_SPECS.weight} · Base: ${PRODUCT_SPECS.base} · ${PRODUCT_SPECS.waterproof} · Colours: Natural, Espresso · Adults 18+ only`,
     },
     {
       title: "How to use",
       content: (
         <ul className={styles.infoList}>
-          <li>Fully charge before first use via the USB-C port</li>
-          <li>Press the power button to turn on; press again to cycle modes</li>
-          <li>Apply gently to tense areas (neck, shoulders, back, calves, lower abdomen)</li>
-          <li>Use for short sessions (5–15 minutes); stop if discomfort increases</li>
-          <li>Power off, wipe clean, and store in a cool, dry place</li>
+          <li>Wash before first use with warm water and mild soap</li>
+          <li>Apply water-based lubricant as desired</li>
+          <li>For hands-free play, press the suction cup firmly onto a smooth, clean surface</li>
+          <li>Start slowly; listen to your body</li>
+          <li>Clean after use, dry fully, store in a cool dry place (pouch recommended)</li>
         </ul>
       ),
     },
@@ -195,17 +198,17 @@ export default function ProductPage() {
       title: "Care & safety",
       content: (
         <ul className={styles.infoList}>
-          <li>For external use on intact skin only</li>
-          <li>Not a medical device — does not diagnose, treat, or cure disease</li>
-          <li>Consult a doctor if pain persists or for pregnancy, injury, or implanted devices</li>
-          <li>Keep away from children; intended for adults</li>
-          <li>Do not use while charging or submerged in water</li>
+          <li>For adult use only (18+)</li>
+          <li>Body-safe liquid silicone — non-porous when intact</li>
+          <li>Use water-based lubricant only with silicone toys</li>
+          <li>Not a medical device</li>
+          <li>If irritation occurs, discontinue use</li>
         </ul>
       ),
     },
     {
       title: "What's in the box",
-      content: `${PRODUCT_NAME} (${selectedVariant}) · USB-C charging cable · Quick-start guide · Shipped inside plain discreet packaging`,
+      content: `${PRODUCT_NAME} (${selectedVariant}) · Storage pouch (where included) · Quick-start / care card · Shipped inside plain discreet packaging`,
     },
   ];
 
@@ -216,40 +219,38 @@ export default function ProductPage() {
           <div className={styles.mainImageContainer}>
             <AnimatePresence mode="wait">
               <motion.div
-                key={selectedImageIndex + selectedVariant}
+                key={gallery[selectedImageIndex] + selectedVariant}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.2 }}
                 className={styles.mainImageWrapper}
               >
-                <ProductPack
-                  variant={selectedVariant}
-                  view={galleryViews[selectedImageIndex]}
-                  className={styles.mainImage}
+                <Image
+                  src={gallery[selectedImageIndex]}
+                  alt={`${PRODUCT_NAME} ${selectedVariant} — view ${selectedImageIndex + 1}`}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className={styles.mainPhoto}
+                  priority={selectedImageIndex === 0}
                 />
               </motion.div>
             </AnimatePresence>
             <span className={styles.variantBadge}>{selectedVariant}</span>
           </div>
-          <div className={styles.thumbnails} role="group" aria-label="Product image thumbnails">
-            {galleryViews.map((view, index) => (
+          <div className={styles.thumbnails} role="group" aria-label="Product images">
+            {gallery.map((src, index) => (
               <motion.button
-                key={view}
+                key={src}
                 type="button"
                 className={`${styles.thumb} ${selectedImageIndex === index ? styles.thumbActive : ""}`}
                 onClick={() => setSelectedImageIndex(index)}
-                aria-label={`View product image ${index + 1}: ${view}`}
+                aria-label={`View image ${index + 1}`}
                 aria-pressed={selectedImageIndex === index}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <ProductPack
-                  variant={selectedVariant}
-                  view={view}
-                  className={styles.thumbnail}
-                  ariaHidden
-                />
+                <Image src={src} alt="" width={80} height={80} className={styles.thumbnail} />
               </motion.button>
             ))}
           </div>
@@ -257,31 +258,27 @@ export default function ProductPage() {
 
         <div className={styles.details}>
           <div className={styles.reviews}>
-            <div className={styles.stars} aria-label="4.9 out of 5 stars">
+            <div className={styles.stars} aria-label="4.8 out of 5 stars">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} fill="#4a2c3a" size={16} color="#4a2c3a" aria-hidden />
+                <Star key={i} fill="#6b3d52" size={16} color="#6b3d52" aria-hidden />
               ))}
             </div>
-            <span>(128 verified reviews)</span>
+            <span>(119 verified reviews) · Adults 18+</span>
           </div>
 
           <h1 className={styles.title}>{PRODUCT.name}</h1>
-          <p style={{ color: "var(--color-plum)", marginBottom: "0.75rem", fontSize: "0.95rem" }}>
-            {PRODUCT_TAGLINE}
-          </p>
+          <p className={styles.tagline}>{PRODUCT_TAGLINE}</p>
 
           <div className={styles.priceRow}>
             <p className={styles.price}>₹{PRODUCT.price}</p>
             <span className={styles.freeDelivery}>
-              <Truck size={16} aria-hidden /> Free delivery across India
+              <Truck size={16} aria-hidden /> Free discreet delivery
             </span>
           </div>
 
           <p className={styles.description}>
-            {PRODUCT_SHORT_DESC} Soft-touch silicone feels gentle on skin; five
-            vibration modes let you dial intensity up or down. Choose{" "}
-            <strong>Soft Rose</strong> or <strong>Mist Grey</strong> — same
-            performance, two calm finishes.
+            {PRODUCT_SHORT_DESC} Choose <strong>Natural</strong> or <strong>Espresso</strong> —
+            same dual-density build, two finishes.
           </p>
 
           <ul className={styles.highlights}>
@@ -302,7 +299,7 @@ export default function ProductPage() {
                     type="button"
                     role="radio"
                     aria-checked={selectedVariant === variant}
-                    aria-label={`${variant}${out ? " — out of stock" : ` — ${variantStock} in stock`}`}
+                    aria-label={`${variant}${out ? " — out of stock" : ""}`}
                     disabled={out}
                     className={`${styles.swatch} ${selectedVariant === variant ? styles.activeSwatch : ""} ${out ? styles.swatchDisabled : ""}`}
                     onClick={() => {
@@ -313,15 +310,14 @@ export default function ProductPage() {
                     title={variant}
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
                   />
                 );
               })}
             </div>
-            <p className={styles.stockNote} style={{ marginTop: "0.5rem" }}>
-              {selectedVariant === "Soft Rose"
-                ? "Soft Rose — warm blush finish"
-                : "Mist Grey — cool neutral finish"}
+            <p className={styles.stockNote}>
+              {selectedVariant === "Natural"
+                ? "Natural — soft flesh tone"
+                : "Espresso — deep cocoa finish"}
             </p>
             {stockLoading ? (
               <p className={styles.stockNote} aria-live="polite">
@@ -345,7 +341,7 @@ export default function ProductPage() {
           )}
 
           <div className={styles.addToCartSection}>
-            <div className={styles.quantity} aria-label="Quantity selector">
+            <div className={styles.quantity} aria-label="Quantity">
               <button
                 type="button"
                 onClick={() => setQuantity(Math.max(1, quantity - 1))}
@@ -392,63 +388,11 @@ export default function ProductPage() {
           </div>
 
           <TrustBadges />
-
           <div className={styles.accordionSection}>
             <Accordion items={specs} />
           </div>
         </div>
       </div>
-
-      <motion.div
-        className={styles.compareSection}
-        variants={fadeInUp}
-        initial="hidden"
-        whileInView="visible"
-        viewport={scrollRevealConfig}
-        transition={smooth}
-      >
-        <h2 className={styles.sectionTitle}>Compare Colours</h2>
-        <button
-          type="button"
-          className={styles.compareToggle}
-          onClick={() => setShowCompare(!showCompare)}
-          aria-expanded={showCompare}
-        >
-          {showCompare ? "Hide Comparison" : "Compare Soft Rose vs Mist Grey"}
-        </button>
-        <AnimatePresence>
-          {showCompare && (
-            <motion.div
-              className={styles.compareGrid}
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <div className={styles.compareCard}>
-                <ProductPack variant="Soft Rose" view="front" className={styles.comparePack} />
-                <h3 className={styles.compareTitle}>Soft Rose</h3>
-                <ul className={styles.compareList}>
-                  <li>Warm blush finish</li>
-                  <li>Same 5 vibration modes</li>
-                  <li>USB-C rechargeable</li>
-                  <li>Soft-touch silicone</li>
-                </ul>
-              </div>
-              <div className={styles.compareCard}>
-                <ProductPack variant="Mist Grey" view="front" className={styles.comparePack} />
-                <h3 className={styles.compareTitle}>Mist Grey</h3>
-                <ul className={styles.compareList}>
-                  <li>Cool neutral finish</li>
-                  <li>Same 5 vibration modes</li>
-                  <li>USB-C rechargeable</li>
-                  <li>Soft-touch silicone</li>
-                </ul>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.div>
 
       <motion.div
         className={styles.compositionSection}
@@ -463,19 +407,24 @@ export default function ProductPage() {
           <div className={styles.compositionList}>
             <div className={styles.compositionItem}>
               <span className={styles.compositionLabel}>Material</span>
-              <span className={styles.compositionValue}>Body-safe soft-touch silicone / ABS</span>
+              <span className={styles.compositionValue}>{PRODUCT_SPECS.material}</span>
             </div>
             <div className={styles.compositionItem}>
-              <span className={styles.compositionLabel}>Modes</span>
-              <span className={styles.compositionValue}>5 vibration speed settings</span>
+              <span className={styles.compositionLabel}>Size</span>
+              <span className={styles.compositionValue}>
+                {PRODUCT_SPECS.totalLength} total · {PRODUCT_SPECS.insertableLength} insertable ·{" "}
+                {PRODUCT_SPECS.diameter} diameter
+              </span>
             </div>
             <div className={styles.compositionItem}>
-              <span className={styles.compositionLabel}>Battery</span>
-              <span className={styles.compositionValue}>USB-C · ~90 min runtime · ~2 hr charge</span>
+              <span className={styles.compositionLabel}>Weight</span>
+              <span className={styles.compositionValue}>{PRODUCT_SPECS.weight}</span>
             </div>
             <div className={styles.compositionItem}>
-              <span className={styles.compositionLabel}>Water resistance</span>
-              <span className={styles.compositionValue}>IPX5 splash-resistant (not submersible)</span>
+              <span className={styles.compositionLabel}>Features</span>
+              <span className={styles.compositionValue}>
+                Dual density · suction cup · {PRODUCT_SPECS.waterproof}
+              </span>
             </div>
           </div>
         </div>
@@ -489,8 +438,7 @@ export default function ProductPage() {
       </div>
 
       <div className={styles.reviewsSection}>
-        <h2 className={styles.sectionTitle}>Real Customer Reviews</h2>
-
+        <h2 className={styles.sectionTitle}>Customer Reviews</h2>
         <div className={styles.ratingDistribution}>
           {ratingDistribution.map((rating) => (
             <div key={rating.stars} className={styles.ratingBar}>
@@ -508,7 +456,6 @@ export default function ProductPage() {
             </div>
           ))}
         </div>
-
         <motion.div
           className={styles.reviewGrid}
           variants={staggerContainer}
@@ -520,7 +467,7 @@ export default function ProductPage() {
             <motion.div key={review.name} className={styles.reviewCard} variants={staggerItem}>
               <div className={styles.stars} aria-label="5 out of 5 stars">
                 {[...Array(5)].map((_, j) => (
-                  <Star key={j} fill="#4a2c3a" size={14} color="#4a2c3a" aria-hidden />
+                  <Star key={j} fill="#6b3d52" size={14} color="#6b3d52" aria-hidden />
                 ))}
               </div>
               <p className={styles.reviewText}>&ldquo;{review.text}&rdquo;</p>
@@ -546,6 +493,7 @@ export default function ProductPage() {
             name: PRODUCT_NAME,
             brand: { "@type": "Brand", name: "Silk Room" },
             description: PRODUCT_SHORT_DESC,
+            image: ["https://silkroom.shop/products/cover.png"],
             offers: {
               "@type": "Offer",
               price: String(PRODUCT_PRICE),
@@ -554,8 +502,8 @@ export default function ProductPage() {
             },
             aggregateRating: {
               "@type": "AggregateRating",
-              ratingValue: "4.9",
-              reviewCount: "128",
+              ratingValue: "4.8",
+              reviewCount: "119",
             },
           }),
         }}

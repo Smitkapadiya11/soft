@@ -1,26 +1,61 @@
-export const PRODUCT_PRICE = 599;
-export const PRODUCT_NAME = "Silk Room Ease";
-export const PRODUCT_ID = "silk-room-ease";
-export const ALLOWED_VARIANTS = ["Soft Rose", "Mist Grey"] as const;
+export const PRODUCT_PRICE = 1299;
+export const PRODUCT_NAME = "Silk Room Real Touch";
+export const PRODUCT_ID = "silk-room-real-touch";
+export const ALLOWED_VARIANTS = ["Natural", "Espresso"] as const;
 
 export const FALLBACK_STOCK: Record<string, number> = {
-  "Soft Rose": 120,
-  "Mist Grey": 120,
+  Natural: 100,
+  Espresso: 100,
 };
 
 export const VARIANT_COLORS: Record<(typeof ALLOWED_VARIANTS)[number], string> = {
-  "Soft Rose": "#c4a4a4",
-  "Mist Grey": "#8a9099",
+  Natural: "#e8b4a0",
+  Espresso: "#5c3d2e",
 };
 
-export const PRODUCT_TAGLINE = "Personal wellness massager";
+export const PRODUCT_TAGLINE = "8.3″ dual-density liquid silicone";
 export const PRODUCT_SHORT_DESC =
-  "Targeted vibration for everyday muscle tension, cramps, and neck, shoulder, and back discomfort.";
+  "Anatomically realistic dual-density liquid silicone with a soft outer skin, firm core, strong suction cup, and fully waterproof design — for immersive, hands-free play.";
 
-/** @deprecated Use PRODUCT_TAGLINE — kept for any remaining pack-size references */
+export const PRODUCT_SPECS = {
+  totalLength: '8.3"',
+  insertableLength: '6.3"',
+  diameter: '1.6"',
+  weight: "10.58 oz",
+  material: "100% body-safe dual-density liquid silicone",
+  waterproof: "Fully waterproof",
+  base: "Industrial-strength suction cup",
+} as const;
+
+/** Gallery: cover first for both colours, then colour-specific shots */
+export const PRODUCT_GALLERY: Record<(typeof ALLOWED_VARIANTS)[number], string[]> = {
+  Natural: [
+    "/products/cover.png",
+    "/products/natural/01-hero.png",
+    "/products/natural/02-real-touch.png",
+    "/products/natural/03-lifelike.png",
+    "/products/natural/04-dual-density.png",
+    "/products/natural/05-body-safe.png",
+    "/products/natural/06-discreet.png",
+    "/products/natural/07-complete.png",
+  ],
+  Espresso: [
+    "/products/cover.png",
+    "/products/espresso/01-realistic.png",
+    "/products/espresso/02-design.png",
+    "/products/espresso/03-size.png",
+    "/products/espresso/04-waterproof.png",
+    "/products/natural/06-discreet.png",
+    "/products/natural/07-complete.png",
+  ],
+};
+
+export const HOME_HERO_IMAGE = "/products/home-reference.png";
+export const HOME_FEATURE_IMAGE = "/products/cover.png";
+
+/** @deprecated kept for any remaining pack-size references */
 export const PRODUCT_PACK_SIZE = "Complete kit";
 
-/** Business details shown on Contact / legal pages */
 export const BUSINESS = {
   name: "Silk Room",
   legalName: "Silk Room",
@@ -32,7 +67,7 @@ export const BUSINESS = {
   grievanceOfficer: "Customer Grievance Officer",
   website: "https://silkroom.shop",
   address:
-    "India — online retail of personal wellness massagers for everyday pain relief. For postal correspondence, email support@silkroom.co",
+    "India — online retail of adult intimate wellness products for customers aged 18+. For postal correspondence, email support@silkroom.co",
   jurisdiction: "Ahmedabad, Gujarat, India",
   hours: "Monday–Saturday, 10:00 AM – 6:00 PM IST",
   gstin: "Will be displayed here upon GST registration (if applicable)",
@@ -41,7 +76,6 @@ export const BUSINESS = {
   grievanceResolutionDays: 30,
 } as const;
 
-/** Footer / checkout policy links */
 export const POLICY_LINKS = [
   { href: "/terms", label: "Terms and Conditions" },
   { href: "/privacy", label: "Privacy Policy" },

@@ -49,8 +49,21 @@
   transition: transform var(--duration-normal) var(--ease-premium);
 }
 
-.mainImageContainer:hover .mainImage {
-  transform: scale(1.05);
+.mainPhoto {
+  object-fit: cover;
+  object-position: center;
+  transition: transform var(--duration-normal) var(--ease-premium);
+}
+
+.mainImageContainer:hover .mainImage,
+.mainImageContainer:hover .mainPhoto {
+  transform: scale(1.03);
+}
+
+.tagline {
+  color: var(--color-plum);
+  margin-bottom: 0.75rem;
+  font-size: 0.95rem;
 }
 
 .variantBadge {
@@ -101,7 +114,9 @@
 .thumbnail {
   width: 100%;
   height: 100%;
+  object-fit: cover;
   display: block;
+  border-radius: inherit;
 }
 
 /* ===== Details Column ===== */
