@@ -1,33 +1,41 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Cormorant_Garamond, DM_Sans } from "next/font/google";
 import "./globals.css";
 import AppShell from "@/components/AppShell";
 
-const inter = Inter({
+const dmSans = DM_Sans({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
   preload: true,
 });
 
-const playfair = Playfair_Display({
+const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-serif",
   display: "swap",
-  preload: false,
+  preload: true,
 });
 
 export const metadata: Metadata = {
-  title: "Silk Room — Dual Density Liquid Silicone | Discreet Delivery India",
+  title: "Silk Room — Premium Intimate Self-Care | Discreet Delivery India",
   description:
-    "Shop Silk Room Real Touch — 8.3″ dual-density body-safe liquid silicone with strong suction cup. Natural & Espresso. Fully waterproof. Discreet packaging, free delivery, secure prepaid checkout. Adults 18+.",
+    "Silk Room Real Touch — body-safe dual-density silicone for private self-care. Natural & Espresso. ₹599. Discreet packaging, free delivery, secure prepaid checkout. Adults 18+.",
   openGraph: {
-    title: "Silk Room — Real Touch Dual Density",
+    title: "Silk Room — Intimate self-care, delivered discreetly",
     description:
-      "Lifelike dual-density liquid silicone. Discreet delivery across India. Adults 18+.",
+      "Premium body-safe silicone · discreet packaging · free delivery across India. Adults 18+.",
     url: "https://silkroom.shop",
     siteName: "Silk Room",
-    images: [{ url: "https://silkroom.shop/products/cover.png", width: 1200, height: 1200 }],
+    images: [
+      {
+        url: "https://silkroom.shop/products/hero-lifestyle.png",
+        width: 1200,
+        height: 1600,
+        alt: "Silk Room — premium self-care",
+      },
+    ],
     type: "website",
   },
   robots: { index: true, follow: true },
@@ -40,7 +48,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${playfair.variable}`}>
+      <body className={`${dmSans.variable} ${cormorant.variable}`}>
         <AppShell>{children}</AppShell>
       </body>
     </html>

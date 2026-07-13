@@ -78,7 +78,7 @@ export default function AgeGate() {
             <AgeGateIllustration className={styles.illustration} />
             <h2 className={styles.title}>Are you 18 or older?</h2>
             <p className={styles.subtitle}>
-              Silk Room sells adult intimate products intended for customers aged 18 and above.
+              Silk Room offers adult self-care products for customers aged 18 and above.
               By continuing you confirm you are 18+ and agree to our Terms and Privacy Policy.
             </p>
             <div className={styles.actions}>

@@ -60,7 +60,7 @@ function Footer() {
             <BrandMark className={styles.logo} />
           </Link>
           <p className={styles.tagline}>
-            Adult intimate products, delivered with total discretion.
+            Premium self-care, delivered with total discretion.
           </p>
           <div className={styles.social}>
             <a href="#" className={styles.socialLink} aria-label="Instagram">

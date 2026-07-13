@@ -126,11 +126,11 @@ export default function ProductPage() {
   };
 
   const highlights = [
-    "Dual-density liquid silicone — soft skin, firm core",
-    `${PRODUCT_SPECS.totalLength} total · ${PRODUCT_SPECS.insertableLength} insertable`,
-    "Industrial-strength suction cup for hands-free play",
-    "100% waterproof · shower-ready · easy clean",
-    "Body-safe, non-porous material",
+    "Dual-density body-safe liquid silicone",
+    `${PRODUCT_SPECS.totalLength} total · ${PRODUCT_SPECS.insertableLength} usable length`,
+    "Secure base for hands-free comfort",
+    "Fully waterproof · easy to clean",
+    "Two finishes: Natural & Espresso",
     "Discreet plain packaging on delivery",
   ];
 
@@ -316,7 +316,7 @@ export default function ProductPage() {
             </div>
             <p className={styles.stockNote}>
               {selectedVariant === "Natural"
-                ? "Natural — soft flesh tone"
+                ? "Natural — soft nude finish"
                 : "Espresso — deep cocoa finish"}
             </p>
             {stockLoading ? (
@@ -340,7 +340,7 @@ export default function ProductPage() {
             </p>
           )}
 
-          <div className={styles.addToCartSection}>
+          <div className={styles.addToCartSection} id="add-to-cart">
             <div className={styles.quantity} aria-label="Quantity">
               <button
                 type="button"
@@ -385,6 +385,21 @@ export default function ProductPage() {
                 `Add to Cart — ₹${PRODUCT_PRICE}`
               )}
             </motion.button>
+          </div>
+
+          <div className={styles.stickyBar} aria-hidden={false}>
+            <div className={styles.stickyPrice}>
+              <span>{PRODUCT.name}</span>
+              <strong>₹{PRODUCT_PRICE}</strong>
+            </div>
+            <button
+              type="button"
+              className={styles.stickyBtn}
+              onClick={handleAddToCart}
+              disabled={isOutOfStock || isAdding || stockLoading}
+            >
+              {isOutOfStock ? "Sold out" : justAdded ? "Added" : "Add to cart"}
+            </button>
           </div>
 
           <TrustBadges />

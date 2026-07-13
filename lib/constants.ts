@@ -1,4 +1,4 @@
-export const PRODUCT_PRICE = 1299;
+export const PRODUCT_PRICE = 599;
 export const PRODUCT_NAME = "Silk Room Real Touch";
 export const PRODUCT_ID = "silk-room-real-touch";
 export const ALLOWED_VARIANTS = ["Natural", "Espresso"] as const;
@@ -13,9 +13,9 @@ export const VARIANT_COLORS: Record<(typeof ALLOWED_VARIANTS)[number], string> =
   Espresso: "#5c3d2e",
 };
 
-export const PRODUCT_TAGLINE = "8.3″ dual-density liquid silicone";
+export const PRODUCT_TAGLINE = "Premium dual-density silicone · discreet delivery";
 export const PRODUCT_SHORT_DESC =
-  "Anatomically realistic dual-density liquid silicone with a soft outer skin, firm core, strong suction cup, and fully waterproof design — for immersive, hands-free play.";
+  "Body-safe dual-density liquid silicone with a soft outer feel, supportive core, secure base, and waterproof design — made for private, comfortable self-care at home.";
 
 export const PRODUCT_SPECS = {
   totalLength: '8.3"',
@@ -50,8 +50,10 @@ export const PRODUCT_GALLERY: Record<(typeof ALLOWED_VARIANTS)[number], string[]
   ],
 };
 
-export const HOME_HERO_IMAGE = "/products/home-reference.png";
-export const HOME_FEATURE_IMAGE = "/products/cover.png";
+/** Clean lifestyle portrait — no baked-in text or product (Meta-safer above-fold) */
+export const HOME_HERO_IMAGE = "/products/hero-lifestyle.png";
+/** Soft product presentation for below-fold featured section */
+export const HOME_FEATURE_IMAGE = "/products/natural/06-discreet.png";
 
 /** @deprecated kept for any remaining pack-size references */
 export const PRODUCT_PACK_SIZE = "Complete kit";

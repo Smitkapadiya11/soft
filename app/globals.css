@@ -56,9 +56,6 @@
   --z-toast: 400;
 
   --container-max: 1200px;
-
-  --font-serif: 'Playfair Display', serif;
-  --font-sans: 'Inter', system-ui, sans-serif;
 }
 
 * {
@@ -82,7 +79,7 @@ a {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-serif);
-  font-weight: 400;
+  font-weight: 500;
 }
 
 /* Utility classes */
