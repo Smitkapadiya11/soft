@@ -27,9 +27,13 @@ export const PRODUCT_SPECS = {
   base: "Industrial-strength suction cup",
 } as const;
 
-/** Gallery: clean product photo first (no marketing composites as cover) */
+/** Lifestyle model cover — first in gallery for both variants */
+export const PRODUCT_COVER_IMAGE = "/products/product-cover-model.png";
+
+/** Gallery: lifestyle cover first, then product close-ups */
 export const PRODUCT_GALLERY: Record<(typeof ALLOWED_VARIANTS)[number], string[]> = {
   Natural: [
+    PRODUCT_COVER_IMAGE,
     "/products/natural/01-hero.png",
     "/products/natural/02-real-touch.png",
     "/products/natural/03-lifelike.png",
@@ -39,6 +43,7 @@ export const PRODUCT_GALLERY: Record<(typeof ALLOWED_VARIANTS)[number], string[]
     "/products/natural/07-complete.png",
   ],
   Espresso: [
+    PRODUCT_COVER_IMAGE,
     "/products/espresso/01-realistic.png",
     "/products/espresso/02-design.png",
     "/products/espresso/03-size.png",
@@ -52,7 +57,6 @@ export const PRODUCT_GALLERY: Record<(typeof ALLOWED_VARIANTS)[number], string[]
 export const HOME_HERO_IMAGE = "/products/home-hero.png";
 /** Soft product presentation for below-fold featured section */
 export const HOME_FEATURE_IMAGE = "/products/natural/01-hero.png";
-export const PRODUCT_COVER_IMAGE = "/products/natural/01-hero.png";
 
 /** @deprecated kept for any remaining pack-size references */
 export const PRODUCT_PACK_SIZE = "Complete kit";

@@ -27,8 +27,8 @@
 
 .mainImageContainer {
   width: 100%;
-  aspect-ratio: 3 / 4;
-  background: #fff;
+  aspect-ratio: 1 / 1;
+  background: #faf6f7;
   border-radius: var(--radius-lg);
   overflow: hidden;
   position: relative;
@@ -37,11 +37,24 @@
   min-height: 320px;
 }
 
+/* Landscape lifestyle banner — full image, no crop */
+.mainImageContainerCover {
+  aspect-ratio: 16 / 10;
+  min-height: 280px;
+}
+
 .mainImageWrapper {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
+  /* Breathing room so product shots aren't tight in frame */
+  padding: 8%;
+  box-sizing: border-box;
+}
+
+.mainImageContainerCover .mainImageWrapper {
+  padding: 0;
 }
 
 .thumbnails {
@@ -148,9 +161,22 @@
 
   .mainImageContainer {
     border-radius: 1.1rem;
-    aspect-ratio: 3 / 4;
-    min-height: 340px;
+    aspect-ratio: 1 / 1;
+    min-height: 300px;
     background: #faf6f7;
+  }
+
+  .mainImageContainerCover {
+    aspect-ratio: 4 / 3;
+    min-height: 240px;
+  }
+
+  .mainImageWrapper {
+    padding: 10%;
+  }
+
+  .mainImageContainerCover .mainImageWrapper {
+    padding: 0;
   }
 
   .mainPhoto {

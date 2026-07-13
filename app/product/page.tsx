@@ -23,6 +23,7 @@ import {
   PRODUCT_SHORT_DESC,
   PRODUCT_SPECS,
   PRODUCT_GALLERY,
+  PRODUCT_COVER_IMAGE,
   FALLBACK_STOCK,
   ALLOWED_VARIANTS,
   VARIANT_COLORS,
@@ -76,6 +77,10 @@ export default function ProductPage() {
   const touchStartX = useRef<number | null>(null);
 
   const gallery = PRODUCT_GALLERY[selectedVariant];
+  const isCoverImage =
+    selectedImageIndex === 0 ||
+    gallery[selectedImageIndex]?.includes("product-cover-model") ||
+    gallery[selectedImageIndex] === PRODUCT_COVER_IMAGE;
 
   const fetchStock = useCallback(async () => {
     setStockLoading(true);
@@ -218,7 +223,7 @@ export default function ProductPage() {
       <div className={styles.productLayout}>
         <div className={styles.gallery}>
           <div
-            className={styles.mainImageContainer}
+            className={`${styles.mainImageContainer} ${isCoverImage ? styles.mainImageContainerCover : ""}`}
             onTouchStart={(e) => {
               touchStartX.current = e.changedTouches[0]?.clientX ?? null;
             }}
