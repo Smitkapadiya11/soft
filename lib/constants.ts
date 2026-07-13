@@ -51,7 +51,7 @@ export const PRODUCT_GALLERY: Record<(typeof ALLOWED_VARIANTS)[number], string[]
 };
 
 /** Clean lifestyle portrait — no baked-in text or product (Meta-safer above-fold) */
-export const HOME_HERO_IMAGE = "/products/hero-lifestyle.png";
+export const HOME_HERO_IMAGE = "/products/home-hero.png";
 /** Soft product presentation for below-fold featured section */
 export const HOME_FEATURE_IMAGE = "/products/natural/06-discreet.png";
 
