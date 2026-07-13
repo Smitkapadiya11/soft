@@ -31,13 +31,14 @@ export async function PATCH(req: NextRequest) {
 
     const { variant, stockCount } = parsed.data;
 
-    const updated = await prisma.inventory.update({
+    const updated = await prisma.inventory.upsert({
       where: { variantName: variant },
-      data: { stockCount },
+      update: { stockCount },
+      create: { variantName: variant, stockCount },
     });
 
     return NextResponse.json({ variant: updated.variantName, stock: updated.stockCount });
   } catch {
-    return NextResponse.json({ error: "Inventory item not found" }, { status: 404 });
+    return NextResponse.json({ error: "Failed to update inventory" }, { status: 500 });
   }
 }
