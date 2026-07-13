@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Star, ShieldCheck, Loader2, Truck, Check } from "lucide-react";
@@ -73,6 +73,7 @@ export default function ProductPage() {
   const [addError, setAddError] = useState("");
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [justAdded, setJustAdded] = useState(false);
+  const touchStartX = useRef<number | null>(null);
 
   const gallery = PRODUCT_GALLERY[selectedVariant];
 
@@ -216,7 +217,25 @@ export default function ProductPage() {
     <div className={styles.container}>
       <div className={styles.productLayout}>
         <div className={styles.gallery}>
-          <div className={styles.mainImageContainer}>
+          <div
+            className={styles.mainImageContainer}
+            onTouchStart={(e) => {
+              touchStartX.current = e.changedTouches[0]?.clientX ?? null;
+            }}
+            onTouchEnd={(e) => {
+              const start = touchStartX.current;
+              const end = e.changedTouches[0]?.clientX;
+              touchStartX.current = null;
+              if (start == null || end == null) return;
+              const delta = end - start;
+              if (Math.abs(delta) < 40) return;
+              if (delta < 0) {
+                setSelectedImageIndex((i) => Math.min(gallery.length - 1, i + 1));
+              } else {
+                setSelectedImageIndex((i) => Math.max(0, i - 1));
+              }
+            }}
+          >
             <AnimatePresence mode="wait">
               <motion.div
                 key={gallery[selectedImageIndex] + selectedVariant}
@@ -237,6 +256,18 @@ export default function ProductPage() {
               </motion.div>
             </AnimatePresence>
             <span className={styles.variantBadge}>{selectedVariant}</span>
+          </div>
+          <div className={styles.galleryDots} role="tablist" aria-label="Gallery position">
+            {gallery.map((_, index) => (
+              <button
+                key={`dot-${index}`}
+                type="button"
+                className={`${styles.galleryDot} ${selectedImageIndex === index ? styles.galleryDotActive : ""}`}
+                aria-label={`Go to image ${index + 1}`}
+                aria-current={selectedImageIndex === index}
+                onClick={() => setSelectedImageIndex(index)}
+              />
+            ))}
           </div>
           <div className={styles.thumbnails} role="group" aria-label="Product images">
             {gallery.map((src, index) => (
@@ -514,7 +545,7 @@ export default function ProductPage() {
             name: PRODUCT_NAME,
             brand: { "@type": "Brand", name: "Silk Room" },
             description: PRODUCT_SHORT_DESC,
-            image: ["https://silkroom.shop/products/cover.png"],
+            image: [`https://silkroom.shop${PRODUCT_GALLERY.Natural[0]}`],
             offers: {
               "@type": "Offer",
               price: String(PRODUCT_PRICE),

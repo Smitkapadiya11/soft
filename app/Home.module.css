@@ -182,11 +182,12 @@
 .heroRight {
   position: relative;
   min-height: 100%;
+  background: #efe4e8;
 }
 
 .heroImg {
   object-fit: cover;
-  object-position: center top;
+  object-position: center center;
 }
 
 .trustStrip {
@@ -358,8 +359,16 @@
 
   .heroRight {
     order: -1;
-    min-height: 58vw;
-    max-height: 440px;
+    width: 100%;
+    /* Square frame matches home-hero.png — no top/bottom crop */
+    aspect-ratio: 1 / 1;
+    min-height: 0;
+    max-height: none;
+  }
+
+  .heroImg {
+    object-fit: cover;
+    object-position: center 18%;
   }
 
   .heroLeft {
@@ -393,7 +402,7 @@
 
 @media (max-width: 560px) {
   .heroRight {
-    min-height: 72vw;
+    aspect-ratio: 1 / 1.08;
   }
 
   .brand {

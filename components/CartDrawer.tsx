@@ -5,7 +5,7 @@ import Image from "next/image";
 import { X, Minus, Plus, Trash2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "@/context/CartContext";
-import { PRODUCT_GALLERY, ALLOWED_VARIANTS } from "@/lib/constants";
+import { PRODUCT_GALLERY, ALLOWED_VARIANTS, PRODUCT_COVER_IMAGE } from "@/lib/constants";
 import { staggerContainer, staggerItem } from "@/lib/motion";
 import styles from "./CartDrawer.module.css";
 import Link from "next/link";
@@ -14,7 +14,7 @@ function cartThumb(variant: string) {
   if ((ALLOWED_VARIANTS as readonly string[]).includes(variant)) {
     return PRODUCT_GALLERY[variant as (typeof ALLOWED_VARIANTS)[number]][0];
   }
-  return "/products/cover.png";
+  return PRODUCT_COVER_IMAGE;
 }
 
 export default function CartDrawer() {
