@@ -2,13 +2,16 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Star, ShieldCheck, Loader2, Truck, Check } from "lucide-react";
+import { Star, ShieldCheck, Loader2, Truck } from "lucide-react";
 import {
   fadeInUp,
   staggerContainer,
   staggerItem,
   smooth,
+  spring,
+  quick,
   scrollRevealConfig,
 } from "@/lib/motion";
 import styles from "./Product.module.css";
@@ -68,16 +71,21 @@ const reviews = [
 ];
 
 export default function ProductPage() {
-  const { addToCart } = useCart();
+  const router = useRouter();
+  const { addToCart, setIsCartOpen } = useCart();
   const [selectedVariant, setSelectedVariant] =
     useState<(typeof PRODUCT.variants)[number]>("Natural");
   const [quantity, setQuantity] = useState(1);
   const [stock, setStock] = useState<Record<string, number>>({ ...FALLBACK_STOCK });
   const [stockLoading, setStockLoading] = useState(true);
   const [isAdding, setIsAdding] = useState(false);
+  const [isBuying, setIsBuying] = useState(false);
   const [addError, setAddError] = useState("");
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-  const [justAdded, setJustAdded] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [showStickyBar, setShowStickyBar] = useState(false);
+  const ctaRef = useRef<HTMLDivElement | null>(null);
+  const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const touchStartX = useRef<number | null>(null);
 
   const gallery = PRODUCT_GALLERY[selectedVariant];
@@ -117,12 +125,40 @@ export default function ProductPage() {
     setSelectedImageIndex(0);
   }, [selectedVariant]);
 
+  useEffect(() => {
+    const el = ctaRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setShowStickyBar(!entry.isIntersecting);
+      },
+      { threshold: 0, rootMargin: "0px 0px -8% 0px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (toastTimer.current) clearTimeout(toastTimer.current);
+    };
+  }, []);
+
   const selectedStock = stock[selectedVariant] ?? 0;
   const isOutOfStock = !stockLoading && selectedStock < 1;
   const maxQty = Math.min(selectedStock, 10);
+  const ctaBusy = isAdding || isBuying || stockLoading;
+
+  const buildCartItem = () => ({
+    id: `${PRODUCT.id}-${selectedVariant}`,
+    name: PRODUCT.name,
+    price: PRODUCT.price,
+    variant: selectedVariant,
+    quantity,
+  });
 
   const handleAddToCart = () => {
-    if (isOutOfStock || isAdding) return;
+    if (isOutOfStock || ctaBusy) return;
     setIsAdding(true);
     setAddError("");
     try {
@@ -130,17 +166,30 @@ export default function ProductPage() {
         setAddError(`Only ${selectedStock} available for ${selectedLabel}`);
         return;
       }
-      addToCart({
-        id: `${PRODUCT.id}-${selectedVariant}`,
-        name: PRODUCT.name,
-        price: PRODUCT.price,
-        variant: selectedVariant,
-        quantity,
-      });
-      setJustAdded(true);
-      setTimeout(() => setJustAdded(false), 1500);
+      addToCart(buildCartItem(), { openDrawer: false });
+      setShowToast(true);
+      if (toastTimer.current) clearTimeout(toastTimer.current);
+      toastTimer.current = setTimeout(() => setShowToast(false), 3200);
     } finally {
       setIsAdding(false);
+    }
+  };
+
+  const handleBuyNow = () => {
+    if (isOutOfStock || ctaBusy) return;
+    setIsBuying(true);
+    setAddError("");
+    try {
+      if (quantity > selectedStock) {
+        setAddError(`Only ${selectedStock} available for ${selectedLabel}`);
+        setIsBuying(false);
+        return;
+      }
+      addToCart(buildCartItem(), { openDrawer: false });
+      router.push("/checkout");
+    } catch {
+      setIsBuying(false);
+      setAddError("Something went wrong. Please try again.");
     }
   };
 
@@ -401,7 +450,7 @@ export default function ProductPage() {
             </p>
           )}
 
-          <div className={styles.addToCartSection} id="add-to-cart">
+          <div className={styles.addToCartSection} id="add-to-cart" ref={ctaRef}>
             <div className={styles.quantity} aria-label="Quantity">
               <button
                 type="button"
@@ -421,46 +470,37 @@ export default function ProductPage() {
                 +
               </button>
             </div>
-            <motion.button
-              type="button"
-              className={`${styles.addBtn} ${isOutOfStock ? styles.addBtnDisabled : ""}`}
-              onClick={handleAddToCart}
-              disabled={isOutOfStock || isAdding || stockLoading}
-              aria-busy={isAdding}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              animate={justAdded ? { scale: [1, 0.96, 1.03, 1] } : { scale: 1 }}
-              transition={smooth}
-            >
-              {isAdding ? (
-                <>
-                  <Loader2 size={18} className={styles.spinner} aria-hidden /> Adding…
-                </>
-              ) : isOutOfStock ? (
-                "Out of Stock"
-              ) : justAdded ? (
-                <>
-                  <Check size={18} aria-hidden /> Added!
-                </>
-              ) : (
-                `Add to Cart — ${formatINR(PRODUCT_PRICE)}`
-              )}
-            </motion.button>
-          </div>
-
-          <div className={styles.stickyBar} aria-hidden={false}>
-            <div className={styles.stickyPrice}>
-              <span>{PRODUCT.name}</span>
-              <Price amount={PRODUCT_PRICE} as="strong" />
+            <div className={styles.ctaColumn}>
+              <motion.button
+                type="button"
+                className={`${styles.buyNowBtn} ${styles.buyNowPulse} ${isOutOfStock ? styles.addBtnDisabled : ""}`}
+                onClick={handleBuyNow}
+                disabled={isOutOfStock || ctaBusy}
+                aria-busy={isBuying}
+                whileHover={isOutOfStock || ctaBusy ? undefined : { scale: 1.02 }}
+                whileTap={isOutOfStock || ctaBusy ? undefined : { scale: 0.98 }}
+                transition={smooth}
+              >
+                {isBuying ? (
+                  <>
+                    <Loader2 size={18} className={styles.spinner} aria-hidden /> Taking you to
+                    checkout…
+                  </>
+                ) : isOutOfStock ? (
+                  "Out of Stock"
+                ) : (
+                  `Buy Now — ${formatINR(PRODUCT_PRICE)}`
+                )}
+              </motion.button>
+              <button
+                type="button"
+                className={styles.addLink}
+                onClick={handleAddToCart}
+                disabled={isOutOfStock || ctaBusy}
+              >
+                {isAdding ? "Adding…" : "Add to cart"}
+              </button>
             </div>
-            <button
-              type="button"
-              className={styles.stickyBtn}
-              onClick={handleAddToCart}
-              disabled={isOutOfStock || isAdding || stockLoading}
-            >
-              {isOutOfStock ? "Sold out" : justAdded ? "Added" : "Add to cart"}
-            </button>
           </div>
 
           <TrustBadges />
@@ -469,6 +509,58 @@ export default function ProductPage() {
           </div>
         </div>
       </div>
+
+      <AnimatePresence>
+        {showStickyBar && (
+          <motion.div
+            className={styles.stickyBar}
+            initial={{ y: 80, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 80, opacity: 0 }}
+            transition={spring}
+            role="region"
+            aria-label="Quick buy"
+          >
+            <div className={styles.stickyPrice}>
+              <span>{selectedLabel}</span>
+              <Price amount={PRODUCT_PRICE} as="strong" />
+            </div>
+            <button
+              type="button"
+              className={`${styles.stickyBtn} ${styles.buyNowPulse}`}
+              onClick={handleBuyNow}
+              disabled={isOutOfStock || ctaBusy}
+            >
+              {isBuying ? "Checkout…" : isOutOfStock ? "Sold out" : "Buy Now"}
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {showToast && (
+          <motion.div
+            className={styles.toast}
+            initial={{ y: 24, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 16, opacity: 0 }}
+            transition={quick}
+            role="status"
+          >
+            <span>Added</span>
+            <button
+              type="button"
+              className={styles.toastAction}
+              onClick={() => {
+                setShowToast(false);
+                setIsCartOpen(true);
+              }}
+            >
+              View cart
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <motion.div
         className={styles.compositionSection}

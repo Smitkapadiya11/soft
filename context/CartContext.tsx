@@ -11,9 +11,13 @@ export type CartItem = {
   name: string;
 };
 
+type AddToCartOptions = {
+  openDrawer?: boolean;
+};
+
 interface CartContextType {
   items: CartItem[];
-  addToCart: (item: CartItem) => void;
+  addToCart: (item: CartItem, options?: AddToCartOptions) => void;
   removeFromCart: (id: string) => void;
   updateQuantity: (id: string, quantity: number) => void;
   isCartOpen: boolean;
@@ -55,7 +59,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
     return () => clearTimeout(timeout);
   }, [items]);
 
-  const addToCart = useCallback((newItem: CartItem) => {
+  const addToCart = useCallback((newItem: CartItem, options?: AddToCartOptions) => {
+    const openDrawer = options?.openDrawer !== false;
     const priced: CartItem = { ...newItem, price: PRODUCT_PRICE };
     setItems((prev) => {
       const existing = prev.find((i) => i.id === priced.id);
@@ -66,7 +71,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
       }
       return [...prev, priced];
     });
-    setIsCartOpen(true);
+    if (openDrawer) {
+      setIsCartOpen(true);
+    }
   }, []);
 
   const removeFromCart = useCallback((id: string) => {
