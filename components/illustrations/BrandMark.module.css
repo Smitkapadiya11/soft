@@ -1,7 +1,7 @@
 .root {
   display: inline-flex;
   align-items: center;
-  gap: 0.65em;
+  gap: 0.75rem;
   color: inherit;
   line-height: 1;
   text-decoration: none;
@@ -10,36 +10,38 @@
 
 .monogram {
   flex-shrink: 0;
-  width: 1.1em;
-  height: 1.1em;
   display: block;
+  width: 2.65rem;
+  height: 2.65rem;
 }
 
 .wordstack {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.15em;
+  justify-content: center;
+  gap: 0.28rem;
   min-width: 0;
 }
 
 .wordmark {
   font-family: var(--font-serif);
   font-weight: 600;
-  font-size: 1em;
-  letter-spacing: 0.04em;
-  line-height: 1.05;
+  font-size: 1.35rem;
+  letter-spacing: 0.16em;
+  line-height: 1;
   white-space: nowrap;
+  text-transform: uppercase;
   color: inherit;
 }
 
 .tagline {
   font-family: var(--font-sans);
-  font-weight: 400;
-  font-size: 0.28em;
-  letter-spacing: 0.14em;
+  font-weight: 500;
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  opacity: 0.72;
+  opacity: 0.78;
   white-space: nowrap;
   color: inherit;
 }
@@ -47,41 +49,42 @@
 /* ── Variants ─────────────────────────────────────────── */
 
 .nav {
-  font-size: 1.55rem;
-  gap: 0.55em;
+  gap: 0.7rem;
+  min-height: 2.75rem;
 }
 
 .nav .monogram {
-  width: 1.35em;
-  height: 1.35em;
+  width: 2.75rem;
+  height: 2.75rem;
 }
 
 .nav .wordmark {
-  font-size: 1.05em;
+  font-size: 1.28rem;
   font-weight: 600;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.18em;
 }
 
 .footer {
-  font-size: 1.85rem;
-  gap: 0.6em;
+  gap: 0.85rem;
   align-items: center;
+  min-height: 3.25rem;
 }
 
 .footer .monogram {
-  width: 1.45em;
-  height: 1.45em;
+  width: 3.25rem;
+  height: 3.25rem;
 }
 
 .footer .wordmark {
-  font-size: 1.1em;
-  letter-spacing: 0.07em;
+  font-size: 1.55rem;
+  letter-spacing: 0.2em;
+  font-weight: 600;
 }
 
 .footer .tagline {
-  font-size: 0.32em;
-  letter-spacing: 0.16em;
-  opacity: 0.8;
+  font-size: 0.58rem;
+  letter-spacing: 0.22em;
+  opacity: 0.82;
 }
 
 .hero,
@@ -89,38 +92,42 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 0.55em;
-  font-size: 2.4rem;
+  gap: 0.85rem;
 }
 
 .hero .monogram,
 .gate .monogram {
-  width: 1.55em;
-  height: 1.55em;
+  width: 4.5rem;
+  height: 4.5rem;
 }
 
 .hero .wordstack,
 .gate .wordstack {
   align-items: center;
-  gap: 0.35em;
+  gap: 0.45rem;
 }
 
 .hero .wordmark,
 .gate .wordmark {
-  font-size: 1.15em;
-  letter-spacing: 0.1em;
+  font-size: 2rem;
+  letter-spacing: 0.22em;
   font-weight: 600;
 }
 
 .hero .tagline,
 .gate .tagline {
-  font-size: 0.28em;
-  letter-spacing: 0.2em;
-  opacity: 0.7;
+  font-size: 0.65rem;
+  letter-spacing: 0.26em;
+  opacity: 0.72;
 }
 
-.gate {
-  font-size: 2.1rem;
+.gate .monogram {
+  width: 4rem;
+  height: 4rem;
+}
+
+.gate .wordmark {
+  font-size: 1.75rem;
 }
 
 /* ── Accents ──────────────────────────────────────────── */
@@ -137,27 +144,100 @@
   color: var(--color-cream);
 }
 
-@media (max-width: 768px) {
+/* Desktop — wordmark has real presence in the header */
+@media (min-width: 769px) {
   .nav {
-    font-size: 1.25rem;
+    gap: 0.85rem;
+    min-height: 3.15rem;
+  }
+
+  .nav .monogram {
+    width: 3.15rem;
+    height: 3.15rem;
   }
 
   .nav .wordmark {
-    font-size: 1em;
-    letter-spacing: 0.04em;
+    font-size: 1.5rem;
+    letter-spacing: 0.2em;
   }
 
-  .footer {
-    font-size: 1.55rem;
+  .footer .monogram {
+    width: 3.5rem;
+    height: 3.5rem;
   }
 
-  .gate {
-    font-size: 1.75rem;
+  .footer .wordmark {
+    font-size: 1.7rem;
+  }
+
+  .hero .monogram {
+    width: 5.25rem;
+    height: 5.25rem;
+  }
+
+  .hero .wordmark {
+    font-size: 2.35rem;
+  }
+
+  .gate .monogram {
+    width: 4.75rem;
+    height: 4.75rem;
+  }
+
+  .gate .wordmark {
+    font-size: 2.05rem;
   }
 }
 
-@media (max-width: 380px) {
+@media (max-width: 768px) {
+  .nav {
+    gap: 0.55rem;
+    min-height: 2.55rem;
+  }
+
+  .nav .monogram {
+    width: 2.55rem;
+    height: 2.55rem;
+  }
+
   .nav .wordmark {
-    font-size: 0.95em;
+    font-size: 1.12rem;
+    letter-spacing: 0.14em;
+  }
+
+  .footer {
+    gap: 0.65rem;
+  }
+
+  .footer .monogram {
+    width: 2.85rem;
+    height: 2.85rem;
+  }
+
+  .footer .wordmark {
+    font-size: 1.35rem;
+    letter-spacing: 0.16em;
+  }
+
+  .gate .monogram {
+    width: 3.75rem;
+    height: 3.75rem;
+  }
+
+  .gate .wordmark {
+    font-size: 1.55rem;
+    letter-spacing: 0.18em;
+  }
+}
+
+@media (max-width: 360px) {
+  .nav .wordmark {
+    font-size: 1.02rem;
+    letter-spacing: 0.12em;
+  }
+
+  .nav .monogram {
+    width: 2.35rem;
+    height: 2.35rem;
   }
 }

@@ -13,7 +13,7 @@
   max-width: min(var(--container-max), 100%);
   width: 100%;
   margin: 0 auto;
-  padding: 0.7rem 1.25rem;
+  padding: 0.85rem 1.25rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -31,7 +31,7 @@
   min-width: 0;
   color: var(--color-plum-dark);
   line-height: 0;
-  padding: 2px 0;
+  padding: 0.15rem 0;
   transition: color var(--duration-fast) var(--ease-premium),
               opacity var(--duration-fast) var(--ease-premium);
 }
@@ -175,11 +175,12 @@
     grid-template-columns: 44px minmax(0, 1fr) 44px;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.55rem 0.75rem;
+    padding: 0.7rem 0.75rem;
   }
 
   .logoLink {
     justify-self: center;
+    max-width: 100%;
   }
 
   .cartButton {
