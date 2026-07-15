@@ -8,17 +8,36 @@ declare global {
   }
 }
 
-export function trackMeta(
+function fireFbq(
   event: string,
   params?: Record<string, unknown>,
   options?: { eventID?: string }
 ) {
-  if (typeof window === "undefined" || typeof window.fbq !== "function") return;
+  if (typeof window.fbq !== "function") return false;
   if (options?.eventID) {
     window.fbq("track", event, params ?? {}, { eventID: options.eventID });
   } else {
     window.fbq("track", event, params ?? {});
   }
+  return true;
+}
+
+/** Fire immediately, or retry briefly while Pixel base script finishes loading */
+export function trackMeta(
+  event: string,
+  params?: Record<string, unknown>,
+  options?: { eventID?: string }
+) {
+  if (typeof window === "undefined") return;
+  if (fireFbq(event, params, options)) return;
+
+  let attempts = 0;
+  const timer = window.setInterval(() => {
+    attempts += 1;
+    if (fireFbq(event, params, options) || attempts >= 40) {
+      window.clearInterval(timer);
+    }
+  }, 100);
 }
 
 export function trackPageView() {
