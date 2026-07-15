@@ -81,7 +81,8 @@ export default function CheckoutPage() {
     setError("");
 
     try {
-      const orderRes = await fetch("/api/orders", {
+      setPaymentStep("initiating_payment");
+      const paymentRes = await fetch("/api/payment/create-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -89,21 +90,8 @@ export default function CheckoutPage() {
           items: items.map((i) => ({
             variant: i.variant,
             quantity: i.quantity,
-            price: i.price,
           })),
         }),
-      });
-
-      const orderData = await orderRes.json();
-      if (!orderRes.ok) {
-        throw new Error(orderData.error ?? "Failed to create order");
-      }
-
-      setPaymentStep("initiating_payment");
-      const paymentRes = await fetch("/api/payment/create-order", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ checkoutGroupId: orderData.checkoutGroupId }),
       });
 
       const paymentData = await paymentRes.json();
@@ -125,11 +113,11 @@ export default function CheckoutPage() {
       }
 
       const orderId = paymentData.order_id ?? paymentData.razorpayOrderId;
-      if (!orderId || !paymentData.amount) {
+      if (!orderId || !paymentData.amount || !paymentData.checkoutGroupId) {
         throw new Error("Invalid payment order from server. Please retry.");
       }
 
-      const checkoutGroupId = orderData.checkoutGroupId as string;
+      const checkoutGroupId = paymentData.checkoutGroupId as string;
 
       const releaseReservedStock = () => {
         fetch("/api/orders/release", {
@@ -163,7 +151,7 @@ export default function CheckoutPage() {
                 razorpay_payment_id: response.razorpay_payment_id,
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_signature: response.razorpay_signature,
-                checkoutGroupId: orderData.checkoutGroupId,
+                checkoutGroupId,
               }),
             });
 
@@ -190,7 +178,9 @@ export default function CheckoutPage() {
             releaseReservedStock();
             setIsProcessing(false);
             setPaymentStep("idle");
-            setError("Payment cancelled. Stock has been released — you may try checkout again.");
+            setError(
+              "Payment cancelled. Your details are saved under Customers — complete payment when ready."
+            );
           },
         },
       });
@@ -221,7 +211,7 @@ export default function CheckoutPage() {
 
   const stepLabel: Record<PaymentStep, string> = {
     idle: "Pay Securely with Razorpay",
-    creating_order: "Creating your order…",
+    creating_order: "Preparing checkout…",
     initiating_payment: "Connecting to Razorpay…",
     awaiting_payment: "Complete payment in Razorpay window…",
     verifying: "Verifying payment…",

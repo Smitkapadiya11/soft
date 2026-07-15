@@ -17,17 +17,29 @@ model Admin {
 }
 
 model Customer {
-  id           String   @id @default(cuid())
-  name         String
-  email        String
-  phone        String
-  addressLine1 String
-  addressLine2 String?
-  city         String
-  state        String
-  pincode      String
-  createdAt    DateTime @default(now())
-  orders       Order[]
+  id              String           @id @default(cuid())
+  name            String
+  email           String
+  phone           String
+  addressLine1    String
+  addressLine2    String?
+  city            String
+  state           String
+  pincode         String
+  createdAt       DateTime         @default(now())
+  orders          Order[]
+  checkoutIntents CheckoutIntent[]
+}
+
+model CheckoutIntent {
+  id              String   @id @default(cuid())
+  createdAt       DateTime @default(now())
+  customerId      String
+  customer        Customer @relation(fields: [customerId], references: [id])
+  itemsJson       String // JSON string: [{variant, quantity}]
+  amount          Float
+  razorpayOrderId String?
+  status          String   @default("open") // open | completed | cancelled
 }
 
 model Order {

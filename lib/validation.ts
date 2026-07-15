@@ -41,15 +41,16 @@ export type CartItemPriced = {
   price: typeof PRODUCT_PRICE;
 };
 
+/** CheckoutIntent id (cuid) or legacy UUID checkout group */
 export const checkoutGroupSchema = z.object({
-  checkoutGroupId: z.string().uuid("Invalid checkout group ID"),
+  checkoutGroupId: z.string().min(1, "Invalid checkout group ID"),
 });
 
 export const paymentVerifySchema = z.object({
   razorpay_order_id: z.string().min(1),
   razorpay_payment_id: z.string().min(1),
   razorpay_signature: z.string().min(1),
-  checkoutGroupId: z.string().uuid(),
+  checkoutGroupId: z.string().min(1),
 });
 
 export const inventoryPatchSchema = z.object({

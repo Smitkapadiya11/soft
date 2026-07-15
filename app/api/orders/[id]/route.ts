@@ -74,3 +74,30 @@ export async function GET(
     },
   });
 }
+
+/** Delete order and restore stock if it was paid */
+export async function DELETE(
+  _req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const session = await requireAdmin();
+  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  const { id } = await params;
+  const order = await prisma.order.findUnique({ where: { id } });
+  if (!order) {
+    return NextResponse.json({ error: "Order not found" }, { status: 404 });
+  }
+
+  await prisma.$transaction(async (tx) => {
+    if (order.paymentStatus === "paid") {
+      await tx.inventory.updateMany({
+        where: { variantName: order.variant },
+        data: { stockCount: { increment: order.quantity } },
+      });
+    }
+    await tx.order.delete({ where: { id } });
+  });
+
+  return NextResponse.json({ success: true });
+}

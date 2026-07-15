@@ -60,14 +60,21 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ received: true });
   }
 
-  const checkoutGroupId =
-    payment.notes?.checkoutGroupId ??
-    (
-      await prisma.order.findFirst({
-        where: { razorpayOrderId: payment.order_id },
-        select: { checkoutGroupId: true },
-      })
-    )?.checkoutGroupId;
+  const fromNotes = payment.notes?.checkoutGroupId;
+  const fromIntent = (
+    await prisma.checkoutIntent.findFirst({
+      where: { razorpayOrderId: payment.order_id },
+      select: { id: true },
+    })
+  )?.id;
+  const fromLegacyOrder = (
+    await prisma.order.findFirst({
+      where: { razorpayOrderId: payment.order_id },
+      select: { checkoutGroupId: true },
+    })
+  )?.checkoutGroupId;
+
+  const checkoutGroupId = fromNotes ?? fromIntent ?? fromLegacyOrder ?? undefined;
 
   if (!checkoutGroupId) {
     return NextResponse.json({ received: true });

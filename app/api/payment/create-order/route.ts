@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getRazorpay, isRazorpayAuthError } from "@/lib/razorpay";
-import { checkoutGroupSchema, zodErrorMessage } from "@/lib/validation";
+import { parseCreateOrder, PRODUCT_PRICE } from "@/lib/validation";
 import { rateLimit } from "@/lib/rate-limit";
 
 const MIN_AMOUNT_PAISE = 100;
@@ -12,42 +12,72 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json();
-    const parsed = checkoutGroupSchema.safeParse(body);
-    if (!parsed.success) {
-      return NextResponse.json({ error: zodErrorMessage(parsed) }, { status: 400 });
+    const parsed = parseCreateOrder(body);
+    if (!parsed.ok) {
+      return NextResponse.json({ error: parsed.error }, { status: 400 });
     }
 
-    const { checkoutGroupId } = parsed.data;
-
-    const orders = await prisma.order.findMany({
-      where: { checkoutGroupId, paymentStatus: "pending" },
-      include: { customer: true },
-    });
-
-    if (orders.length === 0) {
-      return NextResponse.json({ error: "No pending orders found" }, { status: 404 });
-    }
-
-    const totalAmount = orders.reduce((sum, o) => sum + o.amount, 0);
-    const amountPaise = Math.round(totalAmount * 100);
+    const { customer, items } = parsed.data;
+    const amount = items.reduce((sum, i) => sum + PRODUCT_PRICE * i.quantity, 0);
+    const amountPaise = Math.round(amount * 100);
 
     if (amountPaise < MIN_AMOUNT_PAISE) {
       return NextResponse.json(
-        { error: `Amount must be at least ${MIN_AMOUNT_PAISE} paise (₹1)` },
+        { error: `Amount must be at least ₹${MIN_AMOUNT_PAISE / 100}` },
         { status: 400 }
       );
     }
 
-    const razorpay = getRazorpay();
-    const razorpayOrder = await razorpay.orders.create({
-      amount: amountPaise,
-      currency: "INR",
-      receipt: checkoutGroupId.slice(0, 40),
-      notes: { checkoutGroupId },
+    const intent = await prisma.$transaction(async (tx) => {
+      for (const item of items) {
+        const updated = await tx.inventory.updateMany({
+          where: {
+            variantName: item.variant,
+            stockCount: { gte: item.quantity },
+          },
+          data: { stockCount: { decrement: item.quantity } },
+        });
+        if (updated.count === 0) {
+          throw new Error(`STOCK:${item.variant}`);
+        }
+      }
+
+      const dbCustomer = await tx.customer.create({ data: customer });
+
+      return tx.checkoutIntent.create({
+        data: {
+          customerId: dbCustomer.id,
+          itemsJson: JSON.stringify(
+            items.map((i) => ({ variant: i.variant, quantity: i.quantity }))
+          ),
+          amount,
+          status: "open",
+        },
+        include: { customer: true },
+      });
     });
 
-    await prisma.order.updateMany({
-      where: { checkoutGroupId },
+    let razorpayOrder: { id: string };
+    try {
+      const razorpay = getRazorpay();
+      razorpayOrder = await razorpay.orders.create({
+        amount: amountPaise,
+        currency: "INR",
+        receipt: intent.id.slice(0, 40),
+        notes: {
+          checkoutGroupId: intent.id,
+          customerId: intent.customerId,
+        },
+      });
+    } catch (rzErr) {
+      // Release reserved stock if Razorpay create fails
+      const { releaseCheckoutGroupStock } = await import("@/lib/payment-verify");
+      await releaseCheckoutGroupStock(intent.id).catch(() => {});
+      throw rzErr;
+    }
+
+    await prisma.checkoutIntent.update({
+      where: { id: intent.id },
       data: { razorpayOrderId: razorpayOrder.id },
     });
 
@@ -56,11 +86,21 @@ export async function POST(req: NextRequest) {
       razorpayOrderId: razorpayOrder.id,
       amount: amountPaise,
       currency: "INR",
-      customerName: orders[0].customer.name,
-      customerEmail: orders[0].customer.email,
-      customerPhone: orders[0].customer.phone,
+      customerName: intent.customer.name,
+      customerEmail: intent.customer.email,
+      customerPhone: intent.customer.phone,
+      checkoutGroupId: intent.id,
+      customerId: intent.customerId,
     });
   } catch (err) {
+    const message = err instanceof Error ? err.message : "";
+    if (message.startsWith("STOCK:")) {
+      const variant = message.replace("STOCK:", "");
+      return NextResponse.json(
+        { error: `${variant} is out of stock or insufficient quantity available` },
+        { status: 400 }
+      );
+    }
     console.error("POST /api/payment/create-order:", err);
     if (isRazorpayAuthError(err)) {
       return NextResponse.json({ error: "Razorpay authentication failed" }, { status: 401 });

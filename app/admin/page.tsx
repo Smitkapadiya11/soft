@@ -9,6 +9,7 @@ import {
   Users,
   ShoppingBag,
   Printer,
+  Trash2,
   LogOut,
   Loader2,
   RefreshCw,
@@ -51,6 +52,7 @@ type CustomerRow = {
   phone: string;
   city: string;
   orderCount: number;
+  paidOrderCount?: number;
   createdAt: string;
 };
 
@@ -117,6 +119,13 @@ export default function AdminDashboard() {
 
   const downloadLabel = (orderId: string) => {
     window.open(`/api/orders/${orderId}`, "_blank");
+  };
+
+  const deleteOrder = async (orderId: string) => {
+    if (!confirm("Delete this order and restore inventory stock?")) return;
+    const res = await fetch(`/api/orders/${orderId}`, { method: "DELETE" });
+    if (res.ok) fetchData();
+    else setError("Failed to delete order");
   };
 
   const updateShippingStatus = async (orderId: string, shippingStatus: string) => {
@@ -227,7 +236,7 @@ export default function AdminDashboard() {
                           <th>Amount</th>
                           <th>Shipping</th>
                           <th>Address</th>
-                          <th>Label</th>
+                          <th>Actions</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -273,6 +282,14 @@ export default function AdminDashboard() {
                                 title="Download / print shipping label"
                               >
                                 <Printer size={16} />
+                              </button>
+                              <button
+                                className={styles.actionBtn}
+                                onClick={() => deleteOrder(order.id)}
+                                title="Delete order and restore stock"
+                                style={{ marginLeft: 6 }}
+                              >
+                                <Trash2 size={16} />
                               </button>
                             </td>
                           </tr>
@@ -336,7 +353,7 @@ export default function AdminDashboard() {
                         <th>Email</th>
                         <th>Phone</th>
                         <th>City</th>
-                        <th>Orders</th>
+                        <th>Paid orders</th>
                         <th>Joined</th>
                       </tr>
                     </thead>
@@ -347,7 +364,7 @@ export default function AdminDashboard() {
                           <td>{c.email}</td>
                           <td>{c.phone}</td>
                           <td>{c.city}</td>
-                          <td className="tabular-nums">{c.orderCount}</td>
+                          <td className="tabular-nums">{c.paidOrderCount ?? c.orderCount}</td>
                           <td>{c.createdAt}</td>
                         </tr>
                       ))}
