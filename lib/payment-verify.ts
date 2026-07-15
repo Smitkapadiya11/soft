@@ -69,13 +69,52 @@ export async function markCheckoutGroupPaid(
       return { orderIds: existing.map((o) => o.id) };
     }
 
-    if (intent.status !== "open") {
+    // Bind payment to this intent's Razorpay order (prevents attaching payment A to checkout B)
+    if (intent.razorpayOrderId && intent.razorpayOrderId !== razorpayOrderId) {
+      return { error: "Payment does not match this checkout", status: 400 };
+    }
+
+    // Allow completing cancelled intents if a real payment still lands (dismiss race)
+    if (intent.status !== "open" && intent.status !== "cancelled") {
       return { error: "Checkout is no longer open", status: 400 };
     }
 
     const items = parseIntentItems(intent.itemsJson);
     if (items.length === 0) {
       return { error: "Invalid checkout items", status: 400 };
+    }
+
+    // If previously cancelled, stock was put back — re-reserve atomically
+    if (intent.status === "cancelled") {
+      try {
+        await prisma.$transaction(async (tx) => {
+          for (const item of items) {
+            const updated = await tx.inventory.updateMany({
+              where: {
+                variantName: item.variant,
+                stockCount: { gte: item.quantity },
+              },
+              data: { stockCount: { decrement: item.quantity } },
+            });
+            if (updated.count === 0) {
+              throw new Error(`STOCK:${item.variant}`);
+            }
+          }
+          await tx.checkoutIntent.update({
+            where: { id: intent.id },
+            data: { status: "open", razorpayOrderId },
+          });
+        });
+      } catch (err) {
+        const message = err instanceof Error ? err.message : "";
+        if (message.startsWith("STOCK:")) {
+          return {
+            error: "Payment received but stock is unavailable — contact support with your payment ID",
+            status: 409,
+          };
+        }
+        throw err;
+      }
     }
 
     const orderIds = await prisma.$transaction(async (tx) => {

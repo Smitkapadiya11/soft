@@ -79,7 +79,10 @@ export default function ProductPage() {
   const [selectedVariant, setSelectedVariant] =
     useState<(typeof PRODUCT.variants)[number]>("Natural");
   const [quantity, setQuantity] = useState(1);
-  const [stock, setStock] = useState<Record<string, number>>({ ...FALLBACK_STOCK });
+  const [stock, setStock] = useState<Record<string, number>>({
+    Natural: 0,
+    Espresso: 0,
+  });
   const [stockLoading, setStockLoading] = useState(true);
   const [isAdding, setIsAdding] = useState(false);
   const [isBuying, setIsBuying] = useState(false);
@@ -112,8 +115,12 @@ export default function ProductPage() {
       const res = await fetch("/api/stock");
       if (res.ok) {
         const data = await res.json();
-        setStock(data.stock ?? { ...FALLBACK_STOCK });
+        setStock(data.stock ?? { Natural: 0, Espresso: 0 });
+      } else {
+        setStock({ Natural: 0, Espresso: 0 });
       }
+    } catch {
+      setStock({ Natural: 0, Espresso: 0 });
     } finally {
       setStockLoading(false);
     }
@@ -194,14 +201,14 @@ export default function ProductPage() {
     try {
       if (quantity > selectedStock) {
         setAddError(`Only ${selectedStock} available for ${selectedLabel}`);
-        setIsBuying(false);
         return;
       }
       addToCart(buildCartItem(), { openDrawer: false });
       router.push("/checkout");
     } catch {
-      setIsBuying(false);
       setAddError("Something went wrong. Please try again.");
+    } finally {
+      setIsBuying(false);
     }
   };
 

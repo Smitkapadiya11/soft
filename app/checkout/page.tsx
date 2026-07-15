@@ -55,7 +55,7 @@ function loadRazorpayScript(): Promise<boolean> {
 
 export default function CheckoutPage() {
   const router = useRouter();
-  const { items, cartTotal, clearCart } = useCart();
+  const { items, cartTotal, clearCart, cartReady } = useCart();
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentStep, setPaymentStep] = useState<PaymentStep>("idle");
   const [error, setError] = useState("");
@@ -81,8 +81,32 @@ export default function CheckoutPage() {
     setPaymentStep("creating_order");
     setError("");
 
+    let checkoutGroupId: string | null = null;
+
+    const releaseReservedStock = (groupId: string) => {
+      fetch("/api/orders/release", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ checkoutGroupId: groupId }),
+      }).catch(() => {});
+    };
+
     try {
       setPaymentStep("initiating_payment");
+
+      // Gate config + Razorpay script BEFORE reserving stock
+      const configRes = await fetch("/api/payment/config");
+      const configData = await configRes.json();
+      if (!configRes.ok || !configData.keyId) {
+        throw new Error("Payment gateway not configured. Please try again later.");
+      }
+      const keyId = configData.keyId as string;
+
+      const loaded = await loadRazorpayScript();
+      if (!loaded) {
+        throw new Error("Failed to load Razorpay. Check your connection and try again.");
+      }
+
       const paymentRes = await fetch("/api/payment/create-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -100,39 +124,17 @@ export default function CheckoutPage() {
         throw new Error(paymentData.error ?? "Failed to initiate payment");
       }
 
-      // Always load key from server config (avoids stale NEXT_PUBLIC build cache)
-      const configRes = await fetch("/api/payment/config");
-      const configData = await configRes.json();
-      if (!configRes.ok || !configData.keyId) {
-        throw new Error("Payment gateway not configured. Please try again later.");
-      }
-      const keyId = configData.keyId as string;
-
-      const loaded = await loadRazorpayScript();
-      if (!loaded) {
-        throw new Error("Failed to load Razorpay. Check your connection and try again.");
-      }
-
       const orderId = paymentData.order_id ?? paymentData.razorpayOrderId;
-      if (!orderId || !paymentData.amount || !paymentData.checkoutGroupId) {
+      checkoutGroupId = (paymentData.checkoutGroupId as string) || null;
+      if (!orderId || !paymentData.amount || !checkoutGroupId) {
         throw new Error("Invalid payment order from server. Please retry.");
       }
-
-      const checkoutGroupId = paymentData.checkoutGroupId as string;
 
       trackInitiateCheckout({
         value: cartTotal,
         numItems: items.reduce((n, i) => n + i.quantity, 0),
         contentIds: items.map((i) => i.id || `${PRODUCT_ID}-${i.variant}`),
       });
-
-      const releaseReservedStock = () => {
-        fetch("/api/orders/release", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ checkoutGroupId }),
-        }).catch(() => {});
-      };
 
       setPaymentStep("awaiting_payment");
       const rzp = new window.Razorpay({
@@ -182,7 +184,7 @@ export default function CheckoutPage() {
         },
         modal: {
           ondismiss: () => {
-            releaseReservedStock();
+            releaseReservedStock(checkoutGroupId!);
             setIsProcessing(false);
             setPaymentStep("idle");
             setError(
@@ -193,7 +195,7 @@ export default function CheckoutPage() {
       });
 
       rzp.on("payment.failed", (response) => {
-        releaseReservedStock();
+        releaseReservedStock(checkoutGroupId!);
         setIsProcessing(false);
         setPaymentStep("idle");
         setError(
@@ -205,6 +207,9 @@ export default function CheckoutPage() {
 
       rzp.open();
     } catch (err) {
+      if (checkoutGroupId) {
+        releaseReservedStock(checkoutGroupId);
+      }
       const message = err instanceof Error ? err.message : "Checkout failed";
       const hint =
         /price|variant|stock/i.test(message)
@@ -223,6 +228,15 @@ export default function CheckoutPage() {
     awaiting_payment: "Complete payment in Razorpay window…",
     verifying: "Verifying payment…",
   };
+
+  if (!cartReady) {
+    return (
+      <div className={styles.emptyContainer}>
+        <h1>Checkout</h1>
+        <p>Loading your cart…</p>
+      </div>
+    );
+  }
 
   if (items.length === 0) {
     return (

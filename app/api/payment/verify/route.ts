@@ -1,10 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createHmac, timingSafeEqual } from "crypto";
-import { prisma } from "@/lib/prisma";
 import {
   verifyRazorpayPaymentSignature,
   markCheckoutGroupPaid,
-  releaseCheckoutGroupStock,
 } from "@/lib/payment-verify";
 import { paymentVerifySchema, zodErrorMessage } from "@/lib/validation";
 import { rateLimit } from "@/lib/rate-limit";
@@ -32,6 +29,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Payment not configured" }, { status: 500 });
     }
 
+    // Do NOT release stock on bad signature — that lets anyone cancel a live checkout
     if (
       !verifyRazorpayPaymentSignature(
         razorpayOrderId,
@@ -40,7 +38,6 @@ export async function POST(req: NextRequest) {
         secret
       )
     ) {
-      await releaseCheckoutGroupStock(checkoutGroupId);
       return NextResponse.json({ error: "Invalid payment signature" }, { status: 400 });
     }
 
