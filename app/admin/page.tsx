@@ -3,20 +3,36 @@
 import { useState, useEffect, useCallback } from "react";
 import { signOut } from "next-auth/react";
 import styles from "./Admin.module.css";
-import { Download, Package, Users, ShoppingBag, Printer, LogOut, Loader2, RefreshCw } from "lucide-react";
+import {
+  Download,
+  Package,
+  Users,
+  ShoppingBag,
+  Printer,
+  LogOut,
+  Loader2,
+  RefreshCw,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
+import { formatINR } from "@/lib/format";
 
 type OrderRow = {
   id: string;
   date: string;
   customer: string;
+  customerEmail: string;
   variant: string;
   qty: number;
   amount: number;
   payment: string;
   status: string;
-  address: string;
+  addressLine1: string;
+  addressLine2?: string | null;
+  city: string;
+  state: string;
   pincode: string;
+  phone: string;
+  checkoutGroupId?: string | null;
 };
 
 type InventoryRow = {
@@ -35,6 +51,8 @@ type CustomerRow = {
   createdAt: string;
 };
 
+const SHIPPING_STATUSES = ["PENDING", "SHIPPED", "DELIVERED"] as const;
+
 export default function AdminDashboard() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("orders");
@@ -49,7 +67,7 @@ export default function AdminDashboard() {
     setError("");
     try {
       if (activeTab === "orders") {
-        const res = await fetch("/api/orders");
+        const res = await fetch("/api/orders?paid=true");
         if (res.status === 401) {
           router.push("/admin/login");
           return;
@@ -84,33 +102,20 @@ export default function AdminDashboard() {
   }, [activeTab, router]);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- load admin data on tab change
     fetchData();
   }, [fetchData]);
 
-  const generateCSV = () => {
-    window.open("/api/orders/export", "_blank");
+  const downloadLabel = (orderId: string) => {
+    window.open(`/api/orders/${orderId}`, "_blank");
   };
 
-  const printLabel = (order: OrderRow) => {
-    const printWindow = window.open("", "_blank");
-    if (printWindow) {
-      printWindow.document.write(`
-        <html>
-          <head><title>Shipping Label - ${order.id}</title></head>
-          <body style="font-family: sans-serif; padding: 2rem;">
-            <h2>SHIP TO:</h2>
-            <p><strong>${order.customer}</strong></p>
-            <p>${order.address}</p>
-            <p>Pincode: ${order.pincode}</p>
-            <hr style="margin: 2rem 0;" />
-            <p style="font-size: 0.8rem; color: #666;">Note: Discreet Packaging. Do not mention product details.</p>
-          </body>
-        </html>
-      `);
-      printWindow.document.close();
-      printWindow.print();
-    }
+  const updateShippingStatus = async (orderId: string, shippingStatus: string) => {
+    const res = await fetch(`/api/orders/${orderId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ shippingStatus }),
+    });
+    if (res.ok) fetchData();
   };
 
   const updateStock = async (variant: string, stockCount: number) => {
@@ -127,13 +132,22 @@ export default function AdminDashboard() {
       <div className={styles.sidebar}>
         <h2 className={styles.brand}>Silk Room Admin</h2>
         <nav className={styles.nav}>
-          <button className={`${styles.navBtn} ${activeTab === "orders" ? styles.active : ""}`} onClick={() => setActiveTab("orders")}>
+          <button
+            className={`${styles.navBtn} ${activeTab === "orders" ? styles.active : ""}`}
+            onClick={() => setActiveTab("orders")}
+          >
             <ShoppingBag size={18} /> Orders
           </button>
-          <button className={`${styles.navBtn} ${activeTab === "customers" ? styles.active : ""}`} onClick={() => setActiveTab("customers")}>
+          <button
+            className={`${styles.navBtn} ${activeTab === "customers" ? styles.active : ""}`}
+            onClick={() => setActiveTab("customers")}
+          >
             <Users size={18} /> Customers
           </button>
-          <button className={`${styles.navBtn} ${activeTab === "inventory" ? styles.active : ""}`} onClick={() => setActiveTab("inventory")}>
+          <button
+            className={`${styles.navBtn} ${activeTab === "inventory" ? styles.active : ""}`}
+            onClick={() => setActiveTab("inventory")}
+          >
             <Package size={18} /> Inventory
           </button>
         </nav>
@@ -147,7 +161,7 @@ export default function AdminDashboard() {
         <div className={styles.header}>
           <h1>Dashboard</h1>
           {activeTab === "orders" && (
-            <button className={styles.exportBtn} onClick={generateCSV}>
+            <button className={styles.exportBtn} onClick={() => window.open("/api/orders/export", "_blank")}>
               <Download size={16} aria-hidden /> Export CSV
             </button>
           )}
@@ -167,51 +181,72 @@ export default function AdminDashboard() {
           {!loading && activeTab === "orders" && (
             <div className={styles.card}>
               {orders.length === 0 ? (
-                <p className={styles.emptyState}>No orders yet. They will appear here after customers complete checkout.</p>
+                <p className={styles.emptyState}>
+                  No paid orders yet. They appear here after customers complete checkout.
+                </p>
               ) : (
                 <div className={styles.tableScroll}>
-                <table className={styles.table}>
-                  <thead>
-                    <tr>
-                      <th>Order ID</th>
-                      <th>Date</th>
-                      <th>Customer</th>
-                      <th>Variant</th>
-                      <th>Qty</th>
-                      <th>Amount</th>
-                      <th>Payment</th>
-                      <th>Status</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {orders.map((order) => (
-                      <tr key={order.id}>
-                        <td>{order.id.slice(0, 12)}...</td>
-                        <td>{order.date}</td>
-                        <td>{order.customer}</td>
-                        <td>{order.variant}</td>
-                        <td>{order.qty}</td>
-                        <td>₹{order.amount}</td>
-                        <td>
-                          <span className={`${styles.badge} ${order.payment === "PAID" ? styles.shipped : styles.pending}`}>
-                            {order.payment}
-                          </span>
-                        </td>
-                        <td>
-                          <span className={`${styles.badge} ${styles[order.status.toLowerCase()]}`}>
-                            {order.status}
-                          </span>
-                        </td>
-                        <td>
-                          <button className={styles.actionBtn} onClick={() => printLabel(order)} title="Print Shipping Label">
-                            <Printer size={16} />
-                          </button>
-                        </td>
+                  <table className={styles.table}>
+                    <thead>
+                      <tr>
+                        <th>Order</th>
+                        <th>Customer</th>
+                        <th>Product</th>
+                        <th>Amount</th>
+                        <th>Shipping</th>
+                        <th>Address</th>
+                        <th>Label</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {orders.map((order) => (
+                        <tr key={order.id}>
+                          <td>
+                            <span className={styles.orderId}>{order.id.slice(0, 10)}…</span>
+                            <span className={styles.orderMeta}>{order.date}</span>
+                          </td>
+                          <td>
+                            <strong>{order.customer}</strong>
+                            <span className={styles.orderMeta}>{order.phone}</span>
+                            <span className={styles.orderMeta}>{order.customerEmail}</span>
+                          </td>
+                          <td>
+                            {order.variant} × {order.qty}
+                          </td>
+                          <td className={`${styles.amount} price`}>{formatINR(order.amount)}</td>
+                          <td>
+                            <select
+                              className={styles.statusSelect}
+                              value={order.status}
+                              onChange={(e) => updateShippingStatus(order.id, e.target.value)}
+                              aria-label={`Shipping status for ${order.id}`}
+                            >
+                              {SHIPPING_STATUSES.map((s) => (
+                                <option key={s} value={s}>
+                                  {s}
+                                </option>
+                              ))}
+                            </select>
+                          </td>
+                          <td className={styles.addressCell}>
+                            {order.addressLine1}
+                            {order.addressLine2 ? `, ${order.addressLine2}` : ""}
+                            <br />
+                            {order.city}, {order.state} — {order.pincode}
+                          </td>
+                          <td>
+                            <button
+                              className={styles.actionBtn}
+                              onClick={() => downloadLabel(order.id)}
+                              title="Download / print shipping label"
+                            >
+                              <Printer size={16} />
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               )}
             </div>
@@ -220,11 +255,20 @@ export default function AdminDashboard() {
           {!loading && activeTab === "inventory" && (
             <div className={styles.inventoryGrid}>
               {inventory.map((item) => (
-                <div key={item.variant} className={`${styles.inventoryCard} ${item.stock < 20 ? styles.lowStock : ""}`}>
-                  <div className={styles.variantColor} style={{ backgroundColor: item.variant === "Natural" ? "#e8b4a0" : item.variant === "Espresso" ? "#5c3d2e" : "#ccc" }} />
+                <div
+                  key={item.variant}
+                  className={`${styles.inventoryCard} ${item.stock < 20 ? styles.lowStock : ""}`}
+                >
+                  <div
+                    className={styles.variantColor}
+                    style={{
+                      backgroundColor:
+                        item.variant === "Natural" ? "#e8b4a0" : item.variant === "Espresso" ? "#5c3d2e" : "#ccc",
+                    }}
+                  />
                   <div>
                     <h3>{item.variant}</h3>
-                    <p className={styles.stockCount}>{item.stock} in stock</p>
+                    <p className={`${styles.stockCount} tabular-nums`}>{item.stock} in stock</p>
                     {item.stock < 20 && <span className={styles.alertText}>Low Stock Alert!</span>}
                     <button
                       className={styles.actionBtn}
@@ -248,30 +292,30 @@ export default function AdminDashboard() {
                 <p className={styles.emptyState}>No customers yet.</p>
               ) : (
                 <div className={styles.tableScroll}>
-                <table className={styles.table}>
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Email</th>
-                      <th>Phone</th>
-                      <th>City</th>
-                      <th>Orders</th>
-                      <th>Joined</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {customers.map((c) => (
-                      <tr key={c.id}>
-                        <td>{c.name}</td>
-                        <td>{c.email}</td>
-                        <td>{c.phone}</td>
-                        <td>{c.city}</td>
-                        <td>{c.orderCount}</td>
-                        <td>{c.createdAt}</td>
+                  <table className={styles.table}>
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>City</th>
+                        <th>Orders</th>
+                        <th>Joined</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {customers.map((c) => (
+                        <tr key={c.id}>
+                          <td>{c.name}</td>
+                          <td>{c.email}</td>
+                          <td>{c.phone}</td>
+                          <td>{c.city}</td>
+                          <td className="tabular-nums">{c.orderCount}</td>
+                          <td>{c.createdAt}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               )}
             </div>

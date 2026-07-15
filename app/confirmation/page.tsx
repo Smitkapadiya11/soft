@@ -1,22 +1,81 @@
 "use client";
 
-import { Suspense } from "react";
+import { useState, useEffect, useCallback, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import styles from "./Confirmation.module.css";
 import { SuccessIllustration } from "@/components/illustrations";
 import { staggerContainer, staggerItem } from "@/lib/motion";
+import { DELIVERY_ESTIMATE } from "@/lib/format";
+import Price from "@/components/Price";
+import { Loader2 } from "lucide-react";
+
+type OrderLookup = {
+  valid: boolean;
+  orderId?: string;
+  amount?: number;
+  variant?: string;
+  quantity?: number;
+  shippingStatus?: string;
+  date?: string;
+};
 
 const nextSteps = [
-  "Check your email for order confirmation",
-  "Track your delivery via the link we'll send",
-  "Contact support if you have any questions",
+  "Save your order number for support enquiries",
+  "We process orders within 1–3 business days after payment",
+  "Questions? Visit Contact Us — we respond within 48 hours",
 ];
 
 function ConfirmationContent() {
   const searchParams = useSearchParams();
-  const orderId = searchParams.get("orderId") || "ORD-000000";
+  const orderId = searchParams.get("orderId");
+  const [order, setOrder] = useState<OrderLookup | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [invalid, setInvalid] = useState(false);
+
+  useEffect(() => {
+    if (!orderId) {
+      setInvalid(true);
+      setLoading(false);
+      return;
+    }
+
+    fetch(`/api/orders/lookup?orderId=${encodeURIComponent(orderId)}`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data: OrderLookup | null) => {
+        if (data?.valid) {
+          setOrder(data);
+        } else {
+          setInvalid(true);
+        }
+      })
+      .catch(() => setInvalid(true))
+      .finally(() => setLoading(false));
+  }, [orderId]);
+
+  if (loading) {
+    return (
+      <p className={styles.loading} aria-live="polite">
+        <Loader2 size={20} className={styles.spinner} aria-hidden /> Verifying your order…
+      </p>
+    );
+  }
+
+  if (invalid || !order?.valid) {
+    return (
+      <div className={styles.card}>
+        <h1 className={styles.title}>Order Not Found</h1>
+        <p className={styles.subtitle}>
+          We couldn&apos;t verify this order. If you completed payment, contact{" "}
+          <a href="mailto:support@silkroom.co">support@silkroom.co</a> with your payment ID.
+        </p>
+        <Link href="/product" className={styles.ctaBtn}>
+          Return to Shop
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.card}>
@@ -38,17 +97,27 @@ function ConfirmationContent() {
         className={styles.details}
       >
         <motion.div variants={staggerItem} className={styles.row}>
-          <span>Order Number:</span>
-          <strong>{orderId}</strong>
+          <span>Order Number</span>
+          <strong className="tabular-nums">{order.orderId}</strong>
         </motion.div>
         <motion.div variants={staggerItem} className={styles.row}>
-          <span>Estimated Delivery:</span>
-          <strong>2-4 Business Days</strong>
+          <span>Amount Paid</span>
+          <Price amount={order.amount ?? 0} as="strong" />
+        </motion.div>
+        <motion.div variants={staggerItem} className={styles.row}>
+          <span>Item</span>
+          <strong>
+            Silk Room Real Touch · {order.variant} × {order.quantity}
+          </strong>
+        </motion.div>
+        <motion.div variants={staggerItem} className={styles.row}>
+          <span>Estimated Delivery</span>
+          <strong>{DELIVERY_ESTIMATE}</strong>
         </motion.div>
       </motion.div>
 
       <div className={styles.note}>
-        <p>Check your email for updates referencing your order number only.</p>
+        <p>Order confirmation will be sent to your email when email delivery is configured.</p>
         <p>
           Your order ships in plain, discreet packaging. Questions? See{" "}
           <a href="/contact">Contact Us</a> or our{" "}
@@ -78,7 +147,13 @@ function ConfirmationContent() {
 export default function ConfirmationPage() {
   return (
     <div className={styles.container}>
-      <Suspense fallback={<p>Loading confirmation...</p>}>
+      <Suspense
+        fallback={
+          <p className={styles.loading}>
+            <Loader2 size={20} className={styles.spinner} aria-hidden /> Loading…
+          </p>
+        }
+      >
         <ConfirmationContent />
       </Suspense>
     </div>

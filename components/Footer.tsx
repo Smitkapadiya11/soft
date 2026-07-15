@@ -15,18 +15,10 @@ const trustItems = [
   { icon: RotateCcw, label: "Easy Returns" },
 ];
 
-function InstagramIcon() {
+function MailIcon() {
   return (
     <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
-      <path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16Zm0 1.62c-3.15 0-3.5.01-4.74.07-1.14.05-1.76.24-2.17.4-.55.21-.94.47-1.35.88-.41.41-.67.8-.88 1.35-.16.41-.35 1.03-.4 2.17-.06 1.24-.07 1.59-.07 4.74s.01 3.5.07 4.74c.05 1.14.24 1.76.4 2.17.21.55.47.94.88 1.35.41.41.8.67 1.35.88.41.16 1.03.35 2.17.4 1.24.06 1.59.07 4.74.07s3.5-.01 4.74-.07c1.14-.05 1.76-.24 2.17-.4.55-.21.94-.47 1.35-.88.41-.41.67-.8.88-1.35.16-.41.35-1.03.4-2.17.06-1.24.07-1.59.07-4.74s-.01-3.5-.07-4.74c-.05-1.14-.24-1.76-.4-2.17a3.6 3.6 0 0 0-.88-1.35 3.6 3.6 0 0 0-1.35-.88c-.41-.16-1.03-.35-2.17-.4-1.24-.06-1.59-.07-4.74-.07Zm0 2.76a5.46 5.46 0 1 1 0 10.92 5.46 5.46 0 0 1 0-10.92Zm0 9a3.54 3.54 0 1 0 0-7.08 3.54 3.54 0 0 0 0 7.08Zm5.68-9.22a1.28 1.28 0 1 1 0 2.56 1.28 1.28 0 0 1 0-2.56Z" />
-    </svg>
-  );
-}
-
-function TwitterIcon() {
-  return (
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
-      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.66l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644Z" />
+      <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2Zm0 4-8 5L4 8V6l8 5 8-5v2Z" />
     </svg>
   );
 }
@@ -63,14 +55,21 @@ function Footer() {
             Premium self-care, delivered with total discretion.
           </p>
           <div className={styles.social}>
-            <a href="#" className={styles.socialLink} aria-label="Instagram">
-              <InstagramIcon />
-            </a>
-            <a href="#" className={styles.socialLink} aria-label="Twitter / X">
-              <TwitterIcon />
-            </a>
-            <a href="#" className={styles.socialLink} aria-label="WhatsApp">
+            <a
+              href={`https://wa.me/${BUSINESS.whatsapp}`}
+              className={styles.socialLink}
+              aria-label="WhatsApp"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <WhatsAppIcon />
+            </a>
+            <a
+              href={`mailto:${BUSINESS.email}`}
+              className={styles.socialLink}
+              aria-label="Email support"
+            >
+              <MailIcon />
             </a>
           </div>
         </div>
@@ -92,21 +91,13 @@ function Footer() {
         </div>
 
         <div className={styles.newsletter}>
-          <h4>Stay Updated</h4>
+          <h4>Need Help?</h4>
           <p className={styles.newsletterText}>
-            Get wellness tips and exclusive offers in your inbox.
+            Questions about your order or delivery? We&apos;re here to help.
           </p>
-          <form className={styles.newsletterForm} onSubmit={(e) => e.preventDefault()}>
-            <input
-              type="email"
-              placeholder="Your email address"
-              className={styles.newsletterInput}
-              aria-label="Email address for newsletter"
-            />
-            <button type="submit" className={styles.newsletterBtn}>
-              Subscribe
-            </button>
-          </form>
+          <Link href="/contact" className={styles.contactCta}>
+            Contact Support
+          </Link>
         </div>
 
         <div className={styles.contact}>

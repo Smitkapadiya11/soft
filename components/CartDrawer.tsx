@@ -9,6 +9,7 @@ import { PRODUCT_GALLERY, ALLOWED_VARIANTS, PRODUCT_COVER_IMAGE } from "@/lib/co
 import { staggerContainer, staggerItem } from "@/lib/motion";
 import styles from "./CartDrawer.module.css";
 import Link from "next/link";
+import Price from "@/components/Price";
 
 function cartThumb(variant: string) {
   if ((ALLOWED_VARIANTS as readonly string[]).includes(variant)) {
@@ -113,7 +114,9 @@ export default function CartDrawer() {
                         <div className={styles.itemDetails}>
                           <h3 className={styles.itemName}>{item.name}</h3>
                           <p className={styles.itemVariant}>Variant: {item.variant}</p>
-                          <p className={styles.itemPrice}>₹{item.price}</p>
+                          <p className={styles.itemPrice}>
+                            <Price amount={item.price} />
+                          </p>
                           <div className={styles.itemActions}>
                             <div className={styles.quantity} aria-label={`Quantity for ${item.variant}`}>
                               <button
@@ -153,9 +156,9 @@ export default function CartDrawer() {
               <div className={styles.footer}>
                 <div className={styles.subtotal}>
                   <span>Subtotal</span>
-                  <span>₹{cartTotal}</span>
+                  <Price amount={cartTotal} />
                 </div>
-                <p className={styles.taxNote}>Shipping &amp; taxes calculated at checkout.</p>
+                <p className={styles.taxNote}>Free discreet delivery · Prepaid checkout</p>
                 <Link href="/checkout" className={styles.checkoutBtn} onClick={() => setIsCartOpen(false)}>
                   Proceed to Checkout
                 </Link>

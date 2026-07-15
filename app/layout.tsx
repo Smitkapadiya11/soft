@@ -41,9 +41,9 @@ export const metadata: Metadata = {
     siteName: "Silk Room",
     images: [
       {
-        url: "https://silkroom.shop/products/hero-lifestyle.png",
+        url: "https://silkroom.shop/products/product-cover-model.jpg",
         width: 1200,
-        height: 1600,
+        height: 750,
         alt: "Silk Room — premium self-care",
       },
     ],

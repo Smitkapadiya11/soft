@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import styles from "./Checkout.module.css";
 import { Lock, Loader2 } from "lucide-react";
+import Price from "@/components/Price";
 
 type PaymentStep = "idle" | "creating_order" | "initiating_payment" | "awaiting_payment" | "verifying";
 
@@ -127,6 +128,16 @@ export default function CheckoutPage() {
         throw new Error("Invalid payment order from server. Please retry.");
       }
 
+      const checkoutGroupId = orderData.checkoutGroupId as string;
+
+      const releaseReservedStock = () => {
+        fetch("/api/orders/release", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ checkoutGroupId }),
+        }).catch(() => {});
+      };
+
       setPaymentStep("awaiting_payment");
       const rzp = new window.Razorpay({
         key: keyId,
@@ -175,14 +186,16 @@ export default function CheckoutPage() {
         },
         modal: {
           ondismiss: () => {
+            releaseReservedStock();
             setIsProcessing(false);
             setPaymentStep("idle");
-            setError("Payment cancelled. Your order is saved as pending — you may retry checkout.");
+            setError("Payment cancelled. Stock has been released — you may try checkout again.");
           },
         },
       });
 
       rzp.on("payment.failed", (response) => {
+        releaseReservedStock();
         setIsProcessing(false);
         setPaymentStep("idle");
         setError(
@@ -293,7 +306,7 @@ export default function CheckoutPage() {
               <p>End-to-end encrypted checkout via Razorpay. UPI, cards, and net banking accepted. Free delivery across India.</p>
             </div>
             <div className={styles.mockGateway}>
-              <p><strong>Total Amount:</strong> ₹{cartTotal}</p>
+              <p><strong>Total Amount:</strong> <Price amount={cartTotal} /></p>
               <p className={styles.reassuranceNote}>
                 Free delivery · Prepaid via Razorpay ·{" "}
                 <a href="/terms" style={{ textDecoration: "underline" }}>
@@ -340,14 +353,16 @@ export default function CheckoutPage() {
                   <p className={styles.summaryItemName}>{item.name}</p>
                   <p className={styles.summaryItemVariant}>{item.variant} x {item.quantity}</p>
                 </div>
-                <p className={styles.summaryItemPrice}>₹{item.price * item.quantity}</p>
+                <p className={styles.summaryItemPrice}>
+                  <Price amount={item.price * item.quantity} />
+                </p>
               </div>
             ))}
           </div>
           <div className={styles.totals}>
             <div className={styles.totalRow}>
               <span>Subtotal</span>
-              <span>₹{cartTotal}</span>
+              <span><Price amount={cartTotal} /></span>
             </div>
             <div className={styles.totalRow}>
               <span>Shipping</span>
@@ -355,7 +370,7 @@ export default function CheckoutPage() {
             </div>
             <div className={`${styles.totalRow} ${styles.finalTotal}`}>
               <span>Total</span>
-              <span>₹{cartTotal}</span>
+              <span><Price amount={cartTotal} /></span>
             </div>
           </div>
         </div>

@@ -1,8 +1,12 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { requireAdmin } from "@/lib/auth";
 
-/** Public health check for admin login setup (no secrets exposed) */
+/** Admin-only setup health check (no secrets exposed) */
 export async function GET() {
+  const session = await requireAdmin();
+  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
   const issues: string[] = [];
 
   if (!process.env.NEXTAUTH_SECRET) {
@@ -26,8 +30,12 @@ export async function GET() {
     }
   }
 
-  if (!process.env.ADMIN_PASSWORD) {
-    issues.push("ADMIN_PASSWORD not in env — add to .env.local and run: npm run admin:sync");
+  if (!process.env.RAZORPAY_KEY_SECRET) {
+    issues.push("RAZORPAY_KEY_SECRET not configured");
+  }
+
+  if (!process.env.RAZORPAY_WEBHOOK_SECRET) {
+    issues.push("RAZORPAY_WEBHOOK_SECRET not set — configure webhook in Razorpay dashboard");
   }
 
   return NextResponse.json({

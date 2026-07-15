@@ -17,6 +17,23 @@
   box-shadow: var(--shadow-lg);
 }
 
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 3rem;
+  color: rgba(61, 36, 51, 0.7);
+}
+
+.spinner {
+  animation: confirmSpin 0.8s linear infinite;
+}
+
+@keyframes confirmSpin {
+  to { transform: rotate(360deg); }
+}
+
 .successIcon {
   width: 100px;
   height: 100px;

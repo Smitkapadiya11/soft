@@ -7,6 +7,7 @@ import {
   HOME_HERO_IMAGE,
   HOME_FEATURE_IMAGE,
 } from "@/lib/constants";
+import Price from "@/components/Price";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/MotionWrapper";
 import {
   Package,
@@ -56,7 +57,7 @@ export default function Home() {
         <div className={styles.heroLeft}>
           <span className={styles.trustBadge}>
             <Heart size={14} aria-hidden />
-            Trusted by 10,000+ women
+            Premium intimate wellness
           </span>
 
           <p className={styles.brand}>Silk Room</p>
@@ -91,7 +92,9 @@ export default function Home() {
           <div className={styles.ctaBlock}>
             <Link href="/product" className={styles.cta}>
               Shop {PRODUCT_NAME}
-              <span className={styles.priceChip}>₹{PRODUCT_PRICE}</span>
+              <span className={styles.priceChip}>
+                <Price amount={PRODUCT_PRICE} />
+              </span>
             </Link>
             <p className={styles.fine}>18+ · Free discreet delivery · Prepaid secure</p>
           </div>
@@ -132,7 +135,9 @@ export default function Home() {
             />
           </Reveal>
           <div className={styles.featuredCopy}>
-            <span className={styles.eyebrow}>Bestseller · ₹{PRODUCT_PRICE}</span>
+            <span className={styles.eyebrow}>
+              Bestseller · <Price amount={PRODUCT_PRICE} className={styles.priceInline} />
+            </span>
             <h2>{PRODUCT_NAME}</h2>
             <p>
               Dual-density body-safe silicone with a soft outer feel, supportive core, and
@@ -184,7 +189,7 @@ export default function Home() {
       <section className={styles.final}>
         <h2>Ready when you are</h2>
         <p>
-          <span className={styles.priceInline}>₹{PRODUCT_PRICE}</span> · Discreet box · Razorpay
+          <Price amount={PRODUCT_PRICE} className={styles.priceInline} /> · Discreet box · Razorpay
           prepaid · Adults 18+
         </p>
         <Link href="/product" className={styles.cta}>

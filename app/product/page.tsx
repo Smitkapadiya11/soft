@@ -15,6 +15,8 @@ import styles from "./Product.module.css";
 import Accordion from "@/components/Accordion";
 import TrustBadges from "@/components/TrustBadges";
 import { useCart } from "@/context/CartContext";
+import Price from "@/components/Price";
+import { formatINR } from "@/lib/format";
 import {
   PRODUCT_PRICE,
   PRODUCT_NAME,
@@ -319,14 +321,16 @@ export default function ProductPage() {
                 <Star key={i} fill="#6b3d52" size={16} color="#6b3d52" aria-hidden />
               ))}
             </div>
-            <span>(119 verified reviews) · Adults 18+</span>
+            <span>Customer feedback · Adults 18+</span>
           </div>
 
           <h1 className={styles.title}>{PRODUCT.name}</h1>
           <p className={styles.tagline}>{PRODUCT_TAGLINE}</p>
 
           <div className={styles.priceRow}>
-            <p className={styles.price}>₹{PRODUCT.price}</p>
+            <p className={styles.price}>
+              <Price amount={PRODUCT.price} />
+            </p>
             <span className={styles.freeDelivery}>
               <Truck size={16} aria-hidden /> Free discreet delivery
             </span>
@@ -438,7 +442,7 @@ export default function ProductPage() {
                   <Check size={18} aria-hidden /> Added!
                 </>
               ) : (
-                `Add to Cart — ₹${PRODUCT_PRICE}`
+                `Add to Cart — ${formatINR(PRODUCT_PRICE)}`
               )}
             </motion.button>
           </div>
@@ -446,7 +450,7 @@ export default function ProductPage() {
           <div className={styles.stickyBar} aria-hidden={false}>
             <div className={styles.stickyPrice}>
               <span>{PRODUCT.name}</span>
-              <strong>₹{PRODUCT_PRICE}</strong>
+              <Price amount={PRODUCT_PRICE} as="strong" />
             </div>
             <button
               type="button"
@@ -574,7 +578,7 @@ export default function ProductPage() {
             aggregateRating: {
               "@type": "AggregateRating",
               ratingValue: "4.8",
-              reviewCount: "119",
+              reviewCount: String(reviews.length),
             },
           }),
         }}
