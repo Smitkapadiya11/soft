@@ -186,7 +186,7 @@ export default function CheckoutPage() {
             setIsProcessing(false);
             setPaymentStep("idle");
             setError(
-              "Payment cancelled. Your details are saved under Customers — complete payment when ready."
+              "Payment cancelled. No charge was made — you can try again when ready."
             );
           },
         },
@@ -352,7 +352,13 @@ export default function CheckoutPage() {
                   <p className={styles.summaryItemVariant}>{variantLabel(item.variant)} × {item.quantity}</p>
                 </div>
                 <p className={styles.summaryItemPrice}>
-                  <Price amount={PRODUCT_PRICE * item.quantity} />
+                  <Price amount={PRODUCT_PRICE} sale />
+                  {item.quantity > 1 ? (
+                    <span className={styles.summaryLineTotal}>
+                      {" "}
+                      × {item.quantity} = <Price amount={PRODUCT_PRICE * item.quantity} />
+                    </span>
+                  ) : null}
                 </p>
               </div>
             ))}
