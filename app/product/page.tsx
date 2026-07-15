@@ -35,6 +35,7 @@ import {
   VARIANT_LABELS,
   variantLabel,
 } from "@/lib/constants";
+import { trackViewContent } from "@/lib/meta-pixel";
 
 const PRODUCT = {
   id: PRODUCT_ID,
@@ -123,6 +124,15 @@ export default function ProductPage() {
 
   useEffect(() => {
     setSelectedImageIndex(0);
+  }, [selectedVariant]);
+
+  useEffect(() => {
+    trackViewContent({
+      contentName: PRODUCT_NAME,
+      contentIds: [PRODUCT_ID],
+      value: PRODUCT_PRICE,
+      variant: selectedVariant,
+    });
   }, [selectedVariant]);
 
   useEffect(() => {

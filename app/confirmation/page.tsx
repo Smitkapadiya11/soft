@@ -10,7 +10,8 @@ import { staggerContainer, staggerItem } from "@/lib/motion";
 import { DELIVERY_ESTIMATE } from "@/lib/format";
 import Price from "@/components/Price";
 import { Loader2 } from "lucide-react";
-import { PRODUCT_NAME, variantLabel } from "@/lib/constants";
+import { PRODUCT_NAME, PRODUCT_ID, variantLabel } from "@/lib/constants";
+import { trackPurchase } from "@/lib/meta-pixel";
 
 type OrderLookup = {
   valid: boolean;
@@ -77,6 +78,13 @@ function ConfirmationContent() {
       .then((data: OrderLookup | null) => {
         if (data?.valid) {
           setOrder(data);
+          trackPurchase({
+            orderId: data.orderId ?? orderId,
+            value: data.amount ?? 0,
+            contentName: PRODUCT_NAME,
+            contentIds: [PRODUCT_ID],
+            quantity: data.quantity ?? 1,
+          });
         } else {
           setInvalid(true);
         }

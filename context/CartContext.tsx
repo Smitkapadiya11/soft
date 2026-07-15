@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect, useCallback, useMemo, ReactNode } from "react";
 import { PRODUCT_PRICE } from "@/lib/constants";
+import { trackAddToCart } from "@/lib/meta-pixel";
 
 export type CartItem = {
   id: string;
@@ -74,6 +75,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
     if (openDrawer) {
       setIsCartOpen(true);
     }
+    trackAddToCart({
+      contentName: priced.name,
+      contentIds: [priced.id],
+      value: PRODUCT_PRICE * priced.quantity,
+      quantity: priced.quantity,
+    });
   }, []);
 
   const removeFromCart = useCallback((id: string) => {

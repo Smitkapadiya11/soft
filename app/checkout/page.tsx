@@ -6,7 +6,8 @@ import { useCart } from "@/context/CartContext";
 import styles from "./Checkout.module.css";
 import { Lock, Loader2 } from "lucide-react";
 import Price from "@/components/Price";
-import { PRODUCT_PRICE, variantLabel } from "@/lib/constants";
+import { PRODUCT_PRICE, PRODUCT_ID, variantLabel } from "@/lib/constants";
+import { trackInitiateCheckout } from "@/lib/meta-pixel";
 
 type PaymentStep = "idle" | "creating_order" | "initiating_payment" | "awaiting_payment" | "verifying";
 
@@ -118,6 +119,12 @@ export default function CheckoutPage() {
       }
 
       const checkoutGroupId = paymentData.checkoutGroupId as string;
+
+      trackInitiateCheckout({
+        value: cartTotal,
+        numItems: items.reduce((n, i) => n + i.quantity, 0),
+        contentIds: items.map((i) => i.id || `${PRODUCT_ID}-${i.variant}`),
+      });
 
       const releaseReservedStock = () => {
         fetch("/api/orders/release", {
