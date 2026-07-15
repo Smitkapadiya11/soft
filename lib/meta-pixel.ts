@@ -22,6 +22,23 @@ function fireFbq(
   return true;
 }
 
+/** First-party beacon fallback when facebook.net is blocked in the browser */
+function fireBeacon(event: string) {
+  try {
+    const qs = new URLSearchParams({
+      id: META_PIXEL_ID,
+      ev: event,
+      noscript: "1",
+      dl: window.location.href,
+      _: String(Date.now()),
+    });
+    const img = new Image();
+    img.src = `/api/meta/tr?${qs.toString()}`;
+  } catch {
+    /* ignore */
+  }
+}
+
 /** Fire immediately, or retry briefly while Pixel base script finishes loading */
 export function trackMeta(
   event: string,
@@ -29,6 +46,10 @@ export function trackMeta(
   options?: { eventID?: string }
 ) {
   if (typeof window === "undefined") return;
+
+  // Always send first-party beacon so Meta can receive events behind blockers
+  fireBeacon(event);
+
   if (fireFbq(event, params, options)) return;
 
   let attempts = 0;
