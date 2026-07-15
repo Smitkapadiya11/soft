@@ -51,20 +51,36 @@ const trustBar = [
   { icon: Heart, label: "Everyday body care" },
 ];
 
+const packingChips = [
+  "Plain outer carton",
+  "No product name on label",
+  "Prepaid checkout",
+];
+
 export default function Home() {
   return (
     <>
       <section className={styles.hero}>
-        <div className={styles.heroLeft}>
+        <div className={styles.heroBanner}>
+          <div className={styles.heroBannerFrame}>
+            <Image
+              src={HOME_HERO_IMAGE}
+              alt="Silk Room — care yourself everyday wellness banner"
+              fill
+              priority
+              sizes="100vw"
+              className={styles.heroImg}
+            />
+          </div>
+        </div>
+
+        <div className={styles.heroCopy}>
           <span className={styles.trustBadge}>
             <Heart size={14} aria-hidden />
             Personal wellness · discreet delivery
           </span>
 
           <p className={styles.brand}>Silk Room</p>
-          <h1 className={styles.headline}>
-            Care yourself. Everyday.
-          </h1>
           <p className={styles.sub}>
             Body comfort for tension relief and recovery — delivered in a plain, discreet box.
           </p>
@@ -83,13 +99,6 @@ export default function Home() {
             ))}
           </ul>
 
-          <div className={styles.selfLove}>
-            <p className={styles.selfLoveTitle}>Tension relief, made simple.</p>
-            <p className={styles.selfLoveText}>
-              A compact massager for everyday recovery — soft silicone, easy to clean, privately packed.
-            </p>
-          </div>
-
           <div className={styles.ctaBlock}>
             <Link href="/product" className={styles.cta}>
               Shop {PRODUCT_NAME}
@@ -99,17 +108,6 @@ export default function Home() {
             </Link>
             <p className={styles.fine}>18+ · Free discreet delivery · Prepaid secure</p>
           </div>
-        </div>
-
-        <div className={styles.heroRight}>
-          <Image
-            src={HOME_HERO_IMAGE}
-            alt="Silk Room Ease — personal wellness at home"
-            fill
-            priority
-            sizes="(max-width: 900px) 100vw, 55vw"
-            className={styles.heroImg}
-          />
         </div>
       </section>
 
@@ -129,21 +127,26 @@ export default function Home() {
           <Reveal className={styles.featuredMedia}>
             <Image
               src={HOME_FEATURE_IMAGE}
-              alt="Silk Room Ease — plain discreet packaging"
+              alt="Plain brown cardboard shipping box — discreet packaging"
               width={800}
               height={800}
               className={styles.featuredImg}
             />
+            <ul className={styles.packChips} aria-label="Packaging details">
+              {packingChips.map((chip) => (
+                <li key={chip}>{chip}</li>
+              ))}
+            </ul>
           </Reveal>
           <div className={styles.featuredCopy}>
             <span className={styles.eyebrow}>
-              Bestseller · <Price amount={PRODUCT_PRICE} className={styles.priceInline} />
+              Arrives discreetly · <Price amount={PRODUCT_PRICE} className={styles.priceInline} />
             </span>
-            <h2>{PRODUCT_NAME}</h2>
+            <h2>Ships in a plain box</h2>
             <p>
-              Personal body wellness massager for tension relief and everyday recovery. Body-safe
-              silicone, waterproof, and easy to clean. Choose{" "}
-              {VARIANT_LABELS.Natural} or {VARIANT_LABELS.Espresso}.
+              Your {PRODUCT_NAME} arrives in an unmarked carton — no product name on the outside.
+              Choose {VARIANT_LABELS.Natural} or {VARIANT_LABELS.Espresso}. Prepaid, private, and
+              ready for everyday recovery.
             </p>
             <Link href="/product" className={styles.ctaSecondary}>
               Buy now

@@ -6,6 +6,7 @@ import { useCart } from "@/context/CartContext";
 import styles from "./Checkout.module.css";
 import { Lock, Loader2 } from "lucide-react";
 import Price from "@/components/Price";
+import { PRODUCT_PRICE, variantLabel } from "@/lib/constants";
 
 type PaymentStep = "idle" | "creating_order" | "initiating_payment" | "awaiting_payment" | "verifying";
 
@@ -351,10 +352,10 @@ export default function CheckoutPage() {
               <div key={item.id} className={styles.summaryItem}>
                 <div className={styles.summaryItemInfo}>
                   <p className={styles.summaryItemName}>{item.name}</p>
-                  <p className={styles.summaryItemVariant}>{item.variant} x {item.quantity}</p>
+                  <p className={styles.summaryItemVariant}>{variantLabel(item.variant)} × {item.quantity}</p>
                 </div>
                 <p className={styles.summaryItemPrice}>
-                  <Price amount={item.price * item.quantity} />
+                  <Price amount={PRODUCT_PRICE * item.quantity} />
                 </p>
               </div>
             ))}

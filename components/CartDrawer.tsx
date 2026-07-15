@@ -5,7 +5,7 @@ import Image from "next/image";
 import { X, Minus, Plus, Trash2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "@/context/CartContext";
-import { PRODUCT_GALLERY, ALLOWED_VARIANTS, PRODUCT_COVER_IMAGE, variantLabel } from "@/lib/constants";
+import { PRODUCT_GALLERY, ALLOWED_VARIANTS, PRODUCT_COVER_IMAGE, PRODUCT_PRICE, variantLabel } from "@/lib/constants";
 import { staggerContainer, staggerItem } from "@/lib/motion";
 import styles from "./CartDrawer.module.css";
 import Link from "next/link";
@@ -115,7 +115,7 @@ export default function CartDrawer() {
                           <h3 className={styles.itemName}>{item.name}</h3>
                           <p className={styles.itemVariant}>Colour: {variantLabel(item.variant)}</p>
                           <p className={styles.itemPrice}>
-                            <Price amount={item.price} />
+                            <Price amount={PRODUCT_PRICE} />
                           </p>
                           <div className={styles.itemActions}>
                             <div className={styles.quantity} aria-label={`Quantity for ${item.variant}`}>

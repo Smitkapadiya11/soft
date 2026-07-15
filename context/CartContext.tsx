@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect, useCallback, useMemo, ReactNode } from "react";
+import { PRODUCT_PRICE } from "@/lib/constants";
 
 export type CartItem = {
   id: string;
@@ -33,8 +34,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
     const saved = localStorage.getItem("silk-room-cart");
     if (saved) {
       try {
+        const parsed = JSON.parse(saved) as CartItem[];
         // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional hydration
-        setItems(JSON.parse(saved));
+        setItems(
+          parsed.map((item) => ({
+            ...item,
+            price: PRODUCT_PRICE,
+          }))
+        );
       } catch {
         /* ignore corrupt cart */
       }
@@ -49,14 +56,15 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, [items]);
 
   const addToCart = useCallback((newItem: CartItem) => {
+    const priced: CartItem = { ...newItem, price: PRODUCT_PRICE };
     setItems((prev) => {
-      const existing = prev.find((i) => i.id === newItem.id);
+      const existing = prev.find((i) => i.id === priced.id);
       if (existing) {
         return prev.map((i) =>
-          i.id === newItem.id ? { ...i, quantity: i.quantity + newItem.quantity } : i
+          i.id === priced.id ? { ...i, quantity: i.quantity + priced.quantity, price: PRODUCT_PRICE } : i
         );
       }
-      return [...prev, newItem];
+      return [...prev, priced];
     });
     setIsCartOpen(true);
   }, []);
@@ -75,7 +83,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const clearCart = useCallback(() => setItems([]), []);
 
-  const cartTotal = useMemo(() => items.reduce((total, item) => total + item.price * item.quantity, 0), [items]);
+  const cartTotal = useMemo(
+    () => items.reduce((total, item) => total + PRODUCT_PRICE * item.quantity, 0),
+    [items]
+  );
   const cartCount = useMemo(() => items.reduce((count, item) => count + item.quantity, 0), [items]);
 
   return (

@@ -46,33 +46,28 @@ export const PRODUCT_SPECS = {
 /** Lifestyle wellness cover — first in gallery for both variants */
 export const PRODUCT_COVER_IMAGE = "/products/product-cover-model.jpg";
 
-/** Gallery: lifestyle + discreet packaging first; product close-ups later */
+/** Gallery: Meta-safer lifestyle + packaging first; realistic shapes omitted */
 export const PRODUCT_GALLERY: Record<(typeof ALLOWED_VARIANTS)[number], string[]> = {
   Natural: [
     PRODUCT_COVER_IMAGE,
-    "/products/natural/06-discreet.png",
+    "/products/plain-box.png",
     "/products/natural/05-body-safe.png",
     "/products/natural/07-complete.png",
-    "/products/natural/01-hero.png",
     "/products/natural/04-dual-density.png",
-    "/products/natural/02-real-touch.png",
-    "/products/natural/03-lifelike.png",
   ],
   Espresso: [
     PRODUCT_COVER_IMAGE,
-    "/products/natural/06-discreet.png",
+    "/products/plain-box.png",
     "/products/espresso/04-waterproof.png",
     "/products/natural/07-complete.png",
     "/products/espresso/02-design.png",
-    "/products/espresso/03-size.png",
-    "/products/espresso/01-realistic.png",
   ],
 };
 
 /** Lifestyle wellness hero for Meta landing match */
 export const HOME_HERO_IMAGE = "/products/product-cover-model.jpg";
-/** Discreet packaging for below-fold featured section */
-export const HOME_FEATURE_IMAGE = "/products/natural/06-discreet.png";
+/** Plain brown carton for below-fold featured section (Meta-safe) */
+export const HOME_FEATURE_IMAGE = "/products/plain-box.png";
 
 /** @deprecated kept for any remaining pack-size references */
 export const PRODUCT_PACK_SIZE = "Complete kit";

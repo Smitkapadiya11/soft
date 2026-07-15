@@ -23,16 +23,23 @@ export const customerSchema = z.object({
     .regex(/^\d{6}$/, "Valid 6-digit pincode is required"),
 });
 
+/** Client may send price — it is ignored; server always bills PRODUCT_PRICE */
 export const cartItemSchema = z.object({
   variant: z.enum(ALLOWED_VARIANTS, { message: "Invalid variant" }),
   quantity: z.number().int().min(1).max(10),
-  price: z.literal(PRODUCT_PRICE, { message: "Invalid product price" }),
+  price: z.number().optional(),
 });
 
 export const createOrderSchema = z.object({
   customer: customerSchema,
   items: z.array(cartItemSchema).min(1, "Cart must contain at least one item").max(5),
 });
+
+export type CartItemPriced = {
+  variant: (typeof ALLOWED_VARIANTS)[number];
+  quantity: number;
+  price: typeof PRODUCT_PRICE;
+};
 
 export const checkoutGroupSchema = z.object({
   checkoutGroupId: z.string().uuid("Invalid checkout group ID"),
@@ -61,7 +68,7 @@ export type CustomerInput = {
   pincode: string;
 };
 
-export type CartItemInput = z.infer<typeof cartItemSchema>;
+export type CartItemInput = CartItemPriced;
 
 export function parseCustomer(raw: unknown): { ok: true; data: CustomerInput } | { ok: false; error: string } {
   const parsed = customerSchema.safeParse(raw);
@@ -95,7 +102,13 @@ export function parseCreateOrder(body: unknown): { ok: true; data: { customer: C
   }
   const customerResult = parseCustomer(parsed.data.customer);
   if (!customerResult.ok) return customerResult;
-  return { ok: true, data: { customer: customerResult.data, items: parsed.data.items } };
+  // Absolute server authority: ignore any client-supplied price
+  const items: CartItemInput[] = parsed.data.items.map((item) => ({
+    variant: item.variant,
+    quantity: item.quantity,
+    price: PRODUCT_PRICE,
+  }));
+  return { ok: true, data: { customer: customerResult.data, items } };
 }
 
 export function zodErrorMessage(result: { error: { issues: { message?: string }[] } }): string {
