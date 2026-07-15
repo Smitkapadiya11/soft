@@ -25,18 +25,18 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "Silk Room — Premium Intimate Self-Care | Discreet Delivery India",
+  title: "Silk Room — Personal Body Wellness | Discreet Delivery India",
   description:
-    "Silk Room Real Touch — body-safe dual-density silicone for private self-care. Natural & Espresso. ₹599. Discreet packaging, free delivery, secure prepaid checkout. Adults 18+.",
+    "Silk Room Ease — personal body wellness massager for tension relief & everyday recovery. Soft Rose & Mist Grey. ₹599. Discreet packaging, free delivery, secure prepaid checkout. Adults 18+.",
   metadataBase: new URL("https://silkroom.shop"),
   icons: {
     icon: [{ url: "/brand/sr-monogram.svg", type: "image/svg+xml" }],
     apple: [{ url: "/brand/sr-monogram.svg", type: "image/svg+xml" }],
   },
   openGraph: {
-    title: "Silk Room — Intimate self-care, delivered discreetly",
+    title: "Silk Room — Body care, delivered discreetly",
     description:
-      "Premium body-safe silicone · discreet packaging · free delivery across India. Adults 18+.",
+      "Personal wellness massager · body-safe silicone · discreet packaging · free delivery across India. Adults 18+.",
     url: "https://silkroom.shop",
     siteName: "Silk Room",
     images: [
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
         url: "https://silkroom.shop/products/product-cover-model.jpg",
         width: 1200,
         height: 750,
-        alt: "Silk Room — premium self-care",
+        alt: "Silk Room Ease — personal wellness",
       },
     ],
     type: "website",

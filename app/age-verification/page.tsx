@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Age Verification | Silk Room",
   description:
-    "Age verification for silkroom.shop — adult intimate products for customers aged 18 and above.",
+    "Age verification for silkroom.shop — personal wellness products for adults aged 18 and above.",
   robots: { index: true, follow: true },
 };
 
@@ -13,9 +13,9 @@ export const revalidate = 86400;
 
 export default function AgeVerificationPage() {
   return (
-    <LegalLayout title="Age Requirement & Verification" lastUpdated="13 July 2026">
+    <LegalLayout title="Age Requirement & Verification" lastUpdated="15 July 2026">
       <p>
-        Silk Room sells adult intimate products intended for adults aged{" "}
+        Silk Room sells personal wellness products for adults aged{" "}
         <strong>18 years and above</strong>. By using this website and placing an order, you
         confirm that you meet this requirement and accept our Terms and Privacy Policy.
       </p>

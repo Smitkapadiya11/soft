@@ -43,7 +43,7 @@ export default function CancellationAndRefundsPage() {
 
       <h2>2. Returns</h2>
       <p>
-        Because these are intimate personal-care products, for health and hygiene reasons we
+        Because these are personal wellness products, for health and hygiene reasons we
         accept returns only when the product is:
       </p>
       <ul>

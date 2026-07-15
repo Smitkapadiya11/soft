@@ -6,6 +6,7 @@ import {
   PRODUCT_NAME,
   HOME_HERO_IMAGE,
   HOME_FEATURE_IMAGE,
+  VARIANT_LABELS,
 } from "@/lib/constants";
 import Price from "@/components/Price";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/MotionWrapper";
@@ -23,23 +24,23 @@ import {
 const features = [
   {
     icon: Leaf,
-    title: "Body-Safe Materials",
-    text: "100% body-safe dual-density silicone",
+    title: "Body-Safe Silicone",
+    text: "Soft, skin-friendly materials",
   },
   {
     icon: Volume2,
-    title: "Discreet by Design",
-    text: "Plain packaging, private delivery",
+    title: "Plain Box Packaging",
+    text: "No product names on the label",
   },
   {
     icon: ShieldCheck,
-    title: "Trusted Quality",
-    text: "Secure prepaid checkout",
+    title: "Secure Checkout",
+    text: "Prepaid & privacy-protected",
   },
   {
     icon: Droplets,
     title: "Easy to Clean",
-    text: "Fully waterproof & shower-ready",
+    text: "Fully waterproof & rinse-ready",
   },
 ];
 
@@ -47,7 +48,7 @@ const trustBar = [
   { icon: Package, label: "Discreet packaging" },
   { icon: RotateCcw, label: "Easy returns" },
   { icon: Lock, label: "Private & secure checkout" },
-  { icon: Heart, label: "Made for women" },
+  { icon: Heart, label: "Everyday body care" },
 ];
 
 export default function Home() {
@@ -57,15 +58,15 @@ export default function Home() {
         <div className={styles.heroLeft}>
           <span className={styles.trustBadge}>
             <Heart size={14} aria-hidden />
-            Premium intimate wellness
+            Personal wellness · discreet delivery
           </span>
 
           <p className={styles.brand}>Silk Room</p>
           <h1 className={styles.headline}>
-            Your pleasure. Your way. <span aria-hidden>♡</span>
+            Care yourself. Everyday.
           </h1>
           <p className={styles.sub}>
-            Explore intimacy, embrace yourself and feel the difference.
+            Body comfort for tension relief and recovery — delivered in a plain, discreet box.
           </p>
 
           <ul className={styles.featureRow}>
@@ -83,9 +84,9 @@ export default function Home() {
           </ul>
 
           <div className={styles.selfLove}>
-            <p className={styles.selfLoveTitle}>Not just a product, it&apos;s self-love.</p>
+            <p className={styles.selfLoveTitle}>Tension relief, made simple.</p>
             <p className={styles.selfLoveText}>
-              Rediscover your body. Reclaim your pleasure.
+              A compact massager for everyday recovery — soft silicone, easy to clean, privately packed.
             </p>
           </div>
 
@@ -103,7 +104,7 @@ export default function Home() {
         <div className={styles.heroRight}>
           <Image
             src={HOME_HERO_IMAGE}
-            alt="Silk Room — premium self-care"
+            alt="Silk Room Ease — personal wellness at home"
             fill
             priority
             sizes="(max-width: 900px) 100vw, 55vw"
@@ -128,7 +129,7 @@ export default function Home() {
           <Reveal className={styles.featuredMedia}>
             <Image
               src={HOME_FEATURE_IMAGE}
-              alt="Discreet packaging"
+              alt="Silk Room Ease — plain discreet packaging"
               width={800}
               height={800}
               className={styles.featuredImg}
@@ -140,11 +141,12 @@ export default function Home() {
             </span>
             <h2>{PRODUCT_NAME}</h2>
             <p>
-              Dual-density body-safe silicone with a soft outer feel, supportive core, and
-              waterproof design. Choose Natural or Espresso.
+              Personal body wellness massager for tension relief and everyday recovery. Body-safe
+              silicone, waterproof, and easy to clean. Choose{" "}
+              {VARIANT_LABELS.Natural} or {VARIANT_LABELS.Espresso}.
             </p>
             <Link href="/product" className={styles.ctaSecondary}>
-              View product details
+              Buy now
             </Link>
           </div>
         </div>
@@ -152,23 +154,23 @@ export default function Home() {
 
       <section className={styles.stories}>
         <div className={styles.sectionHead}>
-          <h2>Real women. Real stories.</h2>
-          <p>Thousands choosing pleasure &amp; self-care — delivered privately.</p>
+          <h2>Real routines. Real relief.</h2>
+          <p>Stress relief &amp; recovery — delivered privately.</p>
         </div>
         <StaggerGroup className={styles.storyGrid}>
           {[
             {
-              quote: "Finally something that understands women's bodies.",
+              quote: "Helps me unwind neck and shoulder tension after long work days.",
               name: "Neha",
               city: "Mumbai",
             },
             {
-              quote: "Super soft, premium feel — and packaging was completely plain.",
+              quote: "Soft feel, easy to rinse — and packaging was completely plain.",
               name: "Riya",
               city: "Pune",
             },
             {
-              quote: "My self-care routine just got so much better.",
+              quote: "Part of my evening recovery routine now. Discreet delivery was a relief.",
               name: "Anjali",
               city: "Delhi",
             },
@@ -193,7 +195,7 @@ export default function Home() {
           prepaid · Adults 18+
         </p>
         <Link href="/product" className={styles.cta}>
-          Shop now
+          Shop Silk Room Ease
         </Link>
       </section>
     </>

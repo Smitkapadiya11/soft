@@ -144,7 +144,7 @@ export default function CheckoutPage() {
         amount: paymentData.amount,
         currency: paymentData.currency || "INR",
         name: "Silk Room",
-        description: "Silk Room order — adult intimate product",
+        description: "Silk Room Ease wellness massager",
         order_id: orderId,
         prefill: {
           name: paymentData.customerName || formData.name,

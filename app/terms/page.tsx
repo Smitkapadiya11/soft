@@ -6,7 +6,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Terms and Conditions | Silk Room",
   description:
-    "Terms and Conditions for using silkroom.shop — an online retailer of adult intimate products for customers aged 18 and above in India.",
+    "Terms and Conditions for using silkroom.shop — an online retailer of personal wellness products for adults aged 18 and above in India.",
   robots: { index: true, follow: true },
 };
 
@@ -18,8 +18,8 @@ export default function Terms() {
       <h2>1. About us</h2>
       <p>
         silkroom.shop is operated by <strong>{BUSINESS.legalName}</strong>, a {BUSINESS.entityType}
-        {" "}registered in India at {BUSINESS.address}. We are an online retailer of adult intimate
-        products for customers aged 18 and above.
+        {" "}registered in India at {BUSINESS.address}. We are an online retailer of personal wellness
+        products for adults aged 18 and above.
       </p>
 
       <h2>2. Eligibility</h2>
@@ -120,10 +120,10 @@ export default function Terms() {
 
       <h2>15. Product Disclaimers</h2>
       <p>
-        Products sold on this Site are adult intimate / pleasure products for customers aged 18+.
+        Products sold on this Site are personal wellness products for adults aged 18+.
         They are <strong>not medical devices</strong> and are not intended to diagnose, treat, cure,
-        or prevent any disease. Follow care instructions. Use water-based lubricant with silicone
-        products. If irritation occurs, discontinue use. Keep out of reach of minors.
+        or prevent any disease. Follow care instructions. If irritation occurs, discontinue use.
+        Keep out of reach of minors.
       </p>
 
       <h2>16. Prohibited Activities</h2>

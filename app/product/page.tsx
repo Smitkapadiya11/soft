@@ -29,6 +29,8 @@ import {
   FALLBACK_STOCK,
   ALLOWED_VARIANTS,
   VARIANT_COLORS,
+  VARIANT_LABELS,
+  variantLabel,
 } from "@/lib/constants";
 
 const PRODUCT = {
@@ -51,17 +53,17 @@ const reviews = [
   {
     name: "N***a M.",
     city: "Mumbai",
-    text: "Natural finish looks and feels premium. Dual density is noticeable — soft outside, stable core. Packaging was totally plain.",
+    text: "Soft Rose feels gentle on sore shoulders. Easy evening recovery tool. Packaging was totally plain.",
   },
   {
     name: "R***a K.",
     city: "Bangalore",
-    text: "Espresso is gorgeous. Suction cup holds on tile. Fully waterproof as promised — easy to clean.",
+    text: "Mist Grey looks calm on the shelf. Waterproof as promised — rinse and dry, done.",
   },
   {
     name: "A***i S.",
     city: "Delhi",
-    text: "Smooth Razorpay checkout and free discreet delivery. Size is as described. Would recommend for self-care nights.",
+    text: "Smooth Razorpay checkout and free discreet delivery. Compact size, helpful for tension after desk work.",
   },
 ];
 
@@ -85,9 +87,9 @@ export default function ProductPage() {
     safeIndex === 0 ||
     activeSrc?.includes("product-cover-model") ||
     activeSrc === PRODUCT_COVER_IMAGE;
+  const selectedLabel = variantLabel(selectedVariant);
 
   const handleImageError = () => {
-    // If lifestyle cover fails to load, fall through to first product shot
     if (safeIndex === 0 && gallery.length > 1) {
       setSelectedImageIndex(1);
     }
@@ -125,7 +127,7 @@ export default function ProductPage() {
     setAddError("");
     try {
       if (quantity > selectedStock) {
-        setAddError(`Only ${selectedStock} available for ${selectedVariant}`);
+        setAddError(`Only ${selectedStock} available for ${selectedLabel}`);
         return;
       }
       addToCart({
@@ -143,12 +145,12 @@ export default function ProductPage() {
   };
 
   const highlights = [
-    "Dual-density body-safe liquid silicone",
-    `${PRODUCT_SPECS.totalLength} total · ${PRODUCT_SPECS.insertableLength} usable length`,
-    "Secure base for hands-free comfort",
-    "Fully waterproof · easy to clean",
-    "Two finishes: Natural & Espresso",
-    "Discreet plain packaging on delivery",
+    "Body-safe silicone for skin-friendly use",
+    `${PRODUCT_SPECS.length} compact handheld · ${PRODUCT_SPECS.diameter} diameter`,
+    PRODUCT_SPECS.base,
+    "Fully waterproof · easy to rinse clean",
+    `Two colours: ${VARIANT_LABELS.Natural} & ${VARIANT_LABELS.Espresso}`,
+    "Plain discreet packaging on delivery",
   ];
 
   const faqs = [
@@ -160,17 +162,17 @@ export default function ProductPage() {
     {
       title: "Is packaging discreet?",
       content:
-        "Yes. Orders ship in a plain outer carton with no product name or adult branding on the label. Emails reference your order number only.",
+        "Yes. Orders ship in a plain outer carton with no product name or brand messaging on the label. Emails reference your order number only.",
     },
     {
-      title: "What is dual density?",
+      title: "How do I clean it?",
       content:
-        "A firmer inner core for structure and thrusting stability, wrapped in a softer outer silicone layer that feels more skin-like and warms to body temperature.",
+        "Rinse with warm water and mild soap after each use. Fully waterproof. Dry thoroughly before storage. Avoid abrasive cleaners.",
     },
     {
       title: "Is it waterproof?",
       content:
-        "Yes — fully waterproof for shower or bath use. Clean with warm water and mild soap (or a toy cleaner safe for silicone). Dry thoroughly before storage.",
+        "Yes — fully waterproof so you can rinse it easily after use. Dry thoroughly before storing in a cool, dry place.",
     },
     {
       title: "What warranty do I get?",
@@ -180,34 +182,33 @@ export default function ProductPage() {
     {
       title: "Can I return it?",
       content:
-        "For hygiene reasons, opened or used intimate products cannot be returned unless defective or damaged on arrival. Unused items in original sealed packaging may be returned within 7 days. See our Return & Refund Policy.",
+        "For hygiene reasons, opened or used wellness products cannot be returned unless defective or damaged on arrival. Unused items in original sealed packaging may be returned within 7 days. See our Return & Refund Policy.",
     },
     {
       title: "Is it safe for daily use?",
       content:
-        "Yes for healthy adults 18+ when used with water-based lubricant as desired. Do not use oil-based lubes with silicone. Stop if irritation occurs. This is an adult pleasure product, not a medical device.",
+        "Yes for healthy adults 18+ as a personal body massager for tension relief and everyday recovery. Stop if irritation occurs. This is a personal wellness product, not a medical device.",
     },
     {
-      title: "Natural vs Espresso?",
-      content:
-        "Same dual-density design and size — Natural is a soft flesh tone; Espresso is a deep cocoa finish. Choose the look you prefer.",
+      title: `${VARIANT_LABELS.Natural} vs ${VARIANT_LABELS.Espresso}?`,
+      content: `Same size and build — ${VARIANT_LABELS.Natural} is a soft rose finish; ${VARIANT_LABELS.Espresso} is a calm mist grey. Choose the look you prefer.`,
     },
   ];
 
   const specs = [
     {
       title: "Product details",
-      content: `Name: ${PRODUCT_NAME} · Material: ${PRODUCT_SPECS.material} · Total length: ${PRODUCT_SPECS.totalLength} · Insertable: ${PRODUCT_SPECS.insertableLength} · Diameter: ${PRODUCT_SPECS.diameter} · Weight: ${PRODUCT_SPECS.weight} · Base: ${PRODUCT_SPECS.base} · ${PRODUCT_SPECS.waterproof} · Colours: Natural, Espresso · Adults 18+ only`,
+      content: `Name: ${PRODUCT_NAME} · Category: personal body wellness massager · Material: ${PRODUCT_SPECS.material} · Length: ${PRODUCT_SPECS.length} · Contact length: ${PRODUCT_SPECS.contactLength} · Diameter: ${PRODUCT_SPECS.diameter} · Weight: ${PRODUCT_SPECS.weight} · Form: ${PRODUCT_SPECS.form} · Base: ${PRODUCT_SPECS.base} · ${PRODUCT_SPECS.waterproof} · Colours: ${VARIANT_LABELS.Natural}, ${VARIANT_LABELS.Espresso} · Adults 18+ only`,
     },
     {
       title: "How to use",
       content: (
         <ul className={styles.infoList}>
           <li>Wash before first use with warm water and mild soap</li>
-          <li>Apply water-based lubricant as desired</li>
-          <li>For hands-free play, press the suction cup firmly onto a smooth, clean surface</li>
-          <li>Start slowly; listen to your body</li>
-          <li>Clean after use, dry fully, store in a cool dry place (pouch recommended)</li>
+          <li>Apply to tense muscle areas with gentle, even pressure</li>
+          <li>For hands-free recovery, press the base firmly onto a smooth, clean surface</li>
+          <li>Start gently; listen to your body</li>
+          <li>Clean after use, dry fully, store in a cool dry place</li>
         </ul>
       ),
     },
@@ -215,17 +216,17 @@ export default function ProductPage() {
       title: "Care & safety",
       content: (
         <ul className={styles.infoList}>
-          <li>For adult use only (18+)</li>
-          <li>Body-safe liquid silicone — non-porous when intact</li>
-          <li>Use water-based lubricant only with silicone toys</li>
-          <li>Not a medical device</li>
+          <li>For adults 18+ only</li>
+          <li>Body-safe silicone — non-porous when intact</li>
+          <li>Personal wellness massager for tension relief — not a medical device</li>
           <li>If irritation occurs, discontinue use</li>
+          <li>Keep out of reach of minors</li>
         </ul>
       ),
     },
     {
       title: "What's in the box",
-      content: `${PRODUCT_NAME} (${selectedVariant}) · Storage pouch (where included) · Quick-start / care card · Shipped inside plain discreet packaging`,
+      content: `${PRODUCT_NAME} (${selectedLabel}) · Care card · Shipped inside plain discreet packaging`,
     },
   ];
 
@@ -263,7 +264,7 @@ export default function ProductPage() {
               >
                 <Image
                   src={activeSrc}
-                  alt={`${PRODUCT_NAME} ${selectedVariant} — view ${safeIndex + 1}`}
+                  alt={`${PRODUCT_NAME} ${selectedLabel} — view ${safeIndex + 1}`}
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
                   className={styles.mainPhoto}
@@ -272,7 +273,7 @@ export default function ProductPage() {
                 />
               </motion.div>
             </AnimatePresence>
-            <span className={styles.variantBadge}>{selectedVariant}</span>
+            <span className={styles.variantBadge}>{selectedLabel}</span>
           </div>
           <div className={styles.galleryDots} role="tablist" aria-label="Gallery position">
             {gallery.map((_, index) => (
@@ -305,7 +306,6 @@ export default function ProductPage() {
                   height={152}
                   className={styles.thumbnail}
                   onError={(e) => {
-                    // Hide broken thumb chrome without leaving a blank selected main
                     (e.currentTarget as HTMLImageElement).style.visibility = "hidden";
                   }}
                 />
@@ -337,8 +337,8 @@ export default function ProductPage() {
           </div>
 
           <p className={styles.description}>
-            {PRODUCT_SHORT_DESC} Choose <strong>Natural</strong> or <strong>Espresso</strong> —
-            same dual-density build, two finishes.
+            {PRODUCT_SHORT_DESC} Choose <strong>{VARIANT_LABELS.Natural}</strong> or{" "}
+            <strong>{VARIANT_LABELS.Espresso}</strong> — same build, two colours.
           </p>
 
           <ul className={styles.highlights}>
@@ -348,18 +348,19 @@ export default function ProductPage() {
           </ul>
 
           <div className={styles.selector}>
-            <h3 className={styles.selectorLabel}>Colour: {selectedVariant}</h3>
+            <h3 className={styles.selectorLabel}>Colour: {selectedLabel}</h3>
             <div className={styles.swatches} role="radiogroup" aria-label="Select colour">
               {PRODUCT.variants.map((variant) => {
                 const variantStock = stock[variant] ?? 0;
                 const out = !stockLoading && variantStock < 1;
+                const label = variantLabel(variant);
                 return (
                   <motion.button
                     key={variant}
                     type="button"
                     role="radio"
                     aria-checked={selectedVariant === variant}
-                    aria-label={`${variant}${out ? " — out of stock" : ""}`}
+                    aria-label={`${label}${out ? " — out of stock" : ""}`}
                     disabled={out}
                     className={`${styles.swatch} ${selectedVariant === variant ? styles.activeSwatch : ""} ${out ? styles.swatchDisabled : ""}`}
                     onClick={() => {
@@ -367,7 +368,7 @@ export default function ProductPage() {
                       setQuantity(1);
                     }}
                     style={{ backgroundColor: VARIANT_COLORS[variant] }}
-                    title={variant}
+                    title={label}
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
                   />
@@ -376,8 +377,8 @@ export default function ProductPage() {
             </div>
             <p className={styles.stockNote}>
               {selectedVariant === "Natural"
-                ? "Natural — soft nude finish"
-                : "Espresso — deep cocoa finish"}
+                ? `${VARIANT_LABELS.Natural} — soft rose finish`
+                : `${VARIANT_LABELS.Espresso} — calm mist grey`}
             </p>
             {stockLoading ? (
               <p className={styles.stockNote} aria-live="polite">
@@ -487,8 +488,8 @@ export default function ProductPage() {
             <div className={styles.compositionItem}>
               <span className={styles.compositionLabel}>Size</span>
               <span className={styles.compositionValue}>
-                {PRODUCT_SPECS.totalLength} total · {PRODUCT_SPECS.insertableLength} insertable ·{" "}
-                {PRODUCT_SPECS.diameter} diameter
+                {PRODUCT_SPECS.length} length · {PRODUCT_SPECS.diameter} diameter ·{" "}
+                {PRODUCT_SPECS.form}
               </span>
             </div>
             <div className={styles.compositionItem}>
@@ -498,7 +499,7 @@ export default function ProductPage() {
             <div className={styles.compositionItem}>
               <span className={styles.compositionLabel}>Features</span>
               <span className={styles.compositionValue}>
-                Dual density · suction cup · {PRODUCT_SPECS.waterproof}
+                Body-safe silicone · stable base · {PRODUCT_SPECS.waterproof}
               </span>
             </div>
           </div>
@@ -566,6 +567,7 @@ export default function ProductPage() {
             "@context": "https://schema.org",
             "@type": "Product",
             name: PRODUCT_NAME,
+            category: "Massage Device",
             brand: { "@type": "Brand", name: "Silk Room" },
             description: PRODUCT_SHORT_DESC,
             image: [`https://silkroom.shop${PRODUCT_GALLERY.Natural[0]}`],

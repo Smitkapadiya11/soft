@@ -20,7 +20,7 @@ export interface BrandMarkProps {
   tone?: "plum" | "cream" | "gold";
 }
 
-const TAGLINE = "Intimate. Comfort. Confidence.";
+const TAGLINE = "Wellness. Comfort. Confidence.";
 
 /**
  * Signature SR seal — interlocking silk-drape S + serif R.

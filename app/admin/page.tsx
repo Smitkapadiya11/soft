@@ -263,7 +263,7 @@ export default function AdminDashboard() {
                     className={styles.variantColor}
                     style={{
                       backgroundColor:
-                        item.variant === "Natural" ? "#e8b4a0" : item.variant === "Espresso" ? "#5c3d2e" : "#ccc",
+                        item.variant === "Natural" ? "#e8b4a0" : item.variant === "Espresso" ? "#8a9098" : "#ccc",
                     }}
                   />
                   <div>

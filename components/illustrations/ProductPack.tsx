@@ -21,7 +21,7 @@ function ProductPack({
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden={ariaHidden}
       role={ariaHidden ? undefined : "img"}
-      aria-label={ariaHidden ? undefined : `Silk Room Real Touch ${variant}`}
+      aria-label={ariaHidden ? undefined : `Silk Room Ease ${variant}`}
     >
       <rect width="400" height="520" fill="#faf6f7" />
       <text x="200" y="260" textAnchor="middle" fill="#6b3d52" fontSize="20">

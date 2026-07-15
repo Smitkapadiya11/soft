@@ -1,4 +1,4 @@
-import { BUSINESS } from "@/lib/constants";
+import { BUSINESS, PRODUCT_NAME, VARIANT_LABELS } from "@/lib/constants";
 import LegalLayout from "@/components/LegalLayout";
 import Link from "next/link";
 import type { Metadata } from "next";
@@ -6,7 +6,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "About Us | Silk Room",
   description:
-    "About Silk Room — discreet online retail of adult intimate products for customers aged 18+ in India.",
+    "About Silk Room — discreet online retail of personal wellness products for adults aged 18+ in India.",
   robots: { index: true, follow: true },
 };
 
@@ -14,15 +14,16 @@ export const revalidate = 86400;
 
 export default function AboutPage() {
   return (
-    <LegalLayout title="About Silk Room" lastUpdated="13 July 2026">
+    <LegalLayout title="About Silk Room" lastUpdated="15 July 2026">
       <p>
-        Silk Room is an Indian online store for adult intimate products designed for pleasure and
-        self-care. We focus on body-safe materials, clear product details, discreet packaging, and
-        secure prepaid checkout.
+        Silk Room is an Indian online store for personal wellness products for adults 18+. We
+        focus on body-safe materials, clear product details, discreet packaging, and secure prepaid
+        checkout.
       </p>
       <p>
-        Our flagship product, Silk Room Real Touch, is an 8.3″ dual-density liquid silicone design
-        with a strong suction cup — available in Natural and Espresso finishes. Adults 18+ only.
+        Our flagship product, {PRODUCT_NAME}, is a compact personal body wellness massager for
+        tension relief and everyday recovery — available in {VARIANT_LABELS.Natural} and{" "}
+        {VARIANT_LABELS.Espresso}. Adults 18+ only.
       </p>
       <h2>Legal Entity Details</h2>
       <ul>

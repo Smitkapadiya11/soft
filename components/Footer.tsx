@@ -52,7 +52,7 @@ function Footer() {
             <BrandMark className={styles.logo} variant="footer" />
           </Link>
           <p className={styles.tagline}>
-            Premium self-care, delivered with total discretion.
+            Personal wellness, delivered discreetly.
           </p>
           <div className={styles.social}>
             <a

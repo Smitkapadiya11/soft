@@ -10,6 +10,7 @@ import { staggerContainer, staggerItem } from "@/lib/motion";
 import { DELIVERY_ESTIMATE } from "@/lib/format";
 import Price from "@/components/Price";
 import { Loader2 } from "lucide-react";
+import { PRODUCT_NAME, variantLabel } from "@/lib/constants";
 
 type OrderLookup = {
   valid: boolean;
@@ -107,7 +108,7 @@ function ConfirmationContent() {
         <motion.div variants={staggerItem} className={styles.row}>
           <span>Item</span>
           <strong>
-            Silk Room Real Touch · {order.variant} × {order.quantity}
+            {PRODUCT_NAME} · {variantLabel(order.variant ?? "")} × {order.quantity}
           </strong>
         </motion.div>
         <motion.div variants={staggerItem} className={styles.row}>

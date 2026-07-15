@@ -1,4 +1,4 @@
-import { BUSINESS, PRODUCT_NAME } from "@/lib/constants";
+import { BUSINESS, PRODUCT_NAME, variantLabel } from "@/lib/constants";
 import { formatINR } from "@/lib/format";
 
 export type LabelOrder = {
@@ -112,7 +112,7 @@ export function buildShippingLabelHtml(order: LabelOrder): string {
         </thead>
         <tbody>
           <tr>
-            <td>${PRODUCT_NAME} (${order.variant})</td>
+            <td>${PRODUCT_NAME} (${variantLabel(order.variant)})</td>
             <td>${sku}</td>
             <td>${order.qty}</td>
             <td>${formatINR(order.amount)}</td>

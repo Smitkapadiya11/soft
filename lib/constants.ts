@@ -1,7 +1,22 @@
 export const PRODUCT_PRICE = 599;
-export const PRODUCT_NAME = "Silk Room Real Touch";
-export const PRODUCT_ID = "silk-room-real-touch";
+export const PRODUCT_NAME = "Silk Room Ease";
+export const PRODUCT_ID = "silk-room-ease";
+
+/** DB / API inventory keys — do not rename without a stock migration */
 export const ALLOWED_VARIANTS = ["Natural", "Espresso"] as const;
+
+/** Friendly Meta-safe labels shown in UI */
+export const VARIANT_LABELS: Record<(typeof ALLOWED_VARIANTS)[number], string> = {
+  Natural: "Soft Rose",
+  Espresso: "Mist Grey",
+};
+
+export function variantLabel(variant: string): string {
+  if (variant in VARIANT_LABELS) {
+    return VARIANT_LABELS[variant as (typeof ALLOWED_VARIANTS)[number]];
+  }
+  return variant;
+}
 
 export const FALLBACK_STOCK: Record<string, number> = {
   Natural: 100,
@@ -10,53 +25,54 @@ export const FALLBACK_STOCK: Record<string, number> = {
 
 export const VARIANT_COLORS: Record<(typeof ALLOWED_VARIANTS)[number], string> = {
   Natural: "#e8b4a0",
-  Espresso: "#5c3d2e",
+  Espresso: "#8a9098",
 };
 
-export const PRODUCT_TAGLINE = "Premium dual-density silicone · discreet delivery";
+export const PRODUCT_TAGLINE = "Body wellness massager · discreet delivery";
 export const PRODUCT_SHORT_DESC =
-  "Body-safe dual-density liquid silicone with a soft outer feel, supportive core, secure base, and waterproof design — made for private, comfortable self-care at home.";
+  "A compact body-safe silicone massager for tension relief and everyday recovery — soft to the touch, waterproof, and easy to clean. Ships in plain discreet packaging.";
 
 export const PRODUCT_SPECS = {
-  totalLength: '8.3"',
-  insertableLength: '6.3"',
+  length: '8.3"',
+  contactLength: '6.3"',
   diameter: '1.6"',
   weight: "10.58 oz",
-  material: "100% body-safe dual-density liquid silicone",
+  material: "100% body-safe silicone",
   waterproof: "Fully waterproof",
-  base: "Industrial-strength suction cup",
+  form: "Compact handheld design",
+  base: "Stable base for hands-free use during recovery",
 } as const;
 
-/** Lifestyle model cover — first in gallery for both variants (optimized JPG) */
+/** Lifestyle wellness cover — first in gallery for both variants */
 export const PRODUCT_COVER_IMAGE = "/products/product-cover-model.jpg";
 
-/** Gallery: lifestyle cover first, then product close-ups */
+/** Gallery: lifestyle + discreet packaging first; product close-ups later */
 export const PRODUCT_GALLERY: Record<(typeof ALLOWED_VARIANTS)[number], string[]> = {
   Natural: [
     PRODUCT_COVER_IMAGE,
+    "/products/natural/06-discreet.png",
+    "/products/natural/05-body-safe.png",
+    "/products/natural/07-complete.png",
     "/products/natural/01-hero.png",
+    "/products/natural/04-dual-density.png",
     "/products/natural/02-real-touch.png",
     "/products/natural/03-lifelike.png",
-    "/products/natural/04-dual-density.png",
-    "/products/natural/05-body-safe.png",
-    "/products/natural/06-discreet.png",
-    "/products/natural/07-complete.png",
   ],
   Espresso: [
     PRODUCT_COVER_IMAGE,
-    "/products/espresso/01-realistic.png",
+    "/products/natural/06-discreet.png",
+    "/products/espresso/04-waterproof.png",
+    "/products/natural/07-complete.png",
     "/products/espresso/02-design.png",
     "/products/espresso/03-size.png",
-    "/products/espresso/04-waterproof.png",
-    "/products/natural/06-discreet.png",
-    "/products/natural/07-complete.png",
+    "/products/espresso/01-realistic.png",
   ],
 };
 
-/** Lifestyle hero — full portrait on mobile */
-export const HOME_HERO_IMAGE = "/products/home-hero.png";
-/** Soft product presentation for below-fold featured section */
-export const HOME_FEATURE_IMAGE = "/products/natural/01-hero.png";
+/** Lifestyle wellness hero for Meta landing match */
+export const HOME_HERO_IMAGE = "/products/product-cover-model.jpg";
+/** Discreet packaging for below-fold featured section */
+export const HOME_FEATURE_IMAGE = "/products/natural/06-discreet.png";
 
 /** @deprecated kept for any remaining pack-size references */
 export const PRODUCT_PACK_SIZE = "Complete kit";
@@ -72,7 +88,7 @@ export const BUSINESS = {
   grievanceOfficer: "Customer Grievance Officer",
   website: "https://silkroom.shop",
   address:
-    "Surat, Gujarat, India — online retail of adult intimate wellness products for customers aged 18+.",
+    "Surat, Gujarat, India — online retail of personal wellness products for adults aged 18+.",
   jurisdiction: "Surat, Gujarat, India",
   hours: "Monday–Saturday, 10:00 AM – 6:00 PM IST",
   gstin: "Available on invoice upon GST registration",
