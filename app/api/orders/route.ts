@@ -19,17 +19,20 @@ export async function POST(req: NextRequest) {
     const checkoutGroupId = randomUUID();
     const totalAmount = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
 
-    for (const item of items) {
-      const inv = await prisma.inventory.findUnique({ where: { variantName: item.variant } });
-      if (!inv || inv.stockCount < item.quantity) {
-        return NextResponse.json(
-          { error: `${item.variant} is out of stock or insufficient quantity available` },
-          { status: 400 }
-        );
-      }
-    }
-
     const result = await prisma.$transaction(async (tx) => {
+      for (const item of items) {
+        const updated = await tx.inventory.updateMany({
+          where: {
+            variantName: item.variant,
+            stockCount: { gte: item.quantity },
+          },
+          data: { stockCount: { decrement: item.quantity } },
+        });
+        if (updated.count === 0) {
+          throw new Error(`STOCK:${item.variant}`);
+        }
+      }
+
       const dbCustomer = await tx.customer.create({ data: customer });
 
       const orders = await Promise.all(
@@ -59,6 +62,14 @@ export async function POST(req: NextRequest) {
       amountPaise: Math.round(totalAmount * 100),
     });
   } catch (err) {
+    const message = err instanceof Error ? err.message : "";
+    if (message.startsWith("STOCK:")) {
+      const variant = message.replace("STOCK:", "");
+      return NextResponse.json(
+        { error: `${variant} is out of stock or insufficient quantity available` },
+        { status: 400 }
+      );
+    }
     console.error("POST /api/orders:", err);
     return NextResponse.json({ error: "Failed to create order" }, { status: 500 });
   }
@@ -73,15 +84,19 @@ export async function GET(req: NextRequest) {
   const page = Math.max(1, parseInt(searchParams.get("page") ?? "1", 10));
   const limit = Math.min(100, Math.max(1, parseInt(searchParams.get("limit") ?? "50", 10)));
   const skip = (page - 1) * limit;
+  const paidOnly = searchParams.get("paid") === "true";
+
+  const where = paidOnly ? { paymentStatus: "paid" } : {};
 
   const [orders, total] = await Promise.all([
     prisma.order.findMany({
+      where,
       skip,
       take: limit,
       orderBy: { createdAt: "desc" },
       include: { customer: true },
     }),
-    prisma.order.count(),
+    prisma.order.count({ where }),
   ]);
 
   return NextResponse.json({
@@ -95,7 +110,7 @@ export async function GET(req: NextRequest) {
       amount: o.amount,
       payment: o.paymentStatus.toUpperCase(),
       status: o.shippingStatus,
-      address: o.customer.addressLine1,
+      addressLine1: o.customer.addressLine1,
       addressLine2: o.customer.addressLine2,
       city: o.customer.city,
       state: o.customer.state,
