@@ -30,8 +30,8 @@ export const metadata: Metadata = {
     "Silk Room Real Touch — body-safe dual-density silicone for private self-care. Natural & Espresso. ₹599. Discreet packaging, free delivery, secure prepaid checkout. Adults 18+.",
   metadataBase: new URL("https://silkroom.shop"),
   icons: {
-    icon: [{ url: "/brand/silk-room-icon.png", type: "image/png" }],
-    apple: [{ url: "/brand/silk-room-icon.png", type: "image/png" }],
+    icon: [{ url: "/brand/sr-monogram.svg", type: "image/svg+xml" }],
+    apple: [{ url: "/brand/sr-monogram.svg", type: "image/svg+xml" }],
   },
   openGraph: {
     title: "Silk Room — Intimate self-care, delivered discreetly",

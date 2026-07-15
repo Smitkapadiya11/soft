@@ -29,32 +29,21 @@
   text-decoration: none;
   flex-shrink: 1;
   min-width: 0;
-  /* Rose-gold logo lives on its own black plate — frame with breathing room */
-  background: #0a0a0a;
-  border: 1px solid rgba(183, 140, 90, 0.35);
-  border-radius: 12px;
-  padding: 6px 12px;
+  color: var(--color-plum-dark);
   line-height: 0;
-  box-shadow: 0 1px 2px rgba(26, 15, 20, 0.06);
-  transition: box-shadow var(--duration-fast) var(--ease-premium),
-              border-color var(--duration-fast) var(--ease-premium),
-              transform var(--duration-fast) var(--ease-premium);
+  padding: 2px 0;
+  transition: color var(--duration-fast) var(--ease-premium),
+              opacity var(--duration-fast) var(--ease-premium);
 }
 
 .logoLink:hover {
-  border-color: rgba(183, 140, 90, 0.65);
-  box-shadow: 0 0 0 1px rgba(183, 140, 90, 0.25),
-              0 4px 14px rgba(26, 15, 20, 0.1);
-  transform: translateY(-1px);
+  color: var(--color-plum);
+  opacity: 0.92;
 }
 
 .logo {
-  height: 56px;
-  width: auto;
-  max-width: min(190px, 44vw);
-  object-fit: contain;
-  object-position: center;
-  display: block;
+  display: inline-flex;
+  max-width: 100%;
 }
 
 .nav {
@@ -191,27 +180,9 @@
 
   .logoLink {
     justify-self: center;
-    padding: 5px 10px;
-    border-radius: 10px;
-  }
-
-  .logo {
-    height: 48px;
-    max-width: min(168px, 52vw);
   }
 
   .cartButton {
     justify-self: end;
-  }
-}
-
-@media (min-width: 769px) {
-  .logo {
-    height: 64px;
-    max-width: 210px;
-  }
-
-  .logoLink {
-    padding: 7px 14px;
   }
 }

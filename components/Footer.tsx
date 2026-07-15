@@ -57,7 +57,7 @@ function Footer() {
       <div className={styles.content}>
         <div className={styles.brandInfo}>
           <Link href="/" className={styles.logoLink}>
-            <BrandMark className={styles.logo} variant="full" />
+            <BrandMark className={styles.logo} variant="footer" />
           </Link>
           <p className={styles.tagline}>
             Premium self-care, delivered with total discretion.

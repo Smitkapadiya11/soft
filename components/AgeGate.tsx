@@ -76,7 +76,7 @@ export default function AgeGate() {
             transition={spring}
           >
             <div className={styles.logoWrap}>
-              <BrandMark className={styles.logo} variant="full" priority />
+              <BrandMark className={styles.logo} variant="gate" priority />
             </div>
             <h2 className={styles.title}>Are you 18 or older?</h2>
             <p className={styles.subtitle}>

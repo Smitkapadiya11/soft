@@ -28,23 +28,15 @@
   display: flex;
   justify-content: center;
   margin: 0 auto var(--space-xl);
-  background: #0a0a0a;
-  border: 1px solid rgba(183, 140, 90, 0.4);
-  border-radius: 14px;
-  padding: 14px 18px;
   width: fit-content;
   max-width: 100%;
   line-height: 0;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18);
+  color: var(--color-plum-dark);
 }
 
 .logo {
-  height: 120px;
-  width: auto;
-  max-width: min(280px, 72vw);
-  object-fit: contain;
-  object-position: center;
-  display: block;
+  display: inline-flex;
+  max-width: 100%;
 }
 
 .illustration {
@@ -127,13 +119,3 @@
   outline-offset: 2px;
 }
 
-@media (max-width: 480px) {
-  .logo {
-    height: 96px;
-    max-width: min(240px, 78vw);
-  }
-
-  .logoWrap {
-    padding: 12px 14px;
-  }
-}
