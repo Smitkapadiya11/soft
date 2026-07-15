@@ -4,7 +4,7 @@ import "./globals.css";
 import AppShell from "@/components/AppShell";
 
 const META_PIXEL_ID =
-  process.env.NEXT_PUBLIC_META_PIXEL_ID?.trim() || "1622491029393248";
+  process.env.NEXT_PUBLIC_META_PIXEL_ID?.trim() || "1366981978831016";
 
 export const viewport: Viewport = {
   width: "device-width",
