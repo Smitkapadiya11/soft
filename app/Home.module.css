@@ -394,40 +394,98 @@
     justify-content: center;
   }
 
-  .trustInner,
   .featuredInner,
   .storyGrid {
     grid-template-columns: 1fr;
   }
 
+  .trustInner {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.85rem 0.75rem;
+  }
+
   .trustItem {
     justify-content: flex-start;
+    text-align: left;
+    font-size: 0.72rem;
+    line-height: 1.35;
+    gap: 0.4rem;
+    min-width: 0;
+  }
+
+  .trustItem span {
+    overflow-wrap: anywhere;
   }
 
   .featuredMedia {
     padding: 1rem 1rem 0.85rem;
   }
+
+  .featured {
+    padding-bottom: max(2.5rem, env(safe-area-inset-bottom));
+  }
+
+  .final {
+    padding-bottom: max(2.75rem, calc(1.5rem + env(safe-area-inset-bottom)));
+  }
 }
 
 @media (max-width: 560px) {
+  .hero {
+    overflow-x: clip;
+  }
+
   .heroBannerFrame {
+    /* Match banner art (~3:2) without large letterbox empty sides */
     aspect-ratio: 3 / 2;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .heroImg {
+    object-fit: contain;
   }
 
   .brand {
-    font-size: clamp(2.6rem, 11vw, 3.4rem);
+    font-size: clamp(2.4rem, 11vw, 3.2rem);
+    overflow-wrap: anywhere;
+  }
+
+  .sub {
+    font-size: 0.98rem;
+  }
+
+  .trustStrip {
+    padding: 0.95rem 1rem;
   }
 
   .trustInner {
     grid-template-columns: 1fr 1fr;
+    gap: 0.9rem 0.65rem;
+  }
+
+  .featureRow {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
   }
 
   .packChips {
     gap: 0.35rem;
+    justify-content: flex-start;
   }
 
   .packChips li {
     font-size: 0.68rem;
     padding: 0.3rem 0.6rem;
+  }
+
+  .featuredInner {
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .featureRow {
+    grid-template-columns: 1fr;
   }
 }

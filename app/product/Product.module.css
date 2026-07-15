@@ -3,7 +3,7 @@
   width: 100%;
   margin: 0 auto;
   padding: var(--space-xl) var(--space-md);
-  padding-bottom: 7.5rem;
+  padding-bottom: calc(7.5rem + env(safe-area-inset-bottom));
   box-sizing: border-box;
 }
 
@@ -1036,7 +1036,7 @@
 @media (max-width: 480px) {
   .container {
     padding: var(--space-md) var(--space-sm);
-    padding-bottom: 7.5rem;
+    padding-bottom: calc(7.5rem + env(safe-area-inset-bottom));
   }
 
   .reviewGrid {
