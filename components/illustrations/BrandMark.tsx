@@ -7,17 +7,23 @@ export interface BrandMarkProps {
   /** Load eagerly — use for the primary navbar mark */
   priority?: boolean;
   /**
-   * `full` — complete logo with tagline (default).
-   * `icon` — square monogram mark for compact placements.
+   * `nav` — monogram + SILK ROOM wordmark (no tagline) for compact chrome.
+   * `full` — complete logo with tagline (age gate, footer).
+   * `icon` — square monogram mark for favicons / compact placements.
    */
-  variant?: "full" | "icon";
+  variant?: "nav" | "full" | "icon";
 }
 
 const ASSETS = {
+  nav: {
+    src: "/brand/silk-room-logo-nav.png",
+    width: 564,
+    height: 330,
+  },
   full: {
-    src: "/brand/silk-room-logo-sm.png",
-    width: 512,
-    height: 341,
+    src: "/brand/silk-room-logo.png",
+    width: 1024,
+    height: 682,
   },
   icon: {
     src: "/brand/silk-room-icon.png",
@@ -28,7 +34,7 @@ const ASSETS = {
 
 /**
  * Official Silk Room logo (rose-gold monogram on black).
- * Pair with a dark pill/badge on light surfaces — the asset includes a black background.
+ * Pair with a dark frame on light surfaces — the asset includes a black background.
  */
 function BrandMark({
   className,
@@ -46,7 +52,13 @@ function BrandMark({
       height={asset.height}
       className={className}
       priority={priority}
-      sizes="(max-width: 768px) 140px, 180px"
+      sizes={
+        variant === "nav"
+          ? "(max-width: 768px) 160px, 200px"
+          : variant === "icon"
+            ? "64px"
+            : "(max-width: 768px) 220px, 280px"
+      }
       aria-hidden={ariaHidden}
     />
   );

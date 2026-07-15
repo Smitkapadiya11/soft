@@ -39,7 +39,7 @@ export default function Navbar() {
         </button>
 
         <Link href="/" className={styles.logoLink} aria-label="Silk Room home">
-          <BrandMark className={styles.logo} priority />
+          <BrandMark className={styles.logo} variant="nav" priority />
         </Link>
 
         <nav className={styles.nav}>
