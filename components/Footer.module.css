@@ -47,17 +47,26 @@
   display: inline-flex;
   align-items: center;
   text-decoration: none;
+  line-height: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  width: fit-content;
+  max-width: 100%;
+  transition: opacity var(--duration-fast) var(--ease-premium),
+              box-shadow var(--duration-fast) var(--ease-premium);
+}
+
+.logoLink:hover {
+  opacity: 0.92;
+  box-shadow: 0 0 0 1px rgba(212, 175, 120, 0.35);
 }
 
 .logo {
-  height: 32px;
+  height: 72px;
   width: auto;
-  color: var(--color-cream);
-  transition: color var(--duration-fast) var(--ease-premium);
-}
-
-.logoLink:hover .logo {
-  color: var(--color-gold);
+  max-width: 220px;
+  object-fit: contain;
+  display: block;
 }
 
 .tagline {

@@ -1,51 +1,54 @@
 import React from "react";
+import Image from "next/image";
 
 export interface BrandMarkProps {
   className?: string;
   ariaHidden?: boolean;
+  /** Load eagerly — use for the primary navbar mark */
+  priority?: boolean;
+  /**
+   * `full` — complete logo with tagline (default).
+   * `icon` — square monogram mark for compact placements.
+   */
+  variant?: "full" | "icon";
 }
 
+const ASSETS = {
+  full: {
+    src: "/brand/silk-room-logo-sm.png",
+    width: 512,
+    height: 341,
+  },
+  icon: {
+    src: "/brand/silk-room-icon.png",
+    width: 512,
+    height: 512,
+  },
+} as const;
+
 /**
- * Silk Room wordmark for the navbar and footer.
- * Uses `currentColor` so it adapts to light and dark contexts.
- * A small silk-droplet mark sits inside a thin ring before the text.
+ * Official Silk Room logo (rose-gold monogram on black).
+ * Pair with a dark pill/badge on light surfaces — the asset includes a black background.
  */
-function BrandMark({ className, ariaHidden = false }: BrandMarkProps) {
+function BrandMark({
+  className,
+  ariaHidden = false,
+  priority = false,
+  variant = "full",
+}: BrandMarkProps) {
+  const asset = ASSETS[variant];
+
   return (
-    <svg
+    <Image
+      src={asset.src}
+      alt={ariaHidden ? "" : "Silk Room"}
+      width={asset.width}
+      height={asset.height}
       className={className}
-      viewBox="0 0 240 48"
-      xmlns="http://www.w3.org/2000/svg"
+      priority={priority}
+      sizes="(max-width: 768px) 140px, 180px"
       aria-hidden={ariaHidden}
-      role={ariaHidden ? undefined : "img"}
-      aria-label={ariaHidden ? undefined : "Silk Room"}
-    >
-      {/* decorative droplet mark inside a ring */}
-      <circle cx="18" cy="24" r="14" fill="none" stroke="currentColor" strokeWidth="1.4" opacity="0.85" />
-      <path
-        d="M18 12 C 13.5 18, 10.5 21, 10.5 25 C 10.5 29, 14 32, 18 32 C 22 32, 25.5 29, 25.5 25 C 25.5 21, 22.5 18, 18 12 Z"
-        fill="currentColor"
-      />
-      {/* subtle silk ribbon swirl from the droplet */}
-      <path
-        d="M18 31 C 21 33, 25 33, 26 30"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.2"
-        strokeLinecap="round"
-        opacity="0.6"
-      />
-      <text
-        x="42"
-        y="31"
-        fontFamily="'Playfair Display', Georgia, serif"
-        fontSize="23"
-        letterSpacing="0.5"
-        fill="currentColor"
-      >
-        Silk Room
-      </text>
-    </svg>
+    />
   );
 }
 

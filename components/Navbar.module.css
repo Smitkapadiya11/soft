@@ -13,7 +13,7 @@
   max-width: min(var(--container-max), 100%);
   width: 100%;
   margin: 0 auto;
-  padding: 1rem;
+  padding: 0.65rem 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -25,19 +25,30 @@
 .logoLink {
   display: flex;
   align-items: center;
+  justify-content: center;
   text-decoration: none;
-  flex-shrink: 0;
+  flex-shrink: 1;
+  min-width: 0;
+  /* Logo asset has a black field — frame it as a compact dark badge on the light header */
+  background: #0a0a0a;
+  border-radius: 10px;
+  padding: 3px 8px;
+  line-height: 0;
+  transition: box-shadow var(--duration-fast) var(--ease-premium),
+              transform var(--duration-fast) var(--ease-premium);
+}
+
+.logoLink:hover {
+  box-shadow: 0 0 0 1px rgba(183, 140, 90, 0.45);
+  transform: translateY(-1px);
 }
 
 .logo {
-  height: 32px;
+  height: 44px;
   width: auto;
-  color: var(--color-plum-dark);
-  transition: color var(--duration-fast) var(--ease-premium);
-}
-
-.logoLink:hover .logo {
-  color: var(--color-gold);
+  max-width: min(160px, 42vw);
+  object-fit: contain;
+  display: block;
 }
 
 .nav {
@@ -163,6 +174,36 @@
   .nav {
     display: none;
   }
+
+  .container {
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr) 44px;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .logoLink {
+    justify-self: center;
+    padding: 2px 6px;
+    border-radius: 8px;
+  }
+
+  .logo {
+    height: 36px;
+    max-width: min(140px, 48vw);
+  }
+
+  .cartButton {
+    justify-self: end;
+  }
+}
+
+@media (min-width: 769px) {
+  .logo {
+    height: 52px;
+    max-width: 180px;
+  }
 }
 .header {
   position: sticky;
@@ -183,10 +224,15 @@
 }
 
 .logo {
-  font-family: var(--font-serif);
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--color-plum-dark);
+  /* Keep image logo sizing; ignore legacy text-logo rules below if cascaded */
+  font-size: 0;
+  font-weight: 400;
+  color: transparent;
+  height: 44px;
+  width: auto;
+  max-width: min(160px, 42vw);
+  object-fit: contain;
+  display: block;
 }
 
 .nav {

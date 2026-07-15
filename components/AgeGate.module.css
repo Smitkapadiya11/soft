@@ -24,6 +24,26 @@
   box-shadow: var(--shadow-lg);
 }
 
+.logoWrap {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto var(--space-lg);
+  background: #0a0a0a;
+  border-radius: 12px;
+  padding: 8px 12px;
+  width: fit-content;
+  max-width: 100%;
+  line-height: 0;
+}
+
+.logo {
+  height: 88px;
+  width: auto;
+  max-width: min(260px, 70vw);
+  object-fit: contain;
+  display: block;
+}
+
 .illustration {
   display: block;
   max-width: 120px;

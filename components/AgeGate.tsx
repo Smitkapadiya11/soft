@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { AgeGateIllustration } from "@/components/illustrations";
+import { BrandMark } from "@/components/illustrations";
 import { scaleIn, spring } from "@/lib/motion";
 import styles from "./AgeGate.module.css";
 
@@ -75,7 +75,9 @@ export default function AgeGate() {
             variants={scaleIn}
             transition={spring}
           >
-            <AgeGateIllustration className={styles.illustration} />
+            <div className={styles.logoWrap}>
+              <BrandMark className={styles.logo} priority />
+            </div>
             <h2 className={styles.title}>Are you 18 or older?</h2>
             <p className={styles.subtitle}>
               Silk Room offers adult self-care products for customers aged 18 and above.

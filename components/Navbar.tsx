@@ -38,8 +38,8 @@ export default function Navbar() {
           {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
 
-        <Link href="/" className={styles.logoLink}>
-          <BrandMark className={styles.logo} />
+        <Link href="/" className={styles.logoLink} aria-label="Silk Room home">
+          <BrandMark className={styles.logo} priority />
         </Link>
 
         <nav className={styles.nav}>
