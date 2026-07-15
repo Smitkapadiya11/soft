@@ -1,5 +1,5 @@
 export const META_PIXEL_ID =
-  process.env.NEXT_PUBLIC_META_PIXEL_ID?.trim() || "1366981978831016";
+  process.env.NEXT_PUBLIC_META_PIXEL_ID?.trim() || "1622491029393248";
 
 declare global {
   interface Window {
