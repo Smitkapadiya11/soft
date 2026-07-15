@@ -14,32 +14,44 @@ function fireFbq(
   options?: { eventID?: string }
 ) {
   if (typeof window.fbq !== "function") return false;
-  if (options?.eventID) {
-    window.fbq("track", event, params ?? {}, { eventID: options.eventID });
-  } else {
-    window.fbq("track", event, params ?? {});
+  try {
+    if (options?.eventID) {
+      window.fbq("track", event, params ?? {}, { eventID: options.eventID });
+    } else {
+      window.fbq("track", event, params ?? {});
+    }
+    return true;
+  } catch {
+    return false;
   }
-  return true;
 }
 
-/** First-party beacon fallback when facebook.net is blocked in the browser */
-function fireBeacon(event: string) {
+/**
+ * Dual beacon:
+ * 1) Direct facebook.com/tr — what Pixel Helper watches for
+ * 2) Same-origin /api/meta/tr — reaches Meta when Facebook domains are blocked
+ */
+function fireBeacons(event: string) {
   try {
-    const qs = new URLSearchParams({
+    const common = new URLSearchParams({
       id: META_PIXEL_ID,
       ev: event,
       noscript: "1",
       dl: window.location.href,
+      rl: document.referrer || "",
       _: String(Date.now()),
     });
-    const img = new Image();
-    img.src = `/api/meta/tr?${qs.toString()}`;
+
+    const direct = new Image();
+    direct.src = `https://www.facebook.com/tr?${common.toString()}`;
+
+    const proxied = new Image();
+    proxied.src = `/api/meta/tr?${common.toString()}`;
   } catch {
     /* ignore */
   }
 }
 
-/** Fire immediately, or retry briefly while Pixel base script finishes loading */
 export function trackMeta(
   event: string,
   params?: Record<string, unknown>,
@@ -47,8 +59,7 @@ export function trackMeta(
 ) {
   if (typeof window === "undefined") return;
 
-  // Always send first-party beacon so Meta can receive events behind blockers
-  fireBeacon(event);
+  fireBeacons(event);
 
   if (fireFbq(event, params, options)) return;
 
