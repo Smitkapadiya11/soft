@@ -115,7 +115,7 @@ export default function CartDrawer() {
                           <h3 className={styles.itemName}>{item.name}</h3>
                           <p className={styles.itemVariant}>Colour: {variantLabel(item.variant)}</p>
                           <p className={styles.itemPrice}>
-                            <Price amount={PRODUCT_PRICE} />
+                            <Price amount={PRODUCT_PRICE} sale />
                           </p>
                           <div className={styles.itemActions}>
                             <div className={styles.quantity} aria-label={`Quantity for ${item.variant}`}>

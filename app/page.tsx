@@ -103,7 +103,7 @@ export default function Home() {
             <Link href="/product" className={styles.cta}>
               Shop {PRODUCT_NAME}
               <span className={styles.priceChip}>
-                <Price amount={PRODUCT_PRICE} />
+                <Price amount={PRODUCT_PRICE} sale />
               </span>
             </Link>
             <p className={styles.fine}>18+ · Free discreet delivery · Prepaid secure</p>
@@ -140,7 +140,7 @@ export default function Home() {
           </Reveal>
           <div className={styles.featuredCopy}>
             <span className={styles.eyebrow}>
-              Arrives discreetly · <Price amount={PRODUCT_PRICE} className={styles.priceInline} />
+              Arrives discreetly · <Price amount={PRODUCT_PRICE} className={styles.priceInline} sale />
             </span>
             <h2>Ships in a plain box</h2>
             <p>
@@ -194,7 +194,7 @@ export default function Home() {
       <section className={styles.final}>
         <h2>Ready when you are</h2>
         <p>
-          <Price amount={PRODUCT_PRICE} className={styles.priceInline} /> · Discreet box · Razorpay
+          <Price amount={PRODUCT_PRICE} className={styles.priceInline} sale /> · Discreet box · Razorpay
           prepaid · Adults 18+
         </p>
         <Link href="/product" className={styles.cta}>

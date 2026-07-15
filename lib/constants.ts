@@ -1,4 +1,13 @@
+/** Charged / checkout price (sale) — server payment authority */
 export const PRODUCT_PRICE = 599;
+
+/** Listed MRP for sale UI only — not charged. 80% off → ₹599 */
+export const PRODUCT_MRP = 2999;
+
+/** Exact off % for sale badge (no coupon — direct discounted price) */
+export const PRODUCT_DISCOUNT_PERCENT = Math.round(
+  ((PRODUCT_MRP - PRODUCT_PRICE) / PRODUCT_MRP) * 100
+);
 export const PRODUCT_NAME = "Silk Room Ease";
 export const PRODUCT_ID = "silk-room-ease";
 

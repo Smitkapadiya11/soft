@@ -22,6 +22,8 @@ import Price from "@/components/Price";
 import { formatINR } from "@/lib/format";
 import {
   PRODUCT_PRICE,
+  PRODUCT_MRP,
+  PRODUCT_DISCOUNT_PERCENT,
   PRODUCT_NAME,
   PRODUCT_ID,
   PRODUCT_TAGLINE,
@@ -388,8 +390,9 @@ export default function ProductPage() {
 
           <div className={styles.priceRow}>
             <p className={styles.price}>
-              <Price amount={PRODUCT.price} />
+              <Price amount={PRODUCT.price} sale />
             </p>
+            <span className={styles.saleNote}>Sale price · no coupon needed</span>
             <span className={styles.freeDelivery}>
               <Truck size={16} aria-hidden /> Free discreet delivery
             </span>
@@ -533,7 +536,7 @@ export default function ProductPage() {
           >
             <div className={styles.stickyPrice}>
               <span>{selectedLabel}</span>
-              <Price amount={PRODUCT_PRICE} as="strong" />
+              <Price amount={PRODUCT_PRICE} as="strong" sale />
             </div>
             <button
               type="button"
@@ -678,7 +681,20 @@ export default function ProductPage() {
               price: String(PRODUCT_PRICE),
               priceCurrency: "INR",
               availability: "https://schema.org/InStock",
+              priceValidUntil: "2026-12-31",
             },
+            additionalProperty: [
+              {
+                "@type": "PropertyValue",
+                name: "MRP",
+                value: String(PRODUCT_MRP),
+              },
+              {
+                "@type": "PropertyValue",
+                name: "Discount",
+                value: `${PRODUCT_DISCOUNT_PERCENT}% OFF`,
+              },
+            ],
             aggregateRating: {
               "@type": "AggregateRating",
               ratingValue: "4.8",
