@@ -6,6 +6,9 @@ import AppShell from "@/components/AppShell";
 const META_PIXEL_ID =
   process.env.NEXT_PUBLIC_META_PIXEL_ID?.trim() || "1366981978831016";
 
+/** Official Meta base code — must be in HTML so Pixel Helper / Events Manager detect install */
+const META_PIXEL_SCRIPT = `!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','${META_PIXEL_ID}');fbq('track','PageView');`;
+
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
@@ -63,7 +66,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${dmSans.variable} ${cormorant.variable}`}>
-        {/* Noscript fallback for Meta crawlers (live events inject client-side) */}
+        <script dangerouslySetInnerHTML={{ __html: META_PIXEL_SCRIPT }} />
         <noscript>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
