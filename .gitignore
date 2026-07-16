@@ -49,3 +49,8 @@ next-env.d.ts
 # Never serve key dumps or CSV exports from public/
 public/*.csv
 
+
+# Local shipping analytics (may contain PII)
+customer_old/
+*.xlsx
+
