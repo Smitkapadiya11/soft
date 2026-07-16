@@ -17,9 +17,10 @@ export default function Terms() {
     <LegalLayout title="Terms and Conditions" lastUpdated="11 July 2026">
       <h2>1. About us</h2>
       <p>
-        silkroom.shop is operated by <strong>{BUSINESS.legalName}</strong>, a {BUSINESS.entityType}
-        {" "}registered in India at {BUSINESS.address}. We are an online retailer of personal wellness
-        products for adults aged 18 and above.
+        silkroom.shop is operated by <strong>{BUSINESS.legalName}</strong> under the trading
+        name <strong>{BUSINESS.tradingAs}</strong>, founded by <strong>{BUSINESS.founder}</strong>
+        {" "}({BUSINESS.entityType}). Registered in India at {BUSINESS.address}. We are an online
+        retailer of personal wellness products for adults aged 18 and above.
       </p>
 
       <h2>2. Eligibility</h2>

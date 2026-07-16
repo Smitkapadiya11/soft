@@ -245,7 +245,7 @@ export default function ProductPage() {
     {
       title: "What warranty do I get?",
       content:
-        "6-month limited warranty against manufacturing defects from delivery date. Misuse, improper cleaning, or unauthorized modifications are not covered. Email support@silkroom.co with your order number.",
+        "6-month limited warranty against manufacturing defects from delivery date. Misuse, improper cleaning, or unauthorized modifications are not covered. Email kapadiya.working@gmail.com or WhatsApp +91 75758 07403 with your order number.",
     },
     {
       title: "Can I return it?",

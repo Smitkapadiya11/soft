@@ -16,13 +16,19 @@ export default function ContactPage() {
   return (
     <LegalLayout
       title="Contact Us"
-      lastUpdated="11 July 2026"
+      lastUpdated="17 July 2026"
       subtitle="We're here to help with orders, returns, and any questions."
     >
       <h2>Business Details</h2>
       <ul>
         <li>
-          Business name: <strong>{BUSINESS.legalName}</strong>
+          Trading name: <strong>{BUSINESS.tradingAs}</strong>
+        </li>
+        <li>
+          Legal entity: <strong>{BUSINESS.legalName}</strong>
+        </li>
+        <li>
+          Founder: <strong>{BUSINESS.founder}</strong>
         </li>
         <li>Entity type: {BUSINESS.entityType}</li>
         <li>
@@ -40,6 +46,12 @@ export default function ContactPage() {
           Email: <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a>
         </li>
         <li>Phone / WhatsApp: {BUSINESS.phone}</li>
+        <li>
+          WhatsApp chat:{" "}
+          <a href={`https://wa.me/${BUSINESS.whatsapp}`} target="_blank" rel="noopener noreferrer">
+            Open WhatsApp
+          </a>
+        </li>
         <li>
           Grievance Officer: {BUSINESS.grievanceOfficer},{" "}
           <a href={`mailto:${BUSINESS.grievanceEmail}`}>{BUSINESS.grievanceEmail}</a>

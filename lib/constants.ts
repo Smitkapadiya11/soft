@@ -37,9 +37,9 @@ export const VARIANT_COLORS: Record<(typeof ALLOWED_VARIANTS)[number], string> =
   Espresso: "#8a9098",
 };
 
-export const PRODUCT_TAGLINE = "Body wellness massager · discreet delivery";
+export const PRODUCT_TAGLINE = "Body wellness · plain packaging · prepaid India";
 export const PRODUCT_SHORT_DESC =
-  "A compact body-safe silicone massager for tension relief and everyday recovery — soft to the touch, waterproof, and easy to clean. Ships in plain discreet packaging.";
+  "A compact body-safe silicone massager for tension relief and everyday recovery — soft to the touch, waterproof, and easy to clean. Ships in a plain discreet carton with free delivery. Sold by KAPADIYA AND SONS (Silk Room), founded by Smit Kapadiya.";
 
 export const PRODUCT_SPECS = {
   length: '8.3"',
@@ -74,31 +74,66 @@ export const PRODUCT_GALLERY: Record<(typeof ALLOWED_VARIANTS)[number], string[]
 };
 
 /** Lifestyle wellness hero for Meta landing match */
-export const HOME_HERO_IMAGE = "/products/product-cover-model.jpg";
+export const HOME_HERO_IMAGE = "/brand/story/01-arrival.png";
 /** Plain brown carton for below-fold featured section (Meta-safe) */
 export const HOME_FEATURE_IMAGE = "/products/plain-box.png";
+
+/** Homepage brand story — order matters (Meta trust rebuild) */
+export const HOME_STORY = [
+  {
+    src: "/brand/story/01-arrival.png",
+    title: "It arrives quietly",
+    text: "A plain carton. No product name outside. Your privacy is protected from the first knock.",
+  },
+  {
+    src: "/brand/story/02-relief.png",
+    title: "Relief you can feel",
+    text: "Built for tension, stress, fatigue, and restless evenings — everyday body comfort, privately.",
+  },
+  {
+    src: "/brand/story/03-trust.png",
+    title: "A brand you can trust",
+    text: "Real people. Clear policies. Razorpay prepaid checkout. Support that answers on WhatsApp.",
+  },
+  {
+    src: "/brand/story/04-care.png",
+    title: "Handled with care",
+    text: "From packing to delivery, every order is treated as personal — because comfort is personal.",
+  },
+] as const;
+
+export const HOME_EXTRA = {
+  morning: "/brand/morning-calm.png",
+  discreet: "/brand/discreet-desk.png",
+  texture: "/brand/silk-texture.png",
+} as const;
 
 /** @deprecated kept for any remaining pack-size references */
 export const PRODUCT_PACK_SIZE = "Complete kit";
 
 export const BUSINESS = {
   name: "Silk Room",
-  legalName: "Silk Room",
+  legalName: "KAPADIYA AND SONS",
+  tradingAs: "Silk Room",
+  founder: "Smit Kapadiya",
   entityType: "proprietorship",
-  email: "support@silkroom.co",
-  phone: "Contact via support@silkroom.co",
+  email: "kapadiya.working@gmail.com",
+  phone: "+91 75758 07403",
+  phoneDigits: "7575807403",
   whatsapp: "917575807403",
-  grievanceEmail: "grievance@silkroom.co",
-  grievanceOfficer: "Customer Grievance Officer",
+  grievanceEmail: "kapadiya.working@gmail.com",
+  grievanceOfficer: "Smit Kapadiya",
   website: "https://silkroom.shop",
   address:
     "Surat, Gujarat, India — online retail of personal wellness products for adults aged 18+.",
   jurisdiction: "Surat, Gujarat, India",
-  hours: "Monday–Saturday, 10:00 AM – 6:00 PM IST",
+  hours: "Monday–Saturday, 10:00 AM – 8:00 PM IST",
   gstin: "Available on invoice upon GST registration",
   acceptedPaymentMethods: ["UPI", "Credit Card", "Debit Card", "Net Banking", "Wallets"],
   grievanceAcknowledgmentHours: 48,
   grievanceResolutionDays: 30,
+  mission:
+    "Silk Room was founded by Smit Kapadiya to deliver discreet, dignified relief for women — premium body wellness without stigma, noise, or confusion at the door.",
 } as const;
 
 export const POLICY_LINKS = [

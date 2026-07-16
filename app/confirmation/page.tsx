@@ -118,9 +118,9 @@ function ConfirmationContent() {
         </div>
         <h1 className={styles.title}>Order not found</h1>
         <p className={styles.subtitle}>
-          We couldn&apos;t verify this order. If you completed payment, contact{" "}
-          <a href="mailto:support@silkroom.co">support@silkroom.co</a> with your
-          payment ID.
+          We couldn&apos;t verify this order. If you completed payment, email{" "}
+          <a href="mailto:kapadiya.working@gmail.com">kapadiya.working@gmail.com</a> or WhatsApp{" "}
+          <a href="https://wa.me/917575807403">+91 75758 07403</a> with your payment ID.
         </p>
         <div className={styles.ctaGroup}>
           <Link href="/product" className={styles.ctaPrimary}>

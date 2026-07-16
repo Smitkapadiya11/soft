@@ -31,9 +31,9 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "Silk Room — Personal Body Wellness | Discreet Delivery India",
+  title: "Silk Room — Discreet Body Wellness | KAPADIYA AND SONS",
   description:
-    "Silk Room Ease — personal body wellness massager for tension relief & everyday recovery. Soft Rose & Mist Grey. ₹599. Discreet packaging, free delivery, secure prepaid checkout. Adults 18+.",
+    "Silk Room Ease by KAPADIYA AND SONS (Founder: Smit Kapadiya). Body wellness for women · plain packaging · Razorpay prepaid · WhatsApp +91 75758 07403 · ₹599 sale. Adults 18+.",
   metadataBase: new URL("https://silkroom.shop"),
   icons: {
     icon: [{ url: "/brand/sr-monogram.svg", type: "image/svg+xml" }],

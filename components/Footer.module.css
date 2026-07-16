@@ -153,6 +153,13 @@
   line-height: 1.6;
 }
 
+.legalLine {
+  margin-top: 0.5rem;
+  font-size: 0.78rem !important;
+  line-height: 1.45;
+  opacity: 0.65 !important;
+}
+
 .newsletter {
   display: flex;
   flex-direction: column;

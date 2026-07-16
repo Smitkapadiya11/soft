@@ -103,7 +103,12 @@ function Footer() {
         <div className={styles.contact}>
           <h4>Contact Us</h4>
           <p>Email: {BUSINESS.email}</p>
-          <p>WhatsApp: {BUSINESS.whatsapp}</p>
+          <p>WhatsApp: {BUSINESS.phone}</p>
+          <p className={styles.legalLine}>
+            {BUSINESS.name} · {BUSINESS.legalName}
+            <br />
+            Founded by {BUSINESS.founder}
+          </p>
           <p>
             <Link href="/contact">Full contact &amp; grievance details</Link>
           </p>
@@ -112,7 +117,7 @@ function Footer() {
 
       <Reveal className={styles.bottom}>
         <p>
-          &copy; {CURRENT_YEAR} {BUSINESS.name}. All rights reserved.
+          &copy; {CURRENT_YEAR} {BUSINESS.name} · {BUSINESS.legalName}. All rights reserved.
         </p>
       </Reveal>
     </footer>
