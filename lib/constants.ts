@@ -78,6 +78,39 @@ export const HOME_HERO_IMAGE = "/brand/story/01-arrival.png";
 /** Plain brown carton for below-fold featured section (Meta-safe) */
 export const HOME_FEATURE_IMAGE = "/products/plain-box.png";
 
+/** Homepage UGC strip — replaces full-bleed hero */
+export const HOME_UGC = [
+  {
+    src: "/brand/ugc/01-arrived.png",
+    alt: "Customer holding discreet Silk Room delivery — finally arrived, plain box",
+  },
+  {
+    src: "/brand/ugc/02-relief.png",
+    alt: "Customer at home after delivery — relief from tension and stress",
+  },
+  {
+    src: "/brand/ugc/03-order.png",
+    alt: "Hands on Silk Room parcel — ₹599 sale, free discreet delivery",
+  },
+] as const;
+
+/** Homepage opening carousel — full-fit images, no crop */
+export const HOME_START_SLIDES = [
+  ...HOME_UGC,
+  {
+    src: "/brand/slides/01-sale.png",
+    alt: "Silk Room Ease limited sale — ₹599, MRP ₹2,999, 80% off, no coupon needed",
+  },
+  {
+    src: "/brand/slides/02-delivery.png",
+    alt: "Free discreet delivery — plain outer box, no product name, pan-India shipping",
+  },
+  {
+    src: "/brand/slides/03-secure.png",
+    alt: "Razorpay secure checkout — UPI, cards, net banking, 6-month warranty, adults 18+",
+  },
+] as const;
+
 /** Homepage brand story — order matters (Meta trust rebuild) */
 export const HOME_STORY = [
   {
@@ -105,8 +138,23 @@ export const HOME_STORY = [
 export const HOME_EXTRA = {
   morning: "/brand/morning-calm.png",
   discreet: "/brand/discreet-desk.png",
-  texture: "/brand/silk-texture.png",
 } as const;
+
+/** Premium slideshow — proof / conversion section */
+export const HOME_SLIDESHOW = [
+  {
+    src: "/brand/slides/01-sale.png",
+    alt: "Silk Room Ease limited sale — ₹599, MRP ₹2,999, 80% off, no coupon needed",
+  },
+  {
+    src: "/brand/slides/02-delivery.png",
+    alt: "Free discreet delivery — plain outer box, no product name, pan-India shipping",
+  },
+  {
+    src: "/brand/slides/03-secure.png",
+    alt: "Razorpay secure checkout — UPI, cards, net banking, 6-month warranty, adults 18+",
+  },
+] as const;
 
 /** @deprecated kept for any remaining pack-size references */
 export const PRODUCT_PACK_SIZE = "Complete kit";
@@ -142,4 +190,21 @@ export const POLICY_LINKS = [
   { href: "/shipping", label: "Shipping Policy" },
   { href: "/contact", label: "Contact Us" },
   { href: "/cancellation-and-refunds", label: "Return & Refund Policy" },
+] as const;
+
+/** Primary navbar links */
+export const NAV_MAIN_LINKS = [
+  { href: "/", label: "Home" },
+  { href: "/product", label: "Shop" },
+  { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
+] as const;
+
+/** Secondary navbar — policies & support */
+export const NAV_SUPPORT_LINKS = [
+  { href: "/shipping", label: "Shipping" },
+  { href: "/cancellation-and-refunds", label: "Returns" },
+  { href: "/replacement", label: "Warranty" },
+  { href: "/privacy", label: "Privacy" },
+  { href: "/terms", label: "Terms" },
 ] as const;

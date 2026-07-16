@@ -6,13 +6,18 @@ import {
   PRODUCT_NAME,
   PRODUCT_MRP,
   PRODUCT_DISCOUNT_PERCENT,
+  HOME_START_SLIDES,
   HOME_STORY,
   HOME_EXTRA,
+  HOME_SLIDESHOW,
   BUSINESS,
   VARIANT_LABELS,
 } from "@/lib/constants";
 import Price from "@/components/Price";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/MotionWrapper";
+import HomeHeroShowcase from "@/components/HomeHeroShowcase";
+import HomeShowcase from "@/components/HomeShowcase";
+import WhatsAppButton from "@/components/WhatsAppButton";
 import {
   Package,
   ShieldCheck,
@@ -21,7 +26,6 @@ import {
   BadgeCheck,
   MessageCircle,
   Truck,
-  Landmark,
 } from "lucide-react";
 
 const trustPillars = [
@@ -43,58 +47,47 @@ const trustPillars = [
   {
     icon: MessageCircle,
     title: "Human WhatsApp support",
-    text: `${BUSINESS.phone} · ${BUSINESS.hours}. Real replies from the Silk Room team.`,
+    text: `${BUSINESS.hours}. Real replies from the Silk Room team — tap below to chat.`,
   },
 ];
 
 export default function Home() {
   return (
     <>
-      {/* Hero — brand + one story image full-bleed */}
-      <section className={styles.hero}>
-        <div className={styles.heroMedia}>
-          <Image
-            src={HOME_STORY[0].src}
-            alt="Silk Room — discreet delivery arrives at home"
-            fill
-            priority
-            sizes="100vw"
-            className={styles.heroImg}
-          />
-          <div className={styles.heroShade} aria-hidden />
-        </div>
-        <div className={styles.heroCopy}>
-          <p className={styles.brand}>Silk Room</p>
-          <h1 className={styles.headline}>
-            Discreet relief for women who carry too much.
-          </h1>
-          <p className={styles.sub}>
-            {PRODUCT_NAME} — body wellness for tension, stress, and recovery days.
-            Plain packaging. Prepaid Razorpay. Adults 18+.
-          </p>
-          <div className={styles.ctaRow}>
-            <Link href="/product" className={styles.cta}>
-              Shop {PRODUCT_NAME}
-              <span className={styles.priceChip}>
-                <Price amount={PRODUCT_PRICE} sale />
-              </span>
-            </Link>
-            <a
-              href={`https://wa.me/${BUSINESS.whatsapp}?text=${encodeURIComponent("Hi Silk Room, I have a question before ordering.")}`}
-              className={styles.ctaGhost}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              WhatsApp {BUSINESS.phone}
-            </a>
+      <section className={styles.ugcPanel} aria-label="Silk Room — shop now">
+        <div className={styles.ugcPanelInner}>
+          <div className={styles.ugcCopy}>
+            <p className={styles.eyebrow}>Limited sale · trusted delivery</p>
+            <p className={styles.brand}>Silk Room</p>
+            <h1 className={styles.ugcHeadline}>
+              Discreet relief, delivered beautifully.
+            </h1>
+            <p className={styles.ugcSub}>
+              {PRODUCT_NAME} for tension, stress, and recovery days. Plain packaging,
+              Razorpay prepaid checkout, and real support before you order.
+            </p>
+            <div className={styles.heroTrustLine}>
+              <span>Free discreet delivery</span>
+              <span>6-month warranty</span>
+              <span>Adults 18+</span>
+            </div>
+            <div className={styles.ugcPanelFoot}>
+              <Link href="/product" className={styles.buyNow}>
+                Buy now
+                <span className={styles.priceChip}>
+                  <Price amount={PRODUCT_PRICE} sale />
+                </span>
+              </Link>
+              <p className={styles.ugcNote}>
+                <Link href="/about">About Silk Room</Link> · <Link href="/contact">Contact support</Link>
+              </p>
+            </div>
           </div>
-          <p className={styles.fine}>
-            Owned by {BUSINESS.legalName} · Founded by {BUSINESS.founder} · Surat, India
-          </p>
+
+          <HomeHeroShowcase slides={HOME_START_SLIDES} />
         </div>
       </section>
 
-      {/* Four-image brand story — one line */}
       <section className={styles.story} aria-label="The Silk Room story">
         <div className={styles.storyHead}>
           <p className={styles.eyebrow}>The Silk Room promise</p>
@@ -125,14 +118,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Trust rebuild — Meta concern */}
       <section className={styles.trust} aria-label="Why customers trust Silk Room">
         <div className={styles.trustIntro}>
           <p className={styles.eyebrow}>Why people buy with confidence</p>
           <h2>We removed every reason to hesitate.</h2>
           <p>
-            Meta ads send you here in seconds. Your decision should feel equally clear: who we are,
-            how we ship, how you pay, and who answers when you message.
+            Your decision should feel clear: who we are, how we ship, how you pay, and who answers
+            when you message.
           </p>
         </div>
         <StaggerGroup className={styles.trustGrid}>
@@ -144,28 +136,22 @@ export default function Home() {
             </StaggerItem>
           ))}
         </StaggerGroup>
-        <div className={styles.legalStrip}>
-          <Landmark size={18} aria-hidden />
-          <p>
-            <strong>{BUSINESS.name}</strong> is the trading name of{" "}
-            <strong>{BUSINESS.legalName}</strong>, founded by{" "}
-            <strong>{BUSINESS.founder}</strong>. Jurisdiction: {BUSINESS.jurisdiction}. Contact{" "}
-            <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a> or WhatsApp{" "}
-            <a href={`https://wa.me/${BUSINESS.whatsapp}`}>{BUSINESS.phone}</a>.
-          </p>
+        <div className={styles.trustActions}>
+          <WhatsAppButton />
         </div>
       </section>
 
-      {/* Offer + product bridge */}
       <section className={styles.offer}>
         <Reveal className={styles.offerMedia}>
-          <Image
-            src={HOME_EXTRA.discreet}
-            alt="Discreet plain carton ready for delivery"
-            fill
-            sizes="(max-width: 900px) 100vw, 50vw"
-            className={styles.offerImg}
-          />
+          <div className={styles.mediaFrame}>
+            <Image
+              src={HOME_EXTRA.discreet}
+              alt="Plain box delivery — no product name on outer carton, free discreet shipping across India"
+              fill
+              sizes="(max-width: 900px) 100vw, 50vw"
+              className={styles.containImg}
+            />
+          </div>
         </Reveal>
         <div className={styles.offerCopy}>
           <p className={styles.eyebrow}>Limited sale · no coupon needed</p>
@@ -189,22 +175,20 @@ export default function Home() {
               <ShieldCheck size={16} aria-hidden /> 6-month manufacturing warranty
             </li>
           </ul>
-          <Link href="/product" className={styles.cta}>
-            View product &amp; buy
-          </Link>
         </div>
       </section>
 
-      {/* Founder */}
       <section className={styles.founder}>
         <div className={styles.founderMedia}>
-          <Image
-            src={HOME_EXTRA.morning}
-            alt="Quiet morning light — Silk Room wellness mood"
-            fill
-            sizes="(max-width: 900px) 100vw, 42vw"
-            className={styles.founderImg}
-          />
+          <div className={styles.mediaFrameDark}>
+            <Image
+              src={HOME_EXTRA.morning}
+              alt="Relief without embarrassment — body wellness founded by Smit Kapadiya, KAPADIYA AND SONS"
+              fill
+              sizes="(max-width: 900px) 100vw, 42vw"
+              className={styles.containImg}
+            />
+          </div>
         </div>
         <div className={styles.founderCopy}>
           <p className={styles.eyebrow}>Founder’s note</p>
@@ -215,6 +199,7 @@ export default function Home() {
             so you can verify us before you pay. If something is unclear, message us on WhatsApp
             before you order. We would rather earn trust than rush a sale.
           </p>
+          <WhatsAppButton variant="light" />
           <p className={styles.founderSign}>
             — {BUSINESS.founder}
             <span>
@@ -224,67 +209,45 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Proof strip */}
-      <section className={styles.proof}>
-        <div className={styles.proofTexture}>
-          <Image
-            src={HOME_EXTRA.texture}
-            alt=""
-            fill
-            sizes="40vw"
-            className={styles.proofTextureImg}
-            aria-hidden
-          />
-        </div>
-        <div className={styles.proofInner}>
-          <h2>What “premium” means here</h2>
-          <div className={styles.proofGrid}>
-            <div>
-              <h3>Clarity before checkout</h3>
-              <p>
-                Price, colours ({VARIANT_LABELS.Natural} / {VARIANT_LABELS.Espresso}), delivery
-                estimate, and return rules — visible on the product page.
-              </p>
+      <section className={styles.showcase} aria-label="Premium experience">
+        <div className={styles.showcaseGrid}>
+          <HomeShowcase slides={HOME_SLIDESHOW} />
+          <div className={styles.showcaseCopy}>
+            <p className={styles.eyebrow}>Built to convert confidence</p>
+            <h2>What “premium” means here</h2>
+            <div className={styles.proofGrid}>
+              <div>
+                <h3>Clarity before checkout</h3>
+                <p>
+                  Price, colours ({VARIANT_LABELS.Natural} / {VARIANT_LABELS.Espresso}), delivery
+                  estimate, and return rules — visible on the product page.
+                </p>
+              </div>
+              <div>
+                <h3>Privacy by design</h3>
+                <p>
+                  Plain outer packaging. No product name on the label. Invoice details kept for your
+                  order — not for gossip at the door.
+                </p>
+              </div>
+              <div>
+                <h3>Accountable ownership</h3>
+                <p>
+                  Not a faceless storefront. {BUSINESS.legalName} · {BUSINESS.founder} ·{" "}
+                  <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a>.
+                </p>
+              </div>
             </div>
-            <div>
-              <h3>Privacy by design</h3>
-              <p>
-                Plain outer packaging. No product name on the label. Invoice details kept for your
-                order — not for gossip at the door.
-              </p>
-            </div>
-            <div>
-              <h3>Accountable ownership</h3>
-              <p>
-                Not a faceless storefront. {BUSINESS.legalName} · {BUSINESS.founder} ·{" "}
-                {BUSINESS.email} · {BUSINESS.phone}.
-              </p>
+            <div className={styles.showcaseActions}>
+              <Link href="/product" className={styles.buyNow}>
+                Buy now
+                <span className={styles.priceChip}>
+                  <Price amount={PRODUCT_PRICE} sale />
+                </span>
+              </Link>
+              <WhatsAppButton />
             </div>
           </div>
-          <Link href="/product" className={styles.cta}>
-            Continue to {PRODUCT_NAME}
-          </Link>
-        </div>
-      </section>
-
-      <section className={styles.final}>
-        <h2>Ready when you are.</h2>
-        <p>
-          <Price amount={PRODUCT_PRICE} sale className={styles.priceInline} /> · Free discreet
-          delivery · Razorpay prepaid · Adults 18+
-        </p>
-        <div className={styles.ctaRow}>
-          <Link href="/product" className={styles.cta}>
-            Shop now
-          </Link>
-          <a
-            href={`https://wa.me/${BUSINESS.whatsapp}`}
-            className={styles.ctaGhost}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Ask on WhatsApp
-          </a>
         </div>
       </section>
     </>

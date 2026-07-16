@@ -16,6 +16,18 @@ export default function Terms() {
   return (
     <LegalLayout title="Terms and Conditions" lastUpdated="11 July 2026">
       <h2>1. About us</h2>
+      <div className="legalEntityBox">
+        <p>
+          <strong>{BUSINESS.name}</strong> is the trading name of{" "}
+          <strong>{BUSINESS.legalName}</strong>, founded by{" "}
+          <strong>{BUSINESS.founder}</strong>. Jurisdiction: {BUSINESS.jurisdiction}. Contact{" "}
+          <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a> or{" "}
+          <a href={`https://wa.me/${BUSINESS.whatsapp}`} target="_blank" rel="noopener noreferrer">
+            WhatsApp support
+          </a>
+          .
+        </p>
+      </div>
       <p>
         silkroom.shop is operated by <strong>{BUSINESS.legalName}</strong> under the trading
         name <strong>{BUSINESS.tradingAs}</strong>, founded by <strong>{BUSINESS.founder}</strong>

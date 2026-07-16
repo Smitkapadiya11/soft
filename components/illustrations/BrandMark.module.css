@@ -8,11 +8,23 @@
   min-width: 0;
 }
 
-.monogram {
+.monogram,
+.seal {
   flex-shrink: 0;
   display: block;
   width: 2.65rem;
   height: 2.65rem;
+  position: relative;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(61, 36, 51, 0.12);
+}
+
+.sealImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .wordstack {
@@ -53,7 +65,8 @@
   min-height: 2.75rem;
 }
 
-.nav .monogram {
+.nav .monogram,
+.nav .seal {
   width: 2.75rem;
   height: 2.75rem;
 }
@@ -70,7 +83,8 @@
   min-height: 3.25rem;
 }
 
-.footer .monogram {
+.footer .monogram,
+.footer .seal {
   width: 3.25rem;
   height: 3.25rem;
 }
@@ -96,7 +110,9 @@
 }
 
 .hero .monogram,
-.gate .monogram {
+.gate .monogram,
+.hero .seal,
+.gate .seal {
   width: 4.5rem;
   height: 4.5rem;
 }
@@ -121,7 +137,8 @@
   opacity: 0.72;
 }
 
-.gate .monogram {
+.gate .monogram,
+.gate .seal {
   width: 4rem;
   height: 4rem;
 }
@@ -151,7 +168,8 @@
     min-height: 3.15rem;
   }
 
-  .nav .monogram {
+  .nav .monogram,
+  .nav .seal {
     width: 3.15rem;
     height: 3.15rem;
   }
@@ -161,7 +179,8 @@
     letter-spacing: 0.2em;
   }
 
-  .footer .monogram {
+  .footer .monogram,
+  .footer .seal {
     width: 3.5rem;
     height: 3.5rem;
   }
@@ -170,7 +189,8 @@
     font-size: 1.7rem;
   }
 
-  .hero .monogram {
+  .hero .monogram,
+  .hero .seal {
     width: 5.25rem;
     height: 5.25rem;
   }
@@ -179,7 +199,8 @@
     font-size: 2.35rem;
   }
 
-  .gate .monogram {
+  .gate .monogram,
+  .gate .seal {
     width: 4.75rem;
     height: 4.75rem;
   }
@@ -195,7 +216,8 @@
     min-height: 2.55rem;
   }
 
-  .nav .monogram {
+  .nav .monogram,
+  .nav .seal {
     width: 2.55rem;
     height: 2.55rem;
   }
@@ -209,7 +231,8 @@
     gap: 0.65rem;
   }
 
-  .footer .monogram {
+  .footer .monogram,
+  .footer .seal {
     width: 2.85rem;
     height: 2.85rem;
   }
@@ -219,7 +242,8 @@
     letter-spacing: 0.16em;
   }
 
-  .gate .monogram {
+  .gate .monogram,
+  .gate .seal {
     width: 3.75rem;
     height: 3.75rem;
   }
@@ -236,7 +260,8 @@
     letter-spacing: 0.12em;
   }
 
-  .nav .monogram {
+  .nav .monogram,
+  .nav .seal {
     width: 2.35rem;
     height: 2.35rem;
   }

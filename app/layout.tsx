@@ -36,8 +36,11 @@ export const metadata: Metadata = {
     "Silk Room Ease by KAPADIYA AND SONS (Founder: Smit Kapadiya). Body wellness for women · plain packaging · Razorpay prepaid · WhatsApp +91 75758 07403 · ₹599 sale. Adults 18+.",
   metadataBase: new URL("https://silkroom.shop"),
   icons: {
-    icon: [{ url: "/brand/sr-monogram.svg", type: "image/svg+xml" }],
-    apple: [{ url: "/brand/sr-monogram.svg", type: "image/svg+xml" }],
+    icon: [
+      { url: "/brand/silk-seal.svg", type: "image/svg+xml" },
+      { url: "/brand/favicon.png", type: "image/png" },
+    ],
+    apple: [{ url: "/brand/silk-room-icon.png", type: "image/png" }],
   },
   openGraph: {
     title: "Silk Room — Body care, delivered discreetly",

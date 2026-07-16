@@ -1,0 +1,122 @@
+.shell {
+  display: grid;
+  gap: 0.9rem;
+  min-width: 0;
+}
+
+.stage {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  min-height: min(62vh, 560px);
+  overflow: hidden;
+  border-radius: 26px;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.82), transparent 55%),
+    linear-gradient(160deg, rgba(250, 247, 242, 0.95), rgba(229, 216, 207, 0.92));
+  box-shadow:
+    0 24px 70px rgba(61, 36, 51, 0.16),
+    inset 0 0 0 1px rgba(61, 36, 51, 0.08);
+}
+
+.activeSlide {
+  position: absolute;
+  inset: 0;
+  padding: clamp(0.6rem, 2vw, 1rem);
+}
+
+.activeImage {
+  object-fit: contain;
+  object-position: center;
+  filter: drop-shadow(0 18px 28px rgba(61, 36, 51, 0.13));
+}
+
+.previewRail {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.55rem;
+}
+
+.preview,
+.previewActive {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: pointer;
+  padding: 0;
+  background: rgba(250, 247, 242, 0.72);
+  box-shadow: inset 0 0 0 1px rgba(61, 36, 51, 0.08);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, opacity 0.22s ease;
+}
+
+.preview {
+  opacity: 0.68;
+}
+
+.previewActive {
+  opacity: 1;
+  transform: translateY(-2px);
+  box-shadow:
+    0 12px 26px rgba(61, 36, 51, 0.12),
+    inset 0 0 0 1px rgba(61, 36, 51, 0.16);
+}
+
+.previewImage {
+  object-fit: contain;
+  object-position: center;
+  padding: 0.25rem;
+}
+
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.42rem;
+}
+
+.dot,
+.dotActive {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  transition: width 0.25s ease, background 0.25s ease;
+}
+
+.dot {
+  background: rgba(61, 36, 51, 0.2);
+}
+
+.dotActive {
+  width: 26px;
+  background: #3d2433;
+}
+
+@media (max-width: 700px) {
+  .stage {
+    min-height: auto;
+    aspect-ratio: 3 / 4;
+    border-radius: 20px;
+  }
+
+  .previewRail {
+    gap: 0.4rem;
+  }
+
+  .preview,
+  .previewActive {
+    border-radius: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .activeSlide,
+  .preview,
+  .previewActive,
+  .dot,
+  .dotActive {
+    transition: none !important;
+  }
+}

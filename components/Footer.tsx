@@ -103,7 +103,16 @@ function Footer() {
         <div className={styles.contact}>
           <h4>Contact Us</h4>
           <p>Email: {BUSINESS.email}</p>
-          <p>WhatsApp: {BUSINESS.phone}</p>
+          <p>
+            <a
+              href={`https://wa.me/${BUSINESS.whatsapp}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.socialLink}
+            >
+              Chat on WhatsApp
+            </a>
+          </p>
           <p className={styles.legalLine}>
             {BUSINESS.name} · {BUSINESS.legalName}
             <br />

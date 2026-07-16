@@ -4,7 +4,7 @@
   background: rgba(42, 23, 33, 0.5);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
-  z-index: var(--z-drawer);
+  z-index: 3000;
 }
 
 .drawer {
@@ -15,7 +15,7 @@
   width: 100%;
   max-width: 400px;
   background-color: var(--color-cream);
-  z-index: calc(var(--z-drawer) + 1);
+  z-index: 3001;
   display: flex;
   flex-direction: column;
   box-shadow: var(--shadow-lg);
