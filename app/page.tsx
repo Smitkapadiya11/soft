@@ -18,7 +18,6 @@ import Price from "@/components/Price";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/MotionWrapper";
 import HomeHeroShowcase from "@/components/HomeHeroShowcase";
 import HomeShowcase from "@/components/HomeShowcase";
-import CatalogCardSlideshow from "@/components/CatalogCardSlideshow";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import { CATALOG_PRODUCTS } from "@/lib/products";
 import {
@@ -106,20 +105,12 @@ export default function Home() {
             return (
               <article className={styles.catalogCard} key={product.id}>
                 <Link href={href} className={styles.catalogImageLink}>
-                  <CatalogCardSlideshow
-                    slides={[
-                      {
-                        src: product.cardImage,
-                        alt: `${product.name} — delivered discreetly`,
-                        fit: "cover",
-                      },
-                      {
-                        src: product.gallery[0],
-                        alt: `${product.name} — actual product`,
-                        fit: "contain",
-                      },
-                    ]}
-                    intervalMs={4000}
+                  <Image
+                    src={product.cardImage}
+                    alt={`${product.name} — delivered discreetly`}
+                    fill
+                    sizes="(max-width: 760px) 100vw, 33vw"
+                    className={styles.catalogImage}
                   />
                 </Link>
                 <div className={styles.catalogCardBody}>
@@ -141,13 +132,13 @@ export default function Home() {
         </div>
       </section>
 
-      <section className={styles.story} aria-label="Why customers trust Silk Room">
+      <section className={styles.story} aria-label="Why Silk Room Ease">
         <div className={styles.storyHead}>
-          <p className={styles.eyebrow}>The Silk Room standard</p>
-          <h2>Premium care. Complete privacy.</h2>
+          <p className={styles.eyebrow}>What’s inside the plain box</p>
+          <h2>Product truth. Not packaging theatre.</h2>
           <p>
-            Visitors land here to decide. Four promises we keep on every single order — so trust
-            starts before checkout.
+            Visitors land here to decide. We put {PRODUCT_NAME} centre-stage — materials, feel,
+            waterproofing, and craft — so trust starts before checkout.
           </p>
         </div>
         <div className={styles.storyRail}>

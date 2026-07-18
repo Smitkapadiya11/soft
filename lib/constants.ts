@@ -89,23 +89,23 @@ export const HOME_START_SLIDES = [
   },
 ] as const;
 
-/** Trust story — premium text-only trust markers (no product imagery) */
+/** Trust story — same copy as before, text-only trust markers (no product imagery) */
 export const HOME_STORY = [
   {
-    title: "Discreet by design",
-    text: "Every order ships in a premium unmarked carton. No product name, no brand, nothing to explain at the door.",
+    title: "Meet Silk Room Ease",
+    text: "The product inside the plain box — Soft Rose finish, dual-density comfort, built for private relief at home.",
   },
   {
-    title: "Body-safe materials",
-    text: "100% body-safe silicone, skin-friendly finishes, and easy-clean waterproof builds — quality you can trust on your body.",
+    title: "100% body-safe silicone",
+    text: "Pure, skin-friendly material. No mystery plastics. Designed for comfort you can trust on your body.",
   },
   {
-    title: "Prepaid & private",
-    text: "Razorpay-secured UPI, cards, and net banking. No COD conversations, no awkward cash moments — paid and private before it ships.",
+    title: "Fully waterproof",
+    text: "Bath, shower, or evening routine — easy to clean, easy to use, built for real life.",
   },
   {
-    title: "Care that answers",
-    text: "6-month warranty and human WhatsApp support, Monday–Saturday. A real team stands behind every delivery.",
+    title: "Dual-density comfort",
+    text: "Soft outer touch with a supportive core — premium feel that sells itself when you see it.",
   },
 ] as const;
 
