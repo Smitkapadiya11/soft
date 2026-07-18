@@ -1,4 +1,5 @@
 import { BUSINESS, POLICY_LINKS } from "@/lib/constants";
+import { CATALOG_PRODUCTS } from "@/lib/products";
 import LegalLayout from "@/components/LegalLayout";
 import Link from "next/link";
 import type { Metadata } from "next";
@@ -6,7 +7,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Return & Refund Policy | Silk Room",
   description:
-    "Return and refund policy for silkroom.shop — cancellation before dispatch, hygiene rules for personal-care devices, refund timelines via Razorpay.",
+    "Return and refund policy for Silk Room Ease, Lick, and Trio — cancellation before dispatch, hygiene rules, and Razorpay refund timelines.",
   robots: { index: true, follow: true },
 };
 
@@ -16,13 +17,14 @@ export default function CancellationAndRefundsPage() {
   return (
     <LegalLayout
       title="Return & Refund Policy"
-      lastUpdated="11 July 2026"
+      lastUpdated="19 July 2026"
       subtitle={`${BUSINESS.name} · silkroom.shop`}
     >
       <p>
         This Return &amp; Refund Policy applies to all prepaid orders placed on{" "}
-        <a href={BUSINESS.website}>{BUSINESS.website}</a>. Payments are processed by Razorpay.
-        Please read this policy before placing an order.
+        <a href={BUSINESS.website}>{BUSINESS.website}</a>, including{" "}
+        {CATALOG_PRODUCTS.map((product) => product.name).join(", ")}. Payments are processed by
+        Razorpay. Please read this policy before placing an order.
       </p>
 
       <h2>1. Order cancellation</h2>

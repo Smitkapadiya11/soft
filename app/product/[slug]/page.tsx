@@ -20,8 +20,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const product = getProductBySlug(slug);
   if (!product || product.slug === "ease") return {};
 
-  const title = `${product.name} — ₹${product.price} | Silk Room`;
-  const description = `${product.description} Free discreet delivery across India. Secure Razorpay checkout. Adults 18+.`;
+  const title = `${product.name} — ₹${product.price} (${product.discountPercent}% OFF) | Silk Room`;
+  const description = `${product.description} Sale ₹${product.price} (MRP ₹${product.mrp}, ${product.discountPercent}% OFF). Free discreet delivery across India. Secure Razorpay checkout. Adults 18+.`;
   const url = `https://silkroom.shop/product/${product.slug}`;
 
   return {

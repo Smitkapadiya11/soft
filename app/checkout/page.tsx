@@ -7,7 +7,7 @@ import styles from "./Checkout.module.css";
 import { Lock, Loader2 } from "lucide-react";
 import Price from "@/components/Price";
 import { PRODUCT_ID } from "@/lib/constants";
-import { productVariantBySku } from "@/lib/products";
+import { getProductBySku, productVariantBySku } from "@/lib/products";
 import { trackInitiateCheckout } from "@/lib/meta-pixel";
 
 type PaymentStep = "idle" | "creating_order" | "initiating_payment" | "awaiting_payment" | "verifying";
@@ -369,7 +369,11 @@ export default function CheckoutPage() {
                   </p>
                 </div>
                 <p className={styles.summaryItemPrice}>
-                  <Price amount={item.price} sale />
+                  <Price
+                    amount={item.price}
+                    mrp={getProductBySku(item.variant)?.mrp}
+                    sale
+                  />
                   {item.quantity > 1 ? (
                     <span className={styles.summaryLineTotal}>
                       {" "}

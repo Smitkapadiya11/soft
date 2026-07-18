@@ -120,9 +120,9 @@ export default function Home() {
                   </h3>
                   <p>{product.tagline}</p>
                   <div className={styles.catalogCardFooter}>
-                    <Price amount={product.price} sale />
+                    <Price amount={product.price} mrp={product.mrp} sale />
                     <Link href={href} className={styles.catalogCta}>
-                      View product
+                      Buy · {product.discountPercent}% off
                     </Link>
                   </div>
                 </div>

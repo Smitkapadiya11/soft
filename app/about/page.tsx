@@ -7,7 +7,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "About Us | Silk Room — KAPADIYA AND SONS",
   description:
-    "Silk Room is owned by KAPADIYA AND SONS, founded by Smit Kapadiya — discreet personal wellness for women in India.",
+    "Silk Room by KAPADIYA AND SONS — Ease, Lick, and Trio personal wellness products with discreet delivery across India.",
   robots: { index: true, follow: true },
 };
 
@@ -15,13 +15,27 @@ export const revalidate = 86400;
 
 export default function AboutPage() {
   return (
-    <LegalLayout title="About Silk Room" lastUpdated="17 July 2026">
+    <LegalLayout title="About Silk Room" lastUpdated="19 July 2026">
       <p>{BUSINESS.mission}</p>
       <p>
-        Silk Room offers three adult personal-wellness products:{" "}
-        {CATALOG_PRODUCTS.map((product) => product.name).join(", ")}. Each product page shows
-        its real gallery, specifications, price, care guidance, and stock before checkout.
-        Adults 18+ only. Every order ships in plain packaging with prepaid Razorpay checkout.
+        Silk Room is India’s care-first personal-wellness brand with three products designed for
+        private, premium experiences:
+      </p>
+      <ul>
+        {CATALOG_PRODUCTS.map((product) => (
+          <li key={product.id}>
+            <strong>{product.name}</strong> — {product.tagline}. Sale ₹{product.price} (MRP ₹
+            {product.mrp}, {product.discountPercent}% OFF).{" "}
+            <Link href={product.slug === "ease" ? "/product" : `/product/${product.slug}`}>
+              View product
+            </Link>
+          </li>
+        ))}
+      </ul>
+      <p>
+        Each product page shows the real gallery, specifications, honest sale price, care
+        guidance, and live stock before checkout. Adults 18+ only. Every order ships free in
+        plain packaging with prepaid Razorpay checkout.
       </p>
       <h2>Legal Entity Details</h2>
       <ul>

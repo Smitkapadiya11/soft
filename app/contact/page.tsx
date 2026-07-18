@@ -1,4 +1,5 @@
 import { BUSINESS, POLICY_LINKS } from "@/lib/constants";
+import { CATALOG_PRODUCTS } from "@/lib/products";
 import LegalLayout from "@/components/LegalLayout";
 import Link from "next/link";
 import type { Metadata } from "next";
@@ -6,7 +7,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Contact Us | Silk Room",
   description:
-    "Contact Silk Room — customer support, grievance officer, business hours, GSTIN, registered address, and grievance escalation path.",
+    "Contact Silk Room for Ease, Lick, and Trio orders — WhatsApp support, grievance officer, business hours, and escalation path.",
   robots: { index: true, follow: true },
 };
 
@@ -16,9 +17,20 @@ export default function ContactPage() {
   return (
     <LegalLayout
       title="Contact Us"
-      lastUpdated="17 July 2026"
-      subtitle="We're here to help with orders, returns, and any questions."
+      lastUpdated="19 July 2026"
+      subtitle="We're here to help with Ease, Lick, Trio, returns, and any questions."
     >
+      <h2>Shop our products</h2>
+      <ul>
+        {CATALOG_PRODUCTS.map((product) => (
+          <li key={product.id}>
+            <Link href={product.slug === "ease" ? "/product" : `/product/${product.slug}`}>
+              {product.name}
+            </Link>{" "}
+            — ₹{product.price} ({product.discountPercent}% OFF)
+          </li>
+        ))}
+      </ul>
       <h2>Business Details</h2>
       <ul>
         <li>

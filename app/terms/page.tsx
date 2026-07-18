@@ -1,4 +1,5 @@
 import { BUSINESS } from "@/lib/constants";
+import { CATALOG_PRODUCTS } from "@/lib/products";
 import LegalLayout from "@/components/LegalLayout";
 import Link from "next/link";
 import type { Metadata } from "next";
@@ -6,7 +7,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Terms and Conditions | Silk Room",
   description:
-    "Terms and Conditions for using silkroom.shop — an online retailer of personal wellness products for adults aged 18 and above in India.",
+    "Terms and Conditions for silkroom.shop — retailer of Silk Room Ease, Lick, and Trio personal wellness products for adults 18+ in India.",
   robots: { index: true, follow: true },
 };
 
@@ -14,7 +15,7 @@ export const revalidate = 86400;
 
 export default function Terms() {
   return (
-    <LegalLayout title="Terms and Conditions" lastUpdated="11 July 2026">
+    <LegalLayout title="Terms and Conditions" lastUpdated="19 July 2026">
       <h2>1. About us</h2>
       <div className="legalEntityBox">
         <p>
@@ -32,7 +33,8 @@ export default function Terms() {
         silkroom.shop is operated by <strong>{BUSINESS.legalName}</strong> under the trading
         name <strong>{BUSINESS.tradingAs}</strong>, founded by <strong>{BUSINESS.founder}</strong>
         {" "}({BUSINESS.entityType}). Registered in India at {BUSINESS.address}. We are an online
-        retailer of personal wellness products for adults aged 18 and above.
+        retailer of personal wellness products for adults aged 18 and above, including{" "}
+        {CATALOG_PRODUCTS.map((product) => product.name).join(", ")}.
       </p>
 
       <h2>2. Eligibility</h2>
@@ -52,9 +54,22 @@ export default function Terms() {
 
       <h2>4. Product information</h2>
       <p>
-        We sell genuine products inspected before dispatch. Please check the device and
-        accessories on delivery. Use products in accordance with the included quick-start guide
-        and these Terms.
+        We sell genuine Silk Room products inspected before dispatch. Our current catalogue
+        includes:
+      </p>
+      <ul>
+        {CATALOG_PRODUCTS.map((product) => (
+          <li key={product.id}>
+            <strong>{product.name}</strong> — sale price ₹{product.price} against MRP ₹
+            {product.mrp} ({product.discountPercent}% OFF). Product details, galleries, and care
+            guidance appear on each product page before checkout.
+          </li>
+        ))}
+      </ul>
+      <p>
+        Please check the product and accessories on delivery. Use products in accordance with
+        the included care guidance and these Terms. Personal wellness products are not medical
+        devices.
       </p>
 
       <h2>5. Payments</h2>

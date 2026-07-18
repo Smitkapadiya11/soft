@@ -1,4 +1,10 @@
 :root {
+  /* Universal premium typography — Apple system stack sitewide.
+     One family for body text, headings, and numerals so every page matches. */
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+    "Segoe UI", Roboto, "Helvetica Neue", "Inter", Arial, sans-serif;
+  --font-serif: var(--font-sans);
+
   /* Silk Room — soft mauve intimate wellness palette */
   --color-blush: #f3e6ea;
   --color-cream: #faf6f7;
@@ -92,8 +98,9 @@ a {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-serif);
-  font-weight: 500;
+  font-family: var(--font-sans);
+  font-weight: 650;
+  letter-spacing: -0.03em;
 }
 
 /* Utility classes */

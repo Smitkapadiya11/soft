@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, DM_Sans } from "next/font/google";
 import "./globals.css";
 import AppShell from "@/components/AppShell";
 
@@ -14,21 +13,6 @@ export const viewport: Viewport = {
   initialScale: 1,
   viewportFit: "cover",
 };
-
-const dmSans = DM_Sans({
-  subsets: ["latin"],
-  variable: "--font-sans",
-  display: "swap",
-  preload: true,
-});
-
-const cormorant = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-serif",
-  display: "swap",
-  preload: true,
-});
 
 export const metadata: Metadata = {
   title: "Silk Room — Three Discreet Wellness Products | India",
@@ -68,7 +52,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${dmSans.variable} ${cormorant.variable}`}>
+      <body>
         <script dangerouslySetInnerHTML={{ __html: META_PIXEL_SCRIPT }} />
         <noscript>
           {/* eslint-disable-next-line @next/next/no-img-element */}

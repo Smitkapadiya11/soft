@@ -1,4 +1,5 @@
 import { BUSINESS } from "@/lib/constants";
+import { CATALOG_PRODUCTS } from "@/lib/products";
 import LegalLayout from "@/components/LegalLayout";
 import Link from "next/link";
 import type { Metadata } from "next";
@@ -6,7 +7,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Privacy Policy | Silk Room",
   description:
-    "Privacy Policy for silkroom.shop — how we collect, use, store, and protect your personal data in compliance with the DPDP Act, 2023 and IT Act, 2000.",
+    "Privacy Policy for silkroom.shop — how we collect, use, store, and protect your personal data when you shop Silk Room Ease, Lick, and Trio.",
   robots: { index: true, follow: true },
 };
 
@@ -14,11 +15,12 @@ export const revalidate = 86400;
 
 export default function PrivacyPolicy() {
   return (
-    <LegalLayout title="Privacy Policy" lastUpdated="10 July 2026">
+    <LegalLayout title="Privacy Policy" lastUpdated="19 July 2026">
       <p>
         Silk Room (&ldquo;we&rdquo;, &ldquo;us&rdquo;, &ldquo;our&rdquo;), operated by{" "}
         <strong>{BUSINESS.legalName}</strong>, a {BUSINESS.entityType} registered in India at{" "}
-        {BUSINESS.address}, operates silkroom.shop (the &ldquo;Site&rdquo;). We are committed to
+        {BUSINESS.address}, operates silkroom.shop (the &ldquo;Site&rdquo;) and sells{" "}
+        {CATALOG_PRODUCTS.map((product) => product.name).join(", ")}. We are committed to
         protecting your personal data in accordance with the Digital Personal Data Protection Act,
         2023 and the Information Technology Act, 2000.
       </p>

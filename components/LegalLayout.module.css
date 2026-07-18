@@ -9,11 +9,12 @@
 }
 
 .title {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 2.5rem;
   color: var(--color-plum-dark);
   margin-bottom: 0.5rem;
-  font-weight: 400;
+  font-weight: 650;
+  letter-spacing: -0.035em;
 }
 
 .subtitle {

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Star, ShieldCheck, Loader2, Truck } from "lucide-react";
@@ -37,6 +38,7 @@ import {
   variantLabel,
 } from "@/lib/constants";
 import { trackViewContent } from "@/lib/meta-pixel";
+import { CATALOG_PRODUCTS } from "@/lib/products";
 
 const PRODUCT = {
   id: PRODUCT_ID,
@@ -397,7 +399,7 @@ export default function ProductPage() {
 
           <div className={styles.priceRow}>
             <p className={styles.price}>
-              <Price amount={PRODUCT.price} sale />
+              <Price amount={PRODUCT.price} mrp={PRODUCT_MRP} sale />
             </p>
             <span className={styles.saleNote}>Sale price · no coupon needed</span>
             <span className={styles.freeDelivery}>
@@ -670,6 +672,27 @@ export default function ProductPage() {
             </motion.div>
           ))}
         </motion.div>
+      </div>
+
+      <div className={styles.bottomSection}>
+        <h2 className={styles.sectionTitle}>Also in the Silk Room collection</h2>
+        <div className={styles.reviewGrid}>
+          {CATALOG_PRODUCTS.filter((item) => item.slug !== "ease").map((item) => (
+            <Link
+              key={item.id}
+              href={`/product/${item.slug}`}
+              className={styles.reviewCard}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <div style={{ position: "relative", width: "100%", aspectRatio: "1", marginBottom: "0.75rem", borderRadius: 12, overflow: "hidden", background: "#f7f1ec" }}>
+                <Image src={item.gallery[0]} alt={item.name} fill sizes="33vw" style={{ objectFit: "contain", padding: "0.5rem" }} />
+              </div>
+              <h3 style={{ margin: "0 0 0.35rem", fontSize: "1.15rem", letterSpacing: "-0.02em" }}>{item.name}</h3>
+              <p className={styles.reviewText} style={{ marginBottom: "0.55rem" }}>{item.tagline}</p>
+              <Price amount={item.price} mrp={item.mrp} sale />
+            </Link>
+          ))}
+        </div>
       </div>
 
       <script

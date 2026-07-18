@@ -227,8 +227,10 @@
 
 .catalogHead h2 {
   margin: 0 0 0.65rem;
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: clamp(1.9rem, 4vw, 2.75rem);
+  font-weight: 650;
+  letter-spacing: -0.035em;
   color: #3d2433;
   line-height: 1.12;
 }
@@ -299,8 +301,10 @@
 
 .catalogCardBody h3 {
   margin: 0;
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+  font-weight: 650;
+  letter-spacing: -0.03em;
   color: #3d2433;
 }
 

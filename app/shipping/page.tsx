@@ -1,4 +1,5 @@
 import { BUSINESS } from "@/lib/constants";
+import { CATALOG_PRODUCTS } from "@/lib/products";
 import LegalLayout from "@/components/LegalLayout";
 import Link from "next/link";
 import type { Metadata } from "next";
@@ -6,7 +7,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Shipping Policy | Silk Room",
   description:
-    "Shipping Policy for silkroom.shop — order processing, delivery timelines, shipping charges, geographic coverage, tracking, and discreet packaging information.",
+    "Shipping Policy for silkroom.shop — free plain-box delivery for Silk Room Ease, Lick, and Trio across India.",
   robots: { index: true, follow: true },
 };
 
@@ -14,7 +15,13 @@ export const revalidate = 86400;
 
 export default function Shipping() {
   return (
-    <LegalLayout title="Shipping Policy" lastUpdated="10 July 2026">
+    <LegalLayout title="Shipping Policy" lastUpdated="19 July 2026">
+      <p>
+        This Shipping Policy applies to all Silk Room products currently sold on the Site:{" "}
+        {CATALOG_PRODUCTS.map((product) => product.name).join(", ")}. Mixed-product orders ship
+        together in the same discreet carton whenever stock allows.
+      </p>
+
       <h2>Order Processing</h2>
       <p>
         Orders are processed within 1-3 business days after prepaid payment confirmation. Orders

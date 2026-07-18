@@ -353,17 +353,20 @@
 }
 
 .title {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: clamp(1.85rem, 4vw, 2.5rem);
-  font-weight: 600;
-  letter-spacing: -0.02em;
+  font-weight: 650;
+  letter-spacing: -0.035em;
   color: var(--color-plum-dark);
   margin-bottom: var(--space-xs);
 }
 
 .price {
+  font-family: var(--font-sans);
   font-size: 2rem;
   font-weight: 700;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
   color: var(--color-plum-dark);
   margin-bottom: 0;
 }

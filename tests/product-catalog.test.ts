@@ -25,6 +25,15 @@ test("catalog exposes three products at authoritative prices", () => {
   );
 });
 
+test("sale discounts match Ease-style MRP mechanism", () => {
+  const [ease, lick, trio] = CATALOG_PRODUCTS;
+  assert.equal(ease.discountPercent, 80);
+  assert.equal(lick.mrp, 2199);
+  assert.equal(lick.discountPercent, 75);
+  assert.equal(trio.mrp, 3999);
+  assert.equal(trio.discountPercent, 80);
+});
+
 test("all inventory SKUs have authoritative catalog prices", () => {
   for (const sku of INVENTORY_SKUS) {
     assert.equal(typeof productPriceBySku(sku), "number");

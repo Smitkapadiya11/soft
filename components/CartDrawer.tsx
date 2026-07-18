@@ -6,6 +6,7 @@ import { X, Minus, Plus, Trash2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "@/context/CartContext";
 import {
+  getProductBySku,
   productImageBySku,
   productVariantBySku,
 } from "@/lib/products";
@@ -137,7 +138,11 @@ export default function CartDrawer() {
                             {productVariantBySku(item.variant)}
                           </p>
                           <p className={styles.itemPrice}>
-                            <Price amount={item.price} sale />
+                            <Price
+                              amount={item.price}
+                              mrp={getProductBySku(item.variant)?.mrp}
+                              sale
+                            />
                           </p>
                           <div className={styles.itemActions}>
                             <div className={styles.quantity} aria-label={`Quantity for ${item.name}`}>

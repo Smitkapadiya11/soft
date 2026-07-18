@@ -2,18 +2,26 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { BadgeCheck, Loader2, ShieldCheck, Star, Truck } from "lucide-react";
-import Accordion from "@/components/Accordion";
+import {
+  Loader2,
+  Lock,
+  Package,
+  ShieldCheck,
+  Star,
+  Truck,
+} from "lucide-react";
 import Price from "@/components/Price";
-import TrustBadges from "@/components/TrustBadges";
 import { useCart } from "@/context/CartContext";
 import { formatINR } from "@/lib/format";
 import { trackViewContent } from "@/lib/meta-pixel";
-import type { CatalogProduct } from "@/lib/products";
-import { smooth } from "@/lib/motion";
-import styles from "../Product.module.css";
+import {
+  CATALOG_PRODUCTS,
+  type CatalogProduct,
+} from "@/lib/products";
+import styles from "./CatalogProduct.module.css";
 
 type Props = {
   product: CatalogProduct;
@@ -31,10 +39,14 @@ export default function ProductCatalogClient({ product }: Props) {
   const [showToast, setShowToast] = useState(false);
   const [error, setError] = useState("");
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const ctaRef = useRef<HTMLDivElement | null>(null);
+  const [showSticky, setShowSticky] = useState(false);
 
   useEffect(() => {
     const controller = new AbortController();
     const requestedSku = product.sku;
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- reset loading before stock fetch
+    setStockLoading(true);
 
     fetch("/api/stock", { signal: controller.signal })
       .then((response) => (response.ok ? response.json() : null))
@@ -43,8 +55,8 @@ export default function ProductCatalogClient({ product }: Props) {
           setStock(data?.stock?.[requestedSku] ?? 0);
         }
       })
-      .catch((error: unknown) => {
-        if (error instanceof Error && error.name === "AbortError") return;
+      .catch((err: unknown) => {
+        if (err instanceof Error && err.name === "AbortError") return;
         if (!controller.signal.aborted) setStock(0);
       })
       .finally(() => {
@@ -63,6 +75,17 @@ export default function ProductCatalogClient({ product }: Props) {
     });
   }, [product.id, product.name, product.price, product.sku]);
 
+  useEffect(() => {
+    const el = ctaRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setShowSticky(!entry.isIntersecting),
+      { threshold: 0, rootMargin: "0px 0px -8% 0px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   useEffect(
     () => () => {
       if (toastTimer.current) clearTimeout(toastTimer.current);
@@ -74,6 +97,7 @@ export default function ProductCatalogClient({ product }: Props) {
   const outOfStock = !stockLoading && stock < 1;
   const busy = stockLoading || isAdding || isBuying;
   const maxQuantity = Math.min(stock, 10);
+  const others = CATALOG_PRODUCTS.filter((item) => item.id !== product.id);
 
   const cartItem = () => ({
     id: `${product.id}-${product.sku}`,
@@ -108,68 +132,42 @@ export default function ProductCatalogClient({ product }: Props) {
     }
   };
 
-  const information = [
-    {
-      title: "Product details",
-      content: product.specs.map((spec) => `${spec.label}: ${spec.value}`).join(" · "),
-    },
-    {
-      title: "Care and hygiene",
-      content:
-        "Wash before and after each use with warm water and mild soap. Dry fully before storage. Use only as directed, stop if irritation occurs, and never share personal wellness products.",
-    },
-    {
-      title: "What’s in the box",
-      content: product.whatsInBox,
-    },
-    {
-      title: "Delivery, returns, and warranty",
-      content:
-        "Free delivery in plain outer packaging. Typical delivery is 3–7 business days. A 6-month manufacturing warranty applies. Opened personal-wellness products cannot be returned unless defective or damaged on arrival.",
-    },
-  ];
-
   return (
-    <div className={`${styles.container} ${styles.catalogProductContainer}`}>
-      <div className={styles.productLayout}>
+    <div className={styles.page}>
+      <nav className={styles.breadcrumb} aria-label="Breadcrumb">
+        <Link href="/">Home</Link>
+        <span className={styles.breadcrumbSep}>/</span>
+        <Link href="/#shop-all-products">Shop</Link>
+        <span className={styles.breadcrumbSep}>/</span>
+        <span>{product.shortName}</span>
+      </nav>
+
+      <div className={styles.layout}>
         <div className={styles.gallery}>
-          <div className={styles.mainImageContainer}>
+          <div className={styles.mainFrame}>
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeImage}
-                className={styles.mainImageWrapper}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
+                style={{ position: "absolute", inset: 0 }}
               >
                 <Image
                   src={activeImage}
-                  alt={`${product.name} — product view ${selectedImageIndex + 1}`}
+                  alt={`${product.name} — view ${selectedImageIndex + 1}`}
                   fill
                   priority={selectedImageIndex === 0}
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  className={styles.mainPhoto}
+                  sizes="(max-width: 900px) 100vw, 50vw"
+                  className={styles.mainImage}
                 />
               </motion.div>
             </AnimatePresence>
-            <span className={styles.variantBadge}>{product.variantLabel}</span>
+            <span className={styles.badge}>{product.variantLabel}</span>
+            <span className={styles.saleBadge}>{product.discountPercent}% OFF</span>
           </div>
 
-          <div className={styles.galleryDots} aria-label="Gallery position">
-            {product.gallery.map((image, index) => (
-              <button
-                key={image}
-                type="button"
-                className={`${styles.galleryDot} ${
-                  index === selectedImageIndex ? styles.galleryDotActive : ""
-                }`}
-                aria-label={`View image ${index + 1}`}
-                onClick={() => setSelectedImageIndex(index)}
-              />
-            ))}
-          </div>
-
-          <div className={styles.thumbnails}>
+          <div className={styles.thumbs} role="group" aria-label="Product images">
             {product.gallery.map((image, index) => (
               <button
                 key={image}
@@ -186,7 +184,7 @@ export default function ProductCatalogClient({ product }: Props) {
                   alt=""
                   width={152}
                   height={152}
-                  className={styles.thumbnail}
+                  className={styles.thumbImg}
                 />
               </button>
             ))}
@@ -194,25 +192,25 @@ export default function ProductCatalogClient({ product }: Props) {
         </div>
 
         <div className={styles.details}>
-          <div className={styles.reviews}>
-            <div className={styles.stars} aria-label="Premium Silk Room product">
-              {[...Array(5)].map((_, index) => (
-                <Star key={index} fill="#6b3d52" size={16} color="#6b3d52" aria-hidden />
-              ))}
-            </div>
-            <span>Silk Room quality · Adults 18+</span>
+          <p className={styles.kicker}>{product.category}</p>
+          <div
+            style={{ display: "flex", alignItems: "center", gap: "0.35rem" }}
+            aria-label="Silk Room quality"
+          >
+            {[...Array(5)].map((_, index) => (
+              <Star key={index} fill="#6b3d52" size={15} color="#6b3d52" aria-hidden />
+            ))}
+            <span style={{ fontSize: "0.85rem", color: "rgba(61,36,51,0.55)", marginLeft: 4 }}>
+              Adults 18+
+            </span>
           </div>
-
-          <p className={styles.tagline}>{product.category}</p>
           <h1 className={styles.title}>{product.name}</h1>
           <p className={styles.tagline}>{product.tagline}</p>
 
-          <div className={styles.priceRow}>
-            <p className={styles.price}>
-              <Price amount={product.price} />
-            </p>
-            <span className={styles.freeDelivery}>
-              <Truck size={16} aria-hidden /> Free discreet delivery
+          <div className={styles.priceBlock}>
+            <Price amount={product.price} mrp={product.mrp} sale />
+            <span className={styles.freeShip}>
+              <Truck size={15} aria-hidden /> Free discreet delivery
             </span>
           </div>
 
@@ -224,24 +222,31 @@ export default function ProductCatalogClient({ product }: Props) {
             ))}
           </ul>
 
-          <div className={styles.selector}>
-            <h3 className={styles.selectorLabel}>Option: {product.variantLabel}</h3>
+          <div className={styles.stockRow}>
+            <span className={styles.optionChip}>
+              <span
+                className={styles.swatchDot}
+                style={{ backgroundColor: product.accent }}
+                aria-hidden
+              />
+              {product.variantLabel}
+            </span>
             {stockLoading ? (
-              <p className={styles.stockNote}>Checking availability…</p>
+              <span className={styles.inStock}>Checking availability…</span>
             ) : outOfStock ? (
-              <p className={styles.outOfStock}>Out of stock</p>
+              <span className={styles.outOfStock}>Out of stock</span>
             ) : (
-              <p className={styles.inStock}>In Stock — {stock} available</p>
+              <span className={styles.inStock}>In Stock — {stock} available</span>
             )}
           </div>
 
           {error && (
-            <p className={styles.addError} role="alert">
+            <p className={styles.error} role="alert">
               {error}
             </p>
           )}
 
-          <div className={styles.addToCartSection}>
+          <div className={styles.ctaRow} ref={ctaRef}>
             <div className={styles.quantity} aria-label="Quantity">
               <button
                 type="button"
@@ -261,72 +266,166 @@ export default function ProductCatalogClient({ product }: Props) {
                 +
               </button>
             </div>
-            <div className={styles.ctaColumn}>
-              <motion.button
-                type="button"
-                className={`${styles.buyNowBtn} ${styles.buyNowPulse}`}
-                onClick={() => add(true)}
-                disabled={outOfStock || busy}
-                whileHover={outOfStock || busy ? undefined : { scale: 1.02 }}
-                whileTap={outOfStock || busy ? undefined : { scale: 0.98 }}
-                transition={smooth}
-              >
-                {isBuying ? (
-                  <>
-                    <Loader2 size={18} className={styles.spinner} aria-hidden /> Checkout…
-                  </>
-                ) : outOfStock ? (
-                  "Out of Stock"
-                ) : (
-                  `Buy Now — ${formatINR(product.price)}`
-                )}
-              </motion.button>
-              <button
-                type="button"
-                className={styles.addLink}
-                onClick={() => add(false)}
-                disabled={outOfStock || busy}
-              >
-                {isAdding ? "Adding…" : "Add to cart"}
-              </button>
+            <button
+              type="button"
+              className={styles.buyNow}
+              onClick={() => add(true)}
+              disabled={outOfStock || busy}
+            >
+              {isBuying ? (
+                <>
+                  <Loader2 size={18} className="spinner" aria-hidden /> Checkout…
+                </>
+              ) : outOfStock ? (
+                "Out of Stock"
+              ) : (
+                `Buy Now — ${formatINR(product.price)}`
+              )}
+            </button>
+            <button
+              type="button"
+              className={styles.addLink}
+              onClick={() => add(false)}
+              disabled={outOfStock || busy}
+            >
+              {isAdding ? "Adding…" : "Add to cart — keep shopping"}
+            </button>
+          </div>
+
+          <div className={styles.trustGrid}>
+            <div className={styles.trustCard}>
+              <Lock size={16} aria-hidden />
+              <strong>Secure checkout</strong>
+              <span>Razorpay · UPI & cards</span>
+            </div>
+            <div className={styles.trustCard}>
+              <Package size={16} aria-hidden />
+              <strong>Plain-box delivery</strong>
+              <span>Free across India</span>
+            </div>
+            <div className={styles.trustCard}>
+              <ShieldCheck size={16} aria-hidden />
+              <strong>6-month warranty</strong>
+              <span>WhatsApp support</span>
             </div>
           </div>
-
-          <TrustBadges />
-          <div className={styles.accordionSection}>
-            <Accordion items={information} />
-          </div>
         </div>
       </div>
 
-      <div className={styles.compositionSection}>
-        <h2 className={styles.sectionTitle}>Product specifications</h2>
-        <div className={styles.compositionCard}>
-          <div className={styles.compositionList}>
-            {product.specs.map((spec) => (
-              <div className={styles.compositionItem} key={spec.label}>
-                <span className={styles.compositionLabel}>{spec.label}</span>
-                <span className={styles.compositionValue}>{spec.value}</span>
+      <section className={styles.section} aria-labelledby="specs-title">
+        <h2 id="specs-title" className={styles.sectionTitle}>
+          Specifications
+        </h2>
+        <div className={styles.specGrid}>
+          {product.specs.map((spec) => (
+            <div className={styles.specCard} key={spec.label}>
+              <span>{spec.label}</span>
+              <strong>{spec.value}</strong>
+            </div>
+          ))}
+          <div className={styles.specCard}>
+            <span>What&apos;s in the box</span>
+            <strong>{product.whatsInBox}</strong>
+          </div>
+          <div className={styles.specCard}>
+            <span>Sale</span>
+            <strong>
+              {formatINR(product.price)} · MRP {formatINR(product.mrp)} ·{" "}
+              {product.discountPercent}% OFF
+            </strong>
+          </div>
+        </div>
+      </section>
+
+      <section className={styles.section} aria-labelledby="faq-title">
+        <h2 id="faq-title" className={styles.sectionTitle}>
+          Frequently asked questions
+        </h2>
+        <div className={styles.faqList}>
+          {product.faqs.map((faq) => (
+            <details key={faq.title} className={styles.faqItem}>
+              <summary>{faq.title}</summary>
+              <p>{faq.content}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      <section className={styles.section} aria-labelledby="reviews-title">
+        <h2 id="reviews-title" className={styles.sectionTitle}>
+          Customer notes
+        </h2>
+        <div className={styles.reviewGrid}>
+          {product.reviews.map((review) => (
+            <article key={review.name} className={styles.reviewCard}>
+              <div aria-hidden>
+                {[...Array(5)].map((_, index) => (
+                  <Star key={index} fill="#6b3d52" size={13} color="#6b3d52" />
+                ))}
               </div>
-            ))}
-          </div>
+              <p>&ldquo;{review.text}&rdquo;</p>
+              <div className={styles.reviewer}>
+                {review.name} · {review.city}
+              </div>
+            </article>
+          ))}
         </div>
-      </div>
+      </section>
 
-      <div className={styles.bottomSection}>
-        <h2 className={styles.sectionTitle}>Silk Room care standard</h2>
-        <ul className={styles.highlights}>
-          <li>
-            <BadgeCheck size={16} aria-hidden /> Product details shown before checkout
-          </li>
-          <li>
-            <ShieldCheck size={16} aria-hidden /> Secure prepaid Razorpay checkout
-          </li>
-          <li>
-            <Truck size={16} aria-hidden /> Plain-box free delivery across India
-          </li>
-        </ul>
-      </div>
+      <section className={styles.section} aria-labelledby="more-title">
+        <h2 id="more-title" className={styles.sectionTitle}>
+          Explore the full Silk Room collection
+        </h2>
+        <div className={styles.crossSell}>
+          {others.map((item) => {
+            const href = item.slug === "ease" ? "/product" : `/product/${item.slug}`;
+            return (
+              <Link key={item.id} href={href} className={styles.crossCard}>
+                <span className={styles.crossImgWrap}>
+                  <Image
+                    src={item.gallery[0]}
+                    alt={item.name}
+                    fill
+                    sizes="96px"
+                    className={styles.crossImg}
+                  />
+                </span>
+                <span>
+                  <h3>{item.name}</h3>
+                  <p>{item.tagline}</p>
+                  <Price amount={item.price} mrp={item.mrp} sale />
+                </span>
+              </Link>
+            );
+          })}
+        </div>
+      </section>
+
+      <AnimatePresence>
+        {showSticky && (
+          <motion.div
+            className={styles.stickyBar}
+            initial={{ y: 80, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 80, opacity: 0 }}
+            role="region"
+            aria-label="Quick buy"
+          >
+            <div>
+              <div style={{ fontWeight: 700 }}>{product.shortName}</div>
+              <Price amount={product.price} mrp={product.mrp} sale />
+            </div>
+            <button
+              type="button"
+              className={styles.stickyBtn}
+              onClick={() => add(true)}
+              disabled={outOfStock || busy}
+            >
+              {outOfStock ? "Sold out" : "Buy Now"}
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <AnimatePresence>
         {showToast && (
