@@ -18,6 +18,7 @@ import Price from "@/components/Price";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/MotionWrapper";
 import HomeHeroShowcase from "@/components/HomeHeroShowcase";
 import HomeShowcase from "@/components/HomeShowcase";
+import CatalogCardSlideshow from "@/components/CatalogCardSlideshow";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import { CATALOG_PRODUCTS } from "@/lib/products";
 import {
@@ -105,12 +106,20 @@ export default function Home() {
             return (
               <article className={styles.catalogCard} key={product.id}>
                 <Link href={href} className={styles.catalogImageLink}>
-                  <Image
-                    src={product.cardImage}
-                    alt={`${product.name} — delivered discreetly`}
-                    fill
-                    sizes="(max-width: 760px) 100vw, 33vw"
-                    className={styles.catalogImage}
+                  <CatalogCardSlideshow
+                    slides={[
+                      {
+                        src: product.cardImage,
+                        alt: `${product.name} — delivered discreetly`,
+                        fit: "cover",
+                      },
+                      {
+                        src: product.gallery[0],
+                        alt: `${product.name} — actual product`,
+                        fit: "contain",
+                      },
+                    ]}
+                    intervalMs={4000}
                   />
                 </Link>
                 <div className={styles.catalogCardBody}>
