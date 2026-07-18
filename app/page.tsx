@@ -114,7 +114,7 @@ export default function Home() {
                         fit: "cover",
                       },
                       {
-                        src: product.gallery[0],
+                        src: product.cardProductImage,
                         alt: `${product.name} — actual product`,
                         fit: "contain",
                       },

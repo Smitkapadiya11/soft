@@ -11,6 +11,7 @@
 .slideContain {
   position: absolute;
   display: block;
+  overflow: hidden;
 }
 
 .slideCover {
@@ -22,6 +23,13 @@
   inset: 7% 9%;
 }
 
+.kenburns {
+  position: absolute;
+  inset: 0;
+  display: block;
+  will-change: transform;
+}
+
 .imageCover {
   object-fit: cover;
   object-position: center top;
@@ -30,4 +38,72 @@
 .imageContain {
   object-fit: contain;
   object-position: center;
+}
+
+/* ---- Countdown badge (bottom-right) ---- */
+
+.countdown {
+  position: absolute;
+  right: 0.7rem;
+  bottom: 0.7rem;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(28, 16, 24, 0.42);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 4px 14px rgba(28, 16, 24, 0.22);
+}
+
+.countdownSvg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.ringTrack {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.22);
+  stroke-width: 2;
+}
+
+.ringProgress {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.92);
+  stroke-width: 2;
+  stroke-linecap: round;
+  animation-name: ringDrain;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes ringDrain {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    /* 2 * PI * 12 — must match RING_CIRCUMFERENCE in the component */
+    stroke-dashoffset: 75.4;
+  }
+}
+
+.countdownDigit {
+  position: relative;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.95);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ringProgress {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
 }
