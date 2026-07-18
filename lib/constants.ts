@@ -73,77 +73,61 @@ export const PRODUCT_GALLERY: Record<(typeof ALLOWED_VARIANTS)[number], string[]
   ],
 };
 
-/** Homepage hero carousel — product-first (what’s inside the plain box) */
+/** Homepage hero carousel — premium plain boxes, product softly blurred behind */
 export const HOME_START_SLIDES = [
   {
-    src: "/products/natural/01-hero.png",
-    alt: "Silk Room Ease Soft Rose — premium body-safe silicone massager",
+    src: "/brand/home/hero-box-ease.png",
+    alt: "Silk Room Ease — premium unmarked plain-box delivery",
   },
   {
-    src: "/products/silk-lick/s1.jpg",
-    alt: "Silk Room Lick — quiet waterproof personal massager",
+    src: "/brand/home/hero-box-lick.png",
+    alt: "Silk Room Lick — discreet premium plain-box delivery",
   },
   {
-    src: "/products/silk-trio/p1.jpg",
-    alt: "Silk Room Trio — men’s personal-care sleeve with three channels",
-  },
-  {
-    src: "/products/natural/05-body-safe.png",
-    alt: "Pure body-safe silicone — skin-friendly, worry-free moments",
-  },
-  {
-    src: "/products/silk-lick/s2.jpg",
-    alt: "Silk Room Lick — compact personal wellness massager",
-  },
-  {
-    src: "/products/silk-trio/p2.jpg",
-    alt: "Silk Room Trio — discreet men’s personal care product",
+    src: "/brand/home/hero-box-trio.png",
+    alt: "Silk Room Trio — discreet premium plain-box delivery",
   },
 ] as const;
 
-/** Product feature story — four reasons to buy */
+/** Trust story — premium text-only trust markers (no product imagery) */
 export const HOME_STORY = [
   {
-    src: "/products/natural/01-hero.png",
-    title: "Meet Silk Room Ease",
-    text: "The product inside the plain box — Soft Rose finish, dual-density comfort, built for private relief at home.",
+    title: "Discreet by design",
+    text: "Every order ships in a premium unmarked carton. No product name, no brand, nothing to explain at the door.",
   },
   {
-    src: "/products/natural/05-body-safe.png",
-    title: "100% body-safe silicone",
-    text: "Pure, skin-friendly material. No mystery plastics. Designed for comfort you can trust on your body.",
+    title: "Body-safe materials",
+    text: "100% body-safe silicone, skin-friendly finishes, and easy-clean waterproof builds — quality you can trust on your body.",
   },
   {
-    src: "/products/espresso/04-waterproof.png",
-    title: "Fully waterproof",
-    text: "Bath, shower, or evening routine — easy to clean, easy to use, built for real life.",
+    title: "Prepaid & private",
+    text: "Razorpay-secured UPI, cards, and net banking. No COD conversations, no awkward cash moments — paid and private before it ships.",
   },
   {
-    src: "/products/natural/04-dual-density.png",
-    title: "Dual-density comfort",
-    text: "Soft outer touch with a supportive core — premium feel that sells itself when you see it.",
+    title: "Care that answers",
+    text: "6-month warranty and human WhatsApp support, Monday–Saturday. A real team stands behind every delivery.",
   },
 ] as const;
 
-/** Below-fold product focus panels */
+/** Below-fold panels — discreet packaging visuals only */
 export const HOME_EXTRA = {
-  offer: "/brand/product-focus/body-safe.png",
-  founder: "/products/natural/07-complete.png",
+  offer: "/brand/home/hero-box-ease.png",
+  founder: "/products/plain-box.png",
 } as const;
 
-/** Conversion slideshow — product truth + care */
+/** Conversion slideshow — packaging and delivery trust */
 export const HOME_SLIDESHOW = [
   {
-    src: "/products/natural/03-lifelike.png",
-    alt: "Silk Room Ease detail — premium finish customers expect",
+    src: "/products/product-cover-model.jpg",
+    alt: "Silk Room — personal wellness delivered with care",
   },
   {
-    src: "/products/espresso/02-design.png",
-    alt: "Mist Grey Silk Room Ease — considered design and stable base",
+    src: "/products/plain-box.png",
+    alt: "Plain unmarked Silk Room delivery box — privacy first",
   },
   {
-    src: "/products/natural/07-complete.png",
-    alt: "Complete kit presentation — India trust-first brand experience",
+    src: "/brand/home/hero-box-lick.png",
+    alt: "Premium discreet packaging — Silk Room standard",
   },
 ] as const;
 

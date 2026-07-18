@@ -39,6 +39,8 @@ export type CatalogProduct = {
   description: string;
   tagline: string;
   gallery: readonly string[];
+  /** Meta-safe lifestyle card image for the homepage catalog (model-led) */
+  cardImage: string;
   sku: InventorySku;
   variantLabel: string;
   category: string;
@@ -74,6 +76,7 @@ export const CATALOG_PRODUCTS: readonly CatalogProduct[] = [
     description: PRODUCT_SHORT_DESC,
     tagline: "Dual-density body wellness · two colours · fully waterproof",
     gallery: PRODUCT_GALLERY.Natural,
+    cardImage: "/brand/home/card-model-ease.png",
     sku: "Natural",
     variantLabel: VARIANT_LABELS.Natural,
     category: "Body wellness massager",
@@ -144,6 +147,7 @@ export const CATALOG_PRODUCTS: readonly CatalogProduct[] = [
       "/products/silk-lick/s3.jpg",
       "/products/silk-lick/s4.jpg",
     ],
+    cardImage: "/brand/home/card-model-lick.png",
     sku: "TongueVibrator",
     variantLabel: "Purple",
     category: "Personal wellness massager",
@@ -221,6 +225,7 @@ export const CATALOG_PRODUCTS: readonly CatalogProduct[] = [
       "/products/silk-trio/p4.jpg",
       "/products/silk-trio/p5.jpg",
     ],
+    cardImage: "/brand/home/card-model-trio.png",
     sku: "MaleMasturbator",
     variantLabel: "Brown",
     category: "Men’s personal care",

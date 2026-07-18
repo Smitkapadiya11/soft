@@ -1,11 +1,51 @@
 # PRODUCT-BRIEF — Silk Room
 
 **Date:** 19 July 2026  
-**Mode:** Founder Review + Product Diagnostic  
+**Mode:** Founder Review (post–Meta restriction remediation)
+
 **Site:** https://silkroom.shop  
 **Operator:** KAPADIYA AND SONS · Smit Kapadiya  
 
 ---
+
+## Founder update — 19 July 2026
+
+### What changed since the first review
+
+- The order database now records **2 paid orders / ₹1,398 revenue**: one Ease order (delivered) and one Trio order (fulfilment pending).
+- There are **17 customer records**, but these are checkout records—not proof of 17 buyers or retention.
+- Meta has fully restricted the active dataset from sharing event data because of assigned data-source categories. Pixel funnel metrics are therefore not a reliable operating system until Meta accepts the category review.
+- Public metadata, copy, URLs, asset paths, and Pixel content names now use softer wellness framing while PDP photos, price, Buy Now, Razorpay, and delivery promises remain clear for buyers.
+- The README is stale (old product name, old ₹1,299 price, two-SKU description) and should not be treated as current product truth.
+
+### Revised founder verdict
+
+**GO, but this is an early revenue signal—not PMF.** Two payments prove that checkout can convert and that both women’s and men’s SKUs can sell. They do not prove repeatable acquisition, profitable CAC, retention, or product satisfaction.
+
+**The one thing that could 10× Silk Room now:** build a **repeatable, attributable acquisition loop that does not depend on restricted Meta events**. For every campaign, record spend, landing-page visits/link clicks, paid orders, SKU revenue, fulfilment outcome, and support questions in one daily sheet. Keep each campaign locked to one SKU and one landing URL.
+
+### Next seven-day test
+
+1. Submit Meta category reviews for both datasets after the softened site has been crawlable for 24–48 hours.
+2. Run one small **Traffic** campaign for Ease → `/product`; do not use Purchase optimization while events are blocked.
+3. Add UTM parameters per ad and reconcile paid orders manually against campaign dates/landing URLs.
+4. Fulfil the pending Trio order and ask both paid buyers for a short, consented post-delivery product/packaging rating.
+5. Stop after a fixed spend cap and calculate: paid orders, revenue, CAC, checkout-record-to-paid ratio, and refund/delivery outcome.
+
+### Current scorecard
+
+| Signal | Score (0–10) | Evidence |
+|--------|--------------|----------|
+| Usage / growth | 3 | Two paid orders now exist; no repeatable traffic-to-order trend yet |
+| Retention / repeat | 1 | No repeat purchase, referral, or cohort evidence |
+| Revenue readiness | 8 | ₹1,398 recorded paid revenue; Razorpay, stock reservation, verification, fulfilment admin |
+| Competitive moat | 3 | Trust, discreet fulfilment, and fast support are promising but easy to imitate |
+| Measurement readiness | 3 | Server orders are authoritative; Meta event sharing is fully restricted and UTMs are not persisted |
+| **Overall PMF signal** | **4 / 10** | Demand has a pulse; repeatability and unit economics remain unproven |
+
+---
+
+## Original diagnostic baseline
 
 ## 1. Who is this for?
 
@@ -25,18 +65,18 @@ Lick/Trio are catalog expansion — not the same ad audience.
 ## 2. What’s the pain?
 
 - Buying intimate wellness online feels risky: fake shops, COD scams, loud packaging, no human support.
-- Meta’s own diagnosis after ₹450 / ~20k views / **0 orders:** visitors did not trust the site enough to buy.
+- The initial ₹450 / ~20k-view campaign produced **0 orders**; since then, the rebuilt store has recorded two paid orders from channels that are not yet attributable.
 - Current workaround: Flipkart/Amazon or avoiding purchase.
 
-**Quantify:** If 20k views → 0 purchases, conversion ≈ **0%**. Even a weak but trusted funnel should produce *some* ATC/checkout. Trust was the bottleneck, not “need more products.”
+**Quantify:** The original campaign conversion was approximately **0%**. The current database proves payment can happen, but without reliable source attribution it does not prove that ads caused either order.
 
 ---
 
 ## 3. Why now?
 
-- Creative + Pixel already wired; campaign can restart.
+- Creative and Pixel code are wired, but Meta currently blocks the dataset from sharing event data.
 - Site now has: legal entity clarity, WhatsApp, policies, product-first homepage, 3 SKUs with sale MRP, Razorpay prepaid.
-- Window: you paused ads for changes — relaunch only after the **landing promise matches the ad creative**.
+- Relaunch can use Traffic/Awareness objectives while the category review is pending; conversion optimization must wait for accepted events.
 
 ---
 
@@ -57,7 +97,7 @@ Lick/Trio are catalog expansion — not the same ad audience.
 1. **One ad → one SKU** (start with Ease ₹599).
 2. Landing = `/product` (or Lick/Trio only if creative shows that SKU).
 3. Trust stack visible above fold: product image, price+MRP, free discreet delivery, WhatsApp.
-4. Measure: ViewContent → AddToCart → InitiateCheckout → Purchase (Pixel already present).
+4. While Meta blocks events, measure campaign clicks/landing views plus authoritative paid orders and revenue manually; restore ViewContent → AddToCart → InitiateCheckout → Purchase analysis only after Events Manager accepts events.
 
 Three products on the homepage are fine for organic/browse. **Do not prove three theses in one ad.**
 
@@ -77,19 +117,19 @@ Three products on the homepage are fine for organic/browse. **Do not prove three
 
 ## 7. How you know it’s working (metrics, not vibes)
 
-| Metric | Target (first 7 days of relaunch) | Kill / iterate if |
-|--------|-----------------------------------|-------------------|
-| Cost per Landing Page View | Track baseline | Spikes with no ATC |
-| ATC rate (ATC / ViewContent) | ≥ 2–4% | < 1% → creative/landing mismatch |
-| Checkout start rate | ≥ 30% of ATC | Cart friction / price shock |
-| Purchase rate | ≥ 20–40% of InitiateCheckout | Payment / trust at pay wall |
-| **Orders** | **≥ 3 paid orders** on ≤ ₹2,000 ad spend | Still 0 → pause, fix landing vs creative |
+| Metric | Target (next 7-day test) | Kill / iterate if |
+|--------|--------------------------|-------------------|
+| Traffic campaign spend | Fixed cap set before launch | Do not extend because of clicks alone |
+| Paid orders | At least 3 attributable paid orders | 0 attributable orders at cap → pause |
+| CAC | Calculate from spend / attributable orders | CAC leaves no room for product, shipping, fees, returns |
+| Checkout-to-paid proxy | Paid orders / new checkout customer records | Large gap → payment/trust friction |
+| Fulfilment quality | 100% shipped/delivered or actively resolved | Pending/refund issues accumulate |
 
 North star: **paid orders**, not views.
 
 ---
 
-## Founder Review Scorecard
+## Original Founder Review Scorecard (pre-revenue baseline)
 
 | Signal | Score (0–10) | Evidence |
 |--------|--------------|----------|
@@ -105,8 +145,8 @@ North star: **paid orders**, not views.
 
 ## The one thing that would 10x this
 
-**Ad creative ↔ landing SKU lock.**  
-Every rupee of Meta spend should open the exact product shown in the ad, with the same price, same colour/option, and Buy Now above the fold. Catalog breadth helps SEO and cart AOV *after* first purchase exists — it does not fix cold trust.
+**Repeatable attribution loop.**
+SKU-locked creative and landing pages remain necessary, but the business now needs campaign-level spend → paid-order reconciliation. Without that, more orders still will not reveal which acquisition motion to scale.
 
 ---
 
@@ -117,40 +157,43 @@ Every rupee of Meta spend should open the exact product shown in the ad, with th
 | More homepage brand essays | Trust is now “show product + policies + WhatsApp,” not more paragraphs |
 | Expanding to SKU #4+ | Dilutes stock, ads, and support before proof |
 | Polishing every legal page repeatedly | Good enough; conversion is on PDP + checkout |
-| Font / visual micro-tweaks without order data | Ship ads; iterate from Pixel funnel drops |
+| Font / visual micro-tweaks without order data | Run the capped acquisition test; iterate from paid-order evidence |
 
 ---
 
 ## Risks
 
-1. **Audience dilution** — Ease (women’s wellness framing) + Trio (male) in one brand story confuses Meta optimization.
-2. **Policy / ad rejection** — explicit creative + adult category; keep Meta-safe lifestyle framing where required.
+1. **Measurement blindness** — Meta’s full data-source restriction prevents dependable event optimization and funnel diagnosis. First-party gaps compound this: Purchase fires only on the confirmation page (webhook-completed payments can be missed), UTMs are not persisted, and each checkout creates a new Customer row so repeats are hard to see.
+2. **Policy / category persistence** — adult product imagery may keep the Unsuitable category even after softened copy and review.
 3. **Discount skepticism** — 75–80% OFF must feel real (MRP shown consistently; avoid looking like fake MRP).
-4. **Age gate** — necessary, but adds friction; keep it one tap.
+4. **False PMF confidence** — two paid orders are meaningful but too small to establish repeatability or unit economics.
+5. **Fulfilment trust** — one paid Trio order is still pending; shipping copy promises tracking, but the order model only stores PENDING/SHIPPED/DELIVERED with no courier/tracking field.
+6. **Audience dilution on the homepage** — three SKUs/personas compete for cold Meta traffic; acquisition tests must still land on one SKU PDP.
 
 ---
 
 ## Go / No-Go
 
-### GO — relaunch Meta ads **with constraints**
+### GO — run a small acquisition test **with constraints**
 
-Site is operationally ready (checkout, Pixel, 3 PDPs, trust/legal).  
+Site is operationally ready, and two paid orders validate payment demand. Meta conversion optimization is not operationally available while the dataset is fully restricted.
 
 **Conditions:**
-1. Campaign 1 = **Ease only** → `/product`
-2. Optional Campaign 2 later = Lick or Trio with matching creative → matching `/product/[slug]`
-3. Daily spend cap small until first purchase
-4. Kill rule: 0 purchases after clear ViewContent volume → fix landing, don’t “add features”
+1. Submit the Meta category review before treating Pixel/CAPI as recoverable.
+2. Campaign 1 = **Ease only** → `/product`, using Traffic while event sharing is blocked.
+3. Attach unique UTMs and reconcile spend to paid orders manually.
+4. Fix the spend cap and CAC threshold before launch.
+5. Do not add SKU #4 until at least 10 paid, fulfilled orders and one repeatable acquisition source exist.
 
 ### Next lane
 
 Hand off to **`product-capability`** only if you need an implementation contract.  
-Immediate operator next step: **restart ads with SKU-locked landing**, then watch Pixel funnel for 48 hours.
+Immediate operator next step: **submit the category review, fulfil the pending order, then run a capped UTM-tagged Ease Traffic test**.
 
 ---
 
 ## Top 3 product actions (this week)
 
-1. **Relaunch Ease-only ads** to `/product` with creative that matches Soft Rose / Mist Grey visuals on that page.  
-2. **Watch funnel drop-offs** (ViewContent → ATC → Checkout → Purchase); fix the biggest drop first.  
-3. **Answer WhatsApp within minutes** during ad hours — human reply is your real moat.
+1. **Submit Meta reviews** for both datasets after the crawler window; keep Traffic/Awareness only until accepted events return.
+2. **Close the fulfilment loop:** ship the pending Trio order and collect consented feedback from both paid buyers.
+3. **Run one measurable test:** Ease-only, exact landing match, fixed spend cap, unique UTMs, manual paid-order/CAC reconciliation.

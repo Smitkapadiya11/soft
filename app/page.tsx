@@ -106,8 +106,8 @@ export default function Home() {
               <article className={styles.catalogCard} key={product.id}>
                 <Link href={href} className={styles.catalogImageLink}>
                   <Image
-                    src={product.gallery[0]}
-                    alt={product.name}
+                    src={product.cardImage}
+                    alt={`${product.name} — delivered discreetly`}
                     fill
                     sizes="(max-width: 760px) 100vw, 33vw"
                     className={styles.catalogImage}
@@ -132,27 +132,18 @@ export default function Home() {
         </div>
       </section>
 
-      <section className={styles.story} aria-label="Why Silk Room Ease">
+      <section className={styles.story} aria-label="Why customers trust Silk Room">
         <div className={styles.storyHead}>
-          <p className={styles.eyebrow}>What’s inside the plain box</p>
-          <h2>Product truth. Not packaging theatre.</h2>
+          <p className={styles.eyebrow}>The Silk Room standard</p>
+          <h2>Premium care. Complete privacy.</h2>
           <p>
-            Visitors land here to decide. We put {PRODUCT_NAME} centre-stage — materials, feel,
-            waterproofing, and craft — so trust starts before checkout.
+            Visitors land here to decide. Four promises we keep on every single order — so trust
+            starts before checkout.
           </p>
         </div>
         <div className={styles.storyRail}>
           {HOME_STORY.map((frame, i) => (
             <article key={frame.title} className={styles.storyFrame}>
-              <div className={styles.storyImgWrap}>
-                <Image
-                  src={frame.src}
-                  alt={frame.title}
-                  fill
-                  sizes="(max-width: 900px) 70vw, 25vw"
-                  className={styles.storyImgProduct}
-                />
-              </div>
               <span className={styles.storyIndex}>0{i + 1}</span>
               <h3>{frame.title}</h3>
               <p>{frame.text}</p>
@@ -189,7 +180,7 @@ export default function Home() {
           <div className={styles.mediaFrame}>
             <Image
               src={HOME_EXTRA.offer}
-              alt="Pure body-safe silicone — Silk Room Ease Soft Rose"
+              alt="Silk Room Ease — premium unmarked plain-box delivery"
               fill
               sizes="(max-width: 900px) 100vw, 50vw"
               className={styles.containImg}
@@ -236,7 +227,7 @@ export default function Home() {
           <div className={styles.mediaFrameDark}>
             <Image
               src={HOME_EXTRA.founder}
-              alt="Complete Silk Room Ease kit — premium product presentation"
+              alt="Plain unmarked Silk Room delivery carton — privacy first"
               fill
               sizes="(max-width: 900px) 100vw, 42vw"
               className={styles.containImg}
