@@ -1,9 +1,12 @@
 import { createHmac, timingSafeEqual } from "crypto";
 import { prisma } from "@/lib/prisma";
 import { sendOrderConfirmationEmail } from "@/lib/email";
-import { PRODUCT_PRICE } from "@/lib/constants";
+import {
+  INVENTORY_SKUS,
+  productPriceBySku,
+} from "@/lib/products";
 
-type IntentItem = { variant: string; quantity: number };
+type IntentItem = { variant: string; quantity: number; unitPrice?: number };
 
 function signaturesMatch(expected: string, received: string): boolean {
   try {
@@ -38,13 +41,21 @@ function parseIntentItems(itemsJson: string): IntentItem[] {
           !!item &&
           typeof item === "object" &&
           typeof (item as IntentItem).variant === "string" &&
-          typeof (item as IntentItem).quantity === "number"
+          (INVENTORY_SKUS as readonly string[]).includes((item as IntentItem).variant) &&
+          typeof (item as IntentItem).quantity === "number" &&
+          Number.isInteger((item as IntentItem).quantity) &&
+          (item as IntentItem).quantity >= 1 &&
+          (item as IntentItem).quantity <= 10 &&
+          ((item as IntentItem).unitPrice === undefined ||
+            (typeof (item as IntentItem).unitPrice === "number" &&
+              Number.isFinite((item as IntentItem).unitPrice) &&
+              (item as IntentItem).unitPrice! > 0))
       )
       .map((item) => ({
         variant: item.variant,
-        quantity: Math.max(0, Math.floor(item.quantity)),
+        quantity: item.quantity,
+        unitPrice: item.unitPrice,
       }))
-      .filter((item) => item.quantity > 0);
   } catch {
     return [];
   }
@@ -83,12 +94,26 @@ export async function markCheckoutGroupPaid(
     if (items.length === 0) {
       return { error: "Invalid checkout items", status: 400 };
     }
+    const pricedItems = items.map((item) => ({
+      ...item,
+      unitPrice: item.unitPrice ?? productPriceBySku(item.variant),
+    }));
+    if (pricedItems.some((item) => item.unitPrice === undefined)) {
+      return { error: "Invalid checkout items", status: 400 };
+    }
+    const intentLineTotal = pricedItems.reduce(
+      (sum, item) => sum + item.unitPrice! * item.quantity,
+      0
+    );
+    if (Math.abs(intentLineTotal - intent.amount) > 0.001) {
+      return { error: "Checkout amount integrity check failed", status: 409 };
+    }
 
     // If previously cancelled, stock was put back — re-reserve atomically
     if (intent.status === "cancelled") {
       try {
         await prisma.$transaction(async (tx) => {
-          for (const item of items) {
+          for (const item of pricedItems) {
             const updated = await tx.inventory.updateMany({
               where: {
                 variantName: item.variant,
@@ -119,14 +144,14 @@ export async function markCheckoutGroupPaid(
 
     const orderIds = await prisma.$transaction(async (tx) => {
       const created = await Promise.all(
-        items.map((item) =>
+        pricedItems.map((item) =>
           tx.order.create({
             data: {
               customerId: intent.customerId,
               checkoutGroupId: intent.id,
               variant: item.variant,
               quantity: item.quantity,
-              amount: PRODUCT_PRICE * item.quantity,
+              amount: item.unitPrice! * item.quantity,
               paymentStatus: "paid",
               shippingStatus: "PENDING",
               razorpayOrderId,
@@ -189,14 +214,20 @@ export async function releaseCheckoutGroupStock(checkoutGroupId: string): Promis
 
   if (intent?.status === "open") {
     const items = parseIntentItems(intent.itemsJson);
+    // Fail closed: never cancel a reserved intent if we cannot restore its stock lines.
+    if (items.length === 0) {
+      console.error(
+        "releaseCheckoutGroupStock: open intent has unparsable itemsJson",
+        checkoutGroupId
+      );
+      return;
+    }
     await prisma.$transaction(async (tx) => {
       for (const item of items) {
-        const updated = await tx.inventory.updateMany({
+        await tx.inventory.updateMany({
           where: { variantName: item.variant },
           data: { stockCount: { increment: item.quantity } },
         });
-        // Skip unknown / missing variants (no inventory row)
-        void updated;
       }
       await tx.checkoutIntent.update({
         where: { id: intent.id },

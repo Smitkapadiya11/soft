@@ -1,5 +1,10 @@
 import { z } from "zod";
 import { PRODUCT_PRICE, ALLOWED_VARIANTS } from "./constants";
+import {
+  INVENTORY_SKUS,
+  type InventorySku,
+  productPriceBySku,
+} from "./products";
 
 export { PRODUCT_PRICE, ALLOWED_VARIANTS };
 
@@ -23,9 +28,9 @@ export const customerSchema = z.object({
     .regex(/^\d{6}$/, "Valid 6-digit pincode is required"),
 });
 
-/** Client may send price — it is ignored; server always bills PRODUCT_PRICE */
+/** Client may send price — it is ignored; server resolves the SKU catalog price. */
 export const cartItemSchema = z.object({
-  variant: z.enum(ALLOWED_VARIANTS, { message: "Invalid variant" }),
+  variant: z.enum(INVENTORY_SKUS, { message: "Invalid product or variant" }),
   quantity: z.number().int().min(1).max(10),
   price: z.number().optional(),
 });
@@ -36,9 +41,9 @@ export const createOrderSchema = z.object({
 });
 
 export type CartItemPriced = {
-  variant: (typeof ALLOWED_VARIANTS)[number];
+  variant: InventorySku;
   quantity: number;
-  price: typeof PRODUCT_PRICE;
+  price: number;
 };
 
 /** CheckoutIntent id (cuid) or legacy UUID checkout group */
@@ -54,7 +59,7 @@ export const paymentVerifySchema = z.object({
 });
 
 export const inventoryPatchSchema = z.object({
-  variant: z.enum(ALLOWED_VARIANTS),
+  variant: z.enum(INVENTORY_SKUS),
   stockCount: z.number().int().min(0).max(99999),
 });
 
@@ -103,12 +108,19 @@ export function parseCreateOrder(body: unknown): { ok: true; data: { customer: C
   }
   const customerResult = parseCustomer(parsed.data.customer);
   if (!customerResult.ok) return customerResult;
-  // Absolute server authority: ignore any client-supplied price
-  const items: CartItemInput[] = parsed.data.items.map((item) => ({
-    variant: item.variant,
-    quantity: item.quantity,
-    price: PRODUCT_PRICE,
-  }));
+  // Absolute server authority: ignore any client-supplied price.
+  const items: CartItemInput[] = [];
+  for (const item of parsed.data.items) {
+    const price = productPriceBySku(item.variant);
+    if (price === undefined || !Number.isFinite(price) || price <= 0) {
+      return { ok: false, error: "Invalid product pricing" };
+    }
+    items.push({
+      variant: item.variant,
+      quantity: item.quantity,
+      price,
+    });
+  }
   return { ok: true, data: { customer: customerResult.data, items } };
 }
 

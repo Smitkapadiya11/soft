@@ -1,4 +1,5 @@
-import { BUSINESS, PRODUCT_NAME, VARIANT_LABELS } from "@/lib/constants";
+import { BUSINESS } from "@/lib/constants";
+import { CATALOG_PRODUCTS } from "@/lib/products";
 import LegalLayout from "@/components/LegalLayout";
 import Link from "next/link";
 import type { Metadata } from "next";
@@ -17,10 +18,10 @@ export default function AboutPage() {
     <LegalLayout title="About Silk Room" lastUpdated="17 July 2026">
       <p>{BUSINESS.mission}</p>
       <p>
-        Our flagship product, {PRODUCT_NAME}, is a compact body wellness massager for tension
-        relief and everyday recovery — available in {VARIANT_LABELS.Natural} and{" "}
-        {VARIANT_LABELS.Espresso}. Adults 18+ only. Every order ships in plain packaging with
-        prepaid Razorpay checkout.
+        Silk Room offers three adult personal-wellness products:{" "}
+        {CATALOG_PRODUCTS.map((product) => product.name).join(", ")}. Each product page shows
+        its real gallery, specifications, price, care guidance, and stock before checkout.
+        Adults 18+ only. Every order ships in plain packaging with prepaid Razorpay checkout.
       </p>
       <h2>Legal Entity Details</h2>
       <ul>
@@ -56,7 +57,7 @@ export default function AboutPage() {
         <Link href="/contact">Contact Us</Link> · <Link href="/terms">Terms</Link> ·{" "}
         <Link href="/privacy">Privacy</Link> ·{" "}
         <Link href="/cancellation-and-refunds">Returns</Link> ·{" "}
-        <Link href="/product">Shop {PRODUCT_NAME}</Link>
+        <Link href="/#shop-all-products">Shop all products</Link>
       </p>
     </LegalLayout>
   );

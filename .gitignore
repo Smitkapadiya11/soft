@@ -54,3 +54,6 @@ public/*.csv
 customer_old/
 *.xlsx
 
+# Local source drops copied into public product folders
+/Product/
+

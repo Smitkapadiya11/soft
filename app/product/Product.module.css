@@ -7,6 +7,10 @@
   box-sizing: border-box;
 }
 
+.container.catalogProductContainer {
+  padding-bottom: 2.5rem;
+}
+
 .price {
   font-family: var(--font-serif);
   font-variant-numeric: tabular-nums;
@@ -1044,6 +1048,10 @@
   .container {
     padding: var(--space-md) var(--space-sm);
     padding-bottom: calc(7.5rem + env(safe-area-inset-bottom));
+  }
+
+  .container.catalogProductContainer {
+    padding-bottom: 2.5rem;
   }
 
   .reviewGrid {

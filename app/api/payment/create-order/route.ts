@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getRazorpay, isRazorpayAuthError } from "@/lib/razorpay";
-import { parseCreateOrder, PRODUCT_PRICE } from "@/lib/validation";
+import { parseCreateOrder } from "@/lib/validation";
+import { productNameBySku } from "@/lib/products";
 import { rateLimit } from "@/lib/rate-limit";
 
 const MIN_AMOUNT_PAISE = 100;
@@ -18,7 +19,7 @@ export async function POST(req: NextRequest) {
     }
 
     const { customer, items } = parsed.data;
-    const amount = items.reduce((sum, i) => sum + PRODUCT_PRICE * i.quantity, 0);
+    const amount = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
     const amountPaise = Math.round(amount * 100);
 
     if (amountPaise < MIN_AMOUNT_PAISE) {
@@ -48,7 +49,12 @@ export async function POST(req: NextRequest) {
         data: {
           customerId: dbCustomer.id,
           itemsJson: JSON.stringify(
-            items.map((i) => ({ variant: i.variant, quantity: i.quantity }))
+            items.map((item) => ({
+              variant: item.variant,
+              quantity: item.quantity,
+              unitPrice: item.price,
+              productName: productNameBySku(item.variant),
+            }))
           ),
           amount,
           status: "open",

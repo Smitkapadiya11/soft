@@ -6,6 +6,7 @@ import {
   PRODUCT_NAME,
   PRODUCT_MRP,
   PRODUCT_DISCOUNT_PERCENT,
+  PRODUCT_SPECS,
   HOME_START_SLIDES,
   HOME_STORY,
   HOME_EXTRA,
@@ -18,31 +19,33 @@ import { Reveal, StaggerGroup, StaggerItem } from "@/components/MotionWrapper";
 import HomeHeroShowcase from "@/components/HomeHeroShowcase";
 import HomeShowcase from "@/components/HomeShowcase";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import { CATALOG_PRODUCTS } from "@/lib/products";
 import {
   Package,
   ShieldCheck,
-  RotateCcw,
   Lock,
   BadgeCheck,
   MessageCircle,
   Truck,
+  Droplets,
+  Sparkles,
 } from "lucide-react";
 
 const trustPillars = [
   {
-    icon: Package,
-    title: "Plain-box delivery",
-    text: "No product name on the outer carton. Neighbours see a normal parcel — nothing else.",
+    icon: Sparkles,
+    title: "See the product first",
+    text: "No guessing what’s inside. Soft Rose or Mist Grey — clear photos, real specs, honest sale price.",
   },
   {
     icon: Lock,
     title: "Razorpay prepaid only",
-    text: "UPI, cards, net banking. No cash-on-delivery confusion. Encrypted checkout.",
+    text: "UPI, cards, net banking. Encrypted checkout. No COD confusion at the door.",
   },
   {
-    icon: RotateCcw,
-    title: "Clear return policy",
-    text: "Manufacturing defects covered. Policies published before you pay — not after.",
+    icon: Package,
+    title: "Plain-box delivery",
+    text: "The product ships in an unmarked carton. Privacy outside. Premium experience inside.",
   },
   {
     icon: MessageCircle,
@@ -54,32 +57,31 @@ const trustPillars = [
 export default function Home() {
   return (
     <>
-      <section className={styles.ugcPanel} aria-label="Silk Room — shop now">
+      <section className={styles.ugcPanel} aria-label="Silk Room Ease — shop now">
         <div className={styles.ugcPanelInner}>
           <div className={styles.ugcCopy}>
-            <p className={styles.eyebrow}>Limited sale · trusted delivery</p>
+            <p className={styles.eyebrow}>India’s care-first wellness brand</p>
             <p className={styles.brand}>Silk Room</p>
             <h1 className={styles.ugcHeadline}>
-              Discreet relief, delivered beautifully.
+              Three products. One discreet Silk Room standard.
             </h1>
             <p className={styles.ugcSub}>
-              {PRODUCT_NAME} for tension, stress, and recovery days. Plain packaging,
-              Razorpay prepaid checkout, and real support before you order.
+              Ease for dual-density comfort, Lick for quiet tongue-style stimulation, and
+              Trio for 3-in-1 male pleasure. See every product clearly before it ships free
+              in a plain box.
             </p>
             <div className={styles.heroTrustLine}>
-              <span>Free discreet delivery</span>
+              <span>Products from ₹549</span>
+              <span>Three real galleries</span>
               <span>6-month warranty</span>
-              <span>Adults 18+</span>
             </div>
             <div className={styles.ugcPanelFoot}>
-              <Link href="/product" className={styles.buyNow}>
-                Buy now
-                <span className={styles.priceChip}>
-                  <Price amount={PRODUCT_PRICE} sale />
-                </span>
+              <Link href="/#shop-all-products" className={styles.buyNow}>
+                Shop all products
               </Link>
               <p className={styles.ugcNote}>
-                <Link href="/about">About Silk Room</Link> · <Link href="/contact">Contact support</Link>
+                Adults 18+ · <Link href="/about">About Silk Room</Link> ·{" "}
+                <Link href="/contact">Contact</Link>
               </p>
             </div>
           </div>
@@ -88,13 +90,55 @@ export default function Home() {
         </div>
       </section>
 
-      <section className={styles.story} aria-label="The Silk Room story">
-        <div className={styles.storyHead}>
-          <p className={styles.eyebrow}>The Silk Room promise</p>
-          <h2>Four moments. One standard of care.</h2>
+      <section className={styles.catalog} aria-labelledby="shop-all-products">
+        <div className={styles.catalogHead}>
+          <p className={styles.eyebrow}>Three products · one Silk Room standard</p>
+          <h2 id="shop-all-products">Choose the experience made for you.</h2>
           <p>
-            From the doorstep to your evening routine — built so you never have to explain the box,
-            doubt the checkout, or wait for answers.
+            Every product is shown clearly, priced honestly, and delivered free in plain
+            packaging across India.
+          </p>
+        </div>
+        <div className={styles.catalogGrid}>
+          {CATALOG_PRODUCTS.map((product) => {
+            const href = product.slug === "ease" ? "/product" : `/product/${product.slug}`;
+            return (
+              <article className={styles.catalogCard} key={product.id}>
+                <Link href={href} className={styles.catalogImageLink}>
+                  <Image
+                    src={product.gallery[0]}
+                    alt={product.name}
+                    fill
+                    sizes="(max-width: 760px) 100vw, 33vw"
+                    className={styles.catalogImage}
+                  />
+                </Link>
+                <div className={styles.catalogCardBody}>
+                  <p className={styles.catalogCategory}>{product.category}</p>
+                  <h3>
+                    <Link href={href}>{product.name}</Link>
+                  </h3>
+                  <p>{product.tagline}</p>
+                  <div className={styles.catalogCardFooter}>
+                    <Price amount={product.price} sale />
+                    <Link href={href} className={styles.catalogCta}>
+                      View product
+                    </Link>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className={styles.story} aria-label="Why Silk Room Ease">
+        <div className={styles.storyHead}>
+          <p className={styles.eyebrow}>What’s inside the plain box</p>
+          <h2>Product truth. Not packaging theatre.</h2>
+          <p>
+            Visitors land here to decide. We put {PRODUCT_NAME} centre-stage — materials, feel,
+            waterproofing, and craft — so trust starts before checkout.
           </p>
         </div>
         <div className={styles.storyRail}>
@@ -106,8 +150,7 @@ export default function Home() {
                   alt={frame.title}
                   fill
                   sizes="(max-width: 900px) 70vw, 25vw"
-                  className={styles.storyImg}
-                  priority={i < 2}
+                  className={styles.storyImgProduct}
                 />
               </div>
               <span className={styles.storyIndex}>0{i + 1}</span>
@@ -121,10 +164,10 @@ export default function Home() {
       <section className={styles.trust} aria-label="Why customers trust Silk Room">
         <div className={styles.trustIntro}>
           <p className={styles.eyebrow}>Why people buy with confidence</p>
-          <h2>We removed every reason to hesitate.</h2>
+          <h2>Clarity that feels premium.</h2>
           <p>
-            Your decision should feel clear: who we are, how we ship, how you pay, and who answers
-            when you message.
+            Silk Room is built for customers who want the real product, honest policies, and a brand
+            that answers — not a mystery parcel and fine print later.
           </p>
         </div>
         <StaggerGroup className={styles.trustGrid}>
@@ -145,8 +188,8 @@ export default function Home() {
         <Reveal className={styles.offerMedia}>
           <div className={styles.mediaFrame}>
             <Image
-              src={HOME_EXTRA.discreet}
-              alt="Plain box delivery — no product name on outer carton, free discreet shipping across India"
+              src={HOME_EXTRA.offer}
+              alt="Pure body-safe silicone — Silk Room Ease Soft Rose"
               fill
               sizes="(max-width: 900px) 100vw, 50vw"
               className={styles.containImg}
@@ -160,21 +203,31 @@ export default function Home() {
             <Price amount={PRODUCT_PRICE} sale className={styles.priceInline} />
           </h2>
           <p>
-            Soft Rose or Mist Grey. Body-safe silicone. Fully waterproof. Ships free in an unmarked
-            box across India. Sale price{" "}
-            <strong>₹{PRODUCT_PRICE}</strong> (MRP ₹{PRODUCT_MRP} · {PRODUCT_DISCOUNT_PERCENT}% OFF).
+            Soft Rose or Mist Grey. {PRODUCT_SPECS.material}. {PRODUCT_SPECS.waterproof}.
+            Contact length {PRODUCT_SPECS.contactLength} · diameter {PRODUCT_SPECS.diameter}.
+            Sale price <strong>₹{PRODUCT_PRICE}</strong> (MRP ₹{PRODUCT_MRP} ·{" "}
+            {PRODUCT_DISCOUNT_PERCENT}% OFF).
           </p>
           <ul className={styles.offerList}>
             <li>
-              <BadgeCheck size={16} aria-hidden /> Adults 18+ only — age confirmed at entry
+              <BadgeCheck size={16} aria-hidden /> Body-safe silicone · skin-friendly finish
             </li>
             <li>
-              <Truck size={16} aria-hidden /> Free discreet delivery · 3–7 business days typical
+              <Droplets size={16} aria-hidden /> Fully waterproof · easy to clean
+            </li>
+            <li>
+              <Truck size={16} aria-hidden /> Free plain-box delivery · 3–7 business days
             </li>
             <li>
               <ShieldCheck size={16} aria-hidden /> 6-month manufacturing warranty
             </li>
           </ul>
+          <Link href="/product" className={styles.buyNow}>
+            View colours &amp; buy
+            <span className={styles.priceChip}>
+              <Price amount={PRODUCT_PRICE} sale />
+            </span>
+          </Link>
         </div>
       </section>
 
@@ -182,8 +235,8 @@ export default function Home() {
         <div className={styles.founderMedia}>
           <div className={styles.mediaFrameDark}>
             <Image
-              src={HOME_EXTRA.morning}
-              alt="Relief without embarrassment — body wellness founded by Smit Kapadiya, KAPADIYA AND SONS"
+              src={HOME_EXTRA.founder}
+              alt="Complete Silk Room Ease kit — premium product presentation"
               fill
               sizes="(max-width: 900px) 100vw, 42vw"
               className={styles.containImg}
@@ -192,12 +245,11 @@ export default function Home() {
         </div>
         <div className={styles.founderCopy}>
           <p className={styles.eyebrow}>Founder’s note</p>
-          <h2>Relief without embarrassment.</h2>
+          <h2>India’s care-first Silk Room.</h2>
           <p>{BUSINESS.mission}</p>
           <p>
-            Every policy on this site — shipping, returns, privacy, grievance redressal — is written
-            so you can verify us before you pay. If something is unclear, message us on WhatsApp
-            before you order. We would rather earn trust than rush a sale.
+            We show the product because trust starts with honesty. Policies, prepaid checkout, and
+            WhatsApp support exist so your experience feels premium end to end — not only at unboxing.
           </p>
           <WhatsAppButton variant="light" />
           <p className={styles.founderSign}>
@@ -209,32 +261,33 @@ export default function Home() {
         </div>
       </section>
 
-      <section className={styles.showcase} aria-label="Premium experience">
+      <section className={styles.showcase} aria-label="Premium product experience">
         <div className={styles.showcaseGrid}>
           <HomeShowcase slides={HOME_SLIDESHOW} />
           <div className={styles.showcaseCopy}>
-            <p className={styles.eyebrow}>Built to convert confidence</p>
-            <h2>What “premium” means here</h2>
+            <p className={styles.eyebrow}>Built for buyers who look closely</p>
+            <h2>Why customers choose {PRODUCT_NAME}</h2>
             <div className={styles.proofGrid}>
               <div>
-                <h3>Clarity before checkout</h3>
+                <h3>Product before packaging</h3>
                 <p>
-                  Price, colours ({VARIANT_LABELS.Natural} / {VARIANT_LABELS.Espresso}), delivery
-                  estimate, and return rules — visible on the product page.
+                  Colours ({VARIANT_LABELS.Natural} / {VARIANT_LABELS.Espresso}), specs, and sale
+                  price are visible before you pay — so the decision feels informed.
                 </p>
               </div>
               <div>
-                <h3>Privacy by design</h3>
+                <h3>Premium where it matters</h3>
                 <p>
-                  Plain outer packaging. No product name on the label. Invoice details kept for your
-                  order — not for gossip at the door.
+                  Body-safe silicone, dual-density feel, waterproof body, stable base — crafted for
+                  private relief without compromise.
                 </p>
               </div>
               <div>
-                <h3>Accountable ownership</h3>
+                <h3>A brand that stands behind it</h3>
                 <p>
-                  Not a faceless storefront. {BUSINESS.legalName} · {BUSINESS.founder} ·{" "}
-                  <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a>.
+                  {BUSINESS.legalName} · {BUSINESS.founder} ·{" "}
+                  <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a> · warranty &amp; WhatsApp
+                  care.
                 </p>
               </div>
             </div>

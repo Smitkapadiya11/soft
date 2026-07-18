@@ -31,7 +31,6 @@ import {
   PRODUCT_SPECS,
   PRODUCT_GALLERY,
   PRODUCT_COVER_IMAGE,
-  FALLBACK_STOCK,
   ALLOWED_VARIANTS,
   VARIANT_COLORS,
   VARIANT_LABELS,
@@ -132,6 +131,7 @@ export default function ProductPage() {
   }, [fetchStock]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- reset gallery on colour change
     setSelectedImageIndex(0);
   }, [selectedVariant]);
 

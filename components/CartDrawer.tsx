@@ -5,29 +5,29 @@ import Image from "next/image";
 import { X, Minus, Plus, Trash2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "@/context/CartContext";
-import { PRODUCT_GALLERY, ALLOWED_VARIANTS, PRODUCT_COVER_IMAGE, PRODUCT_PRICE, variantLabel } from "@/lib/constants";
+import {
+  productImageBySku,
+  productVariantBySku,
+} from "@/lib/products";
 import { staggerContainer, staggerItem } from "@/lib/motion";
 import styles from "./CartDrawer.module.css";
 import Link from "next/link";
 import Price from "@/components/Price";
 
-function cartThumb(variant: string) {
-  if ((ALLOWED_VARIANTS as readonly string[]).includes(variant)) {
-    return PRODUCT_GALLERY[variant as (typeof ALLOWED_VARIANTS)[number]][0];
-  }
-  return PRODUCT_COVER_IMAGE;
-}
-
 export default function CartDrawer() {
   const { items, isCartOpen, setIsCartOpen, updateQuantity, removeFromCart, cartTotal } = useCart();
   const closeBtnRef = useRef<HTMLButtonElement>(null);
+  const drawerRef = useRef<HTMLElement>(null);
+  const openerRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     if (isCartOpen) {
+      openerRef.current = document.activeElement as HTMLElement | null;
       closeBtnRef.current?.focus();
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
+      openerRef.current?.focus();
     }
     return () => {
       document.body.style.overflow = "";
@@ -36,7 +36,26 @@ export default function CartDrawer() {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && isCartOpen) setIsCartOpen(false);
+      if (!isCartOpen) return;
+      if (e.key === "Escape") {
+        setIsCartOpen(false);
+        return;
+      }
+      if (e.key !== "Tab") return;
+
+      const focusable = drawerRef.current?.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      );
+      if (!focusable?.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -55,6 +74,7 @@ export default function CartDrawer() {
             aria-hidden
           />
           <motion.aside
+            ref={drawerRef}
             className={styles.drawer}
             role="dialog"
             aria-modal="true"
@@ -104,7 +124,7 @@ export default function CartDrawer() {
                       >
                         <div className={styles.itemImagePlaceholder}>
                           <Image
-                            src={cartThumb(item.variant)}
+                            src={productImageBySku(item.variant)}
                             alt=""
                             width={64}
                             height={64}
@@ -113,12 +133,14 @@ export default function CartDrawer() {
                         </div>
                         <div className={styles.itemDetails}>
                           <h3 className={styles.itemName}>{item.name}</h3>
-                          <p className={styles.itemVariant}>Colour: {variantLabel(item.variant)}</p>
+                          <p className={styles.itemVariant}>
+                            {productVariantBySku(item.variant)}
+                          </p>
                           <p className={styles.itemPrice}>
-                            <Price amount={PRODUCT_PRICE} sale />
+                            <Price amount={item.price} sale />
                           </p>
                           <div className={styles.itemActions}>
-                            <div className={styles.quantity} aria-label={`Quantity for ${item.variant}`}>
+                            <div className={styles.quantity} aria-label={`Quantity for ${item.name}`}>
                               <button
                                 type="button"
                                 onClick={() => updateQuantity(item.id, item.quantity - 1)}
@@ -139,7 +161,7 @@ export default function CartDrawer() {
                               type="button"
                               className={styles.removeBtn}
                               onClick={() => removeFromCart(item.id)}
-                              aria-label={`Remove ${item.variant} from cart`}
+                              aria-label={`Remove ${item.name} from cart`}
                             >
                               <Trash2 size={16} aria-hidden />
                             </button>

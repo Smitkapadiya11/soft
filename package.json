@@ -8,6 +8,7 @@
     "postinstall": "prisma generate",
     "start": "next start",
     "lint": "eslint",
+    "test": "tsx --test tests/**/*.test.ts",
     "db:seed": "npx tsx prisma/seed.ts",
     "db:push": "npx prisma db push",
     "admin:sync": "npx tsx scripts/sync-admin.ts"

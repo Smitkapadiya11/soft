@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { POLICY_LINKS } from "@/lib/constants";
+import { CATALOG_PRODUCTS } from "@/lib/products";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = "https://silkroom.shop";
@@ -19,5 +20,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...staticRoutes, ...policyRoutes];
+  const productRoutes = CATALOG_PRODUCTS.filter((product) => product.slug !== "ease").map(
+    (product) => ({
+      url: `${base}/product/${product.slug}`,
+      lastModified: now,
+      changeFrequency: "weekly" as const,
+      priority: 0.9,
+    })
+  );
+
+  return [...staticRoutes, ...productRoutes, ...policyRoutes];
 }

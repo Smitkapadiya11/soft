@@ -73,91 +73,87 @@ export const PRODUCT_GALLERY: Record<(typeof ALLOWED_VARIANTS)[number], string[]
   ],
 };
 
-/** Lifestyle wellness hero for Meta landing match */
-export const HOME_HERO_IMAGE = "/brand/story/01-arrival.png";
-/** Plain brown carton for below-fold featured section (Meta-safe) */
-export const HOME_FEATURE_IMAGE = "/products/plain-box.png";
-
-/** Homepage UGC strip — replaces full-bleed hero */
-export const HOME_UGC = [
-  {
-    src: "/brand/ugc/01-arrived.png",
-    alt: "Customer holding discreet Silk Room delivery — finally arrived, plain box",
-  },
-  {
-    src: "/brand/ugc/02-relief.png",
-    alt: "Customer at home after delivery — relief from tension and stress",
-  },
-  {
-    src: "/brand/ugc/03-order.png",
-    alt: "Hands on Silk Room parcel — ₹599 sale, free discreet delivery",
-  },
-] as const;
-
-/** Homepage opening carousel — full-fit images, no crop */
+/** Homepage hero carousel — product-first (what’s inside the plain box) */
 export const HOME_START_SLIDES = [
-  ...HOME_UGC,
   {
-    src: "/brand/slides/01-sale.png",
-    alt: "Silk Room Ease limited sale — ₹599, MRP ₹2,999, 80% off, no coupon needed",
+    src: "/products/natural/01-hero.png",
+    alt: "Silk Room Ease Soft Rose — premium body-safe silicone massager",
   },
   {
-    src: "/brand/slides/02-delivery.png",
-    alt: "Free discreet delivery — plain outer box, no product name, pan-India shipping",
+    src: "/products/tongue-vibrator/s1.jpg",
+    alt: "Silk Room Lick — quiet waterproof tongue vibrator",
   },
   {
-    src: "/brand/slides/03-secure.png",
-    alt: "Razorpay secure checkout — UPI, cards, net banking, 6-month warranty, adults 18+",
+    src: "/products/male-masturbator/p1.jpg",
+    alt: "Silk Room Trio — 3-in-1 realistic male masturbator",
+  },
+  {
+    src: "/products/natural/05-body-safe.png",
+    alt: "Pure body-safe silicone — skin-friendly, worry-free moments",
+  },
+  {
+    src: "/products/tongue-vibrator/s2.jpg",
+    alt: "Silk Room Lick product features and compact design",
+  },
+  {
+    src: "/products/male-masturbator/p2.jpg",
+    alt: "Silk Room Trio detailed product presentation",
   },
 ] as const;
 
-/** Homepage brand story — order matters (Meta trust rebuild) */
+/** Product feature story — four reasons to buy */
 export const HOME_STORY = [
   {
-    src: "/brand/story/01-arrival.png",
-    title: "It arrives quietly",
-    text: "A plain carton. No product name outside. Your privacy is protected from the first knock.",
+    src: "/products/natural/01-hero.png",
+    title: "Meet Silk Room Ease",
+    text: "The product inside the plain box — Soft Rose finish, lifelike feel, built for private relief at home.",
   },
   {
-    src: "/brand/story/02-relief.png",
-    title: "Relief you can feel",
-    text: "Built for tension, stress, fatigue, and restless evenings — everyday body comfort, privately.",
+    src: "/products/natural/05-body-safe.png",
+    title: "100% body-safe silicone",
+    text: "Pure, skin-friendly material. No mystery plastics. Designed for comfort you can trust on your body.",
   },
   {
-    src: "/brand/story/03-trust.png",
-    title: "A brand you can trust",
-    text: "Real people. Clear policies. Razorpay prepaid checkout. Support that answers on WhatsApp.",
+    src: "/products/espresso/04-waterproof.png",
+    title: "Fully waterproof",
+    text: "Bath, shower, or evening routine — easy to clean, easy to use, built for real life.",
   },
   {
-    src: "/brand/story/04-care.png",
-    title: "Handled with care",
-    text: "From packing to delivery, every order is treated as personal — because comfort is personal.",
+    src: "/products/natural/04-dual-density.png",
+    title: "Dual-density comfort",
+    text: "Soft outer touch with a supportive core — premium feel that sells itself when you see it.",
   },
 ] as const;
 
+/** Below-fold product focus panels */
 export const HOME_EXTRA = {
-  morning: "/brand/morning-calm.png",
-  discreet: "/brand/discreet-desk.png",
+  offer: "/brand/product-focus/body-safe.png",
+  founder: "/products/natural/07-complete.png",
 } as const;
 
-/** Premium slideshow — proof / conversion section */
+/** Conversion slideshow — product truth + care */
 export const HOME_SLIDESHOW = [
   {
-    src: "/brand/slides/01-sale.png",
-    alt: "Silk Room Ease limited sale — ₹599, MRP ₹2,999, 80% off, no coupon needed",
+    src: "/products/natural/03-lifelike.png",
+    alt: "Lifelike Silk Room Ease detail — premium finish customers expect",
   },
   {
-    src: "/brand/slides/02-delivery.png",
-    alt: "Free discreet delivery — plain outer box, no product name, pan-India shipping",
+    src: "/products/espresso/02-design.png",
+    alt: "Mist Grey Silk Room Ease — considered design and stable base",
   },
   {
-    src: "/brand/slides/03-secure.png",
-    alt: "Razorpay secure checkout — UPI, cards, net banking, 6-month warranty, adults 18+",
+    src: "/products/natural/07-complete.png",
+    alt: "Complete kit presentation — India trust-first brand experience",
   },
 ] as const;
 
 /** @deprecated kept for any remaining pack-size references */
 export const PRODUCT_PACK_SIZE = "Complete kit";
+
+/** Legacy aliases — prefer HOME_START_SLIDES / HOME_EXTRA */
+export const HOME_HERO_IMAGE = HOME_START_SLIDES[0].src;
+export const HOME_FEATURE_IMAGE = HOME_EXTRA.offer;
+export const HOME_UGC = HOME_START_SLIDES.slice(0, 3);
 
 export const BUSINESS = {
   name: "Silk Room",
@@ -195,7 +191,7 @@ export const POLICY_LINKS = [
 /** Primary navbar links */
 export const NAV_MAIN_LINKS = [
   { href: "/", label: "Home" },
-  { href: "/product", label: "Shop" },
+  { href: "/#shop-all-products", label: "Shop" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ] as const;

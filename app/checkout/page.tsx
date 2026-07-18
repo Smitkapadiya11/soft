@@ -6,7 +6,8 @@ import { useCart } from "@/context/CartContext";
 import styles from "./Checkout.module.css";
 import { Lock, Loader2 } from "lucide-react";
 import Price from "@/components/Price";
-import { PRODUCT_PRICE, PRODUCT_ID, variantLabel } from "@/lib/constants";
+import { PRODUCT_ID } from "@/lib/constants";
+import { productVariantBySku } from "@/lib/products";
 import { trackInitiateCheckout } from "@/lib/meta-pixel";
 
 type PaymentStep = "idle" | "creating_order" | "initiating_payment" | "awaiting_payment" | "verifying";
@@ -142,7 +143,7 @@ export default function CheckoutPage() {
         amount: paymentData.amount,
         currency: paymentData.currency || "INR",
         name: "Silk Room",
-        description: "Silk Room Ease wellness massager",
+        description: "Silk Room discreet wellness order",
         order_id: orderId,
         prefill: {
           name: paymentData.customerName || formData.name,
@@ -243,7 +244,7 @@ export default function CheckoutPage() {
       <div className={styles.emptyContainer}>
         <h1>Checkout</h1>
         <p>Your cart is empty.</p>
-        <button onClick={() => router.push("/product")} className={styles.btn}>
+        <button onClick={() => router.push("/#shop-all-products")} className={styles.btn}>
           Return to Shop
         </button>
       </div>
@@ -363,14 +364,16 @@ export default function CheckoutPage() {
               <div key={item.id} className={styles.summaryItem}>
                 <div className={styles.summaryItemInfo}>
                   <p className={styles.summaryItemName}>{item.name}</p>
-                  <p className={styles.summaryItemVariant}>{variantLabel(item.variant)} × {item.quantity}</p>
+                  <p className={styles.summaryItemVariant}>
+                    {productVariantBySku(item.variant)} × {item.quantity}
+                  </p>
                 </div>
                 <p className={styles.summaryItemPrice}>
-                  <Price amount={PRODUCT_PRICE} sale />
+                  <Price amount={item.price} sale />
                   {item.quantity > 1 ? (
                     <span className={styles.summaryLineTotal}>
                       {" "}
-                      × {item.quantity} = <Price amount={PRODUCT_PRICE * item.quantity} />
+                      × {item.quantity} = <Price amount={item.price * item.quantity} />
                     </span>
                   ) : null}
                 </p>

@@ -4,6 +4,7 @@ import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { Pool } from "pg";
 import { syncAdminFromEnv } from "../lib/sync-admin";
+import { DEFAULT_STOCK, INVENTORY_SKUS } from "../lib/products";
 
 loadEnvFiles();
 
@@ -14,27 +15,15 @@ const prisma = new PrismaClient({ adapter });
 async function main() {
   const { username } = await syncAdminFromEnv(prisma);
 
-  await prisma.inventory.upsert({
-    where: { variantName: "Natural" },
-    update: { stockCount: 100 },
-    create: { variantName: "Natural", stockCount: 100 },
-  });
+  for (const variantName of INVENTORY_SKUS) {
+    await prisma.inventory.upsert({
+      where: { variantName },
+      update: {},
+      create: { variantName, stockCount: DEFAULT_STOCK[variantName] },
+    });
+  }
 
-  await prisma.inventory.upsert({
-    where: { variantName: "Espresso" },
-    update: { stockCount: 100 },
-    create: { variantName: "Espresso", stockCount: 100 },
-  });
-
-  await prisma.inventory.deleteMany({
-    where: {
-      variantName: {
-        notIn: ["Natural", "Espresso"],
-      },
-    },
-  });
-
-  console.log(`Seeded admin "${username}" and inventory (Natural: 100, Espresso: 100)`);
+  console.log(`Seeded admin "${username}" and ${INVENTORY_SKUS.length} inventory SKUs`);
 }
 
 main()

@@ -17,6 +17,7 @@ export async function GET(req: NextRequest) {
       amount: true,
       variant: true,
       quantity: true,
+      checkoutGroupId: true,
       createdAt: true,
     },
   });
@@ -25,12 +26,41 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ valid: false }, { status: 404 });
   }
 
+  const groupOrders = order.checkoutGroupId
+    ? await prisma.order.findMany({
+        where: {
+          checkoutGroupId: order.checkoutGroupId,
+          paymentStatus: "paid",
+        },
+        select: {
+          id: true,
+          amount: true,
+          variant: true,
+          quantity: true,
+        },
+        orderBy: { createdAt: "asc" },
+      })
+    : [
+        {
+          id: order.id,
+          amount: order.amount,
+          variant: order.variant,
+          quantity: order.quantity,
+        },
+      ];
+
   return NextResponse.json({
     valid: true,
     orderId: order.id,
-    amount: order.amount,
+    amount: groupOrders.reduce((sum, item) => sum + item.amount, 0),
     variant: order.variant,
     quantity: order.quantity,
+    items: groupOrders.map((item) => ({
+      orderId: item.id,
+      amount: item.amount,
+      variant: item.variant,
+      quantity: item.quantity,
+    })),
     shippingStatus: order.shippingStatus,
     date: order.createdAt.toISOString().split("T")[0],
   });

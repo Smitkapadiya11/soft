@@ -31,9 +31,9 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "Silk Room — Discreet Body Wellness | KAPADIYA AND SONS",
+  title: "Silk Room — Three Discreet Wellness Products | India",
   description:
-    "Silk Room Ease by KAPADIYA AND SONS (Founder: Smit Kapadiya). Body wellness for women · plain packaging · Razorpay prepaid · WhatsApp +91 75758 07403 · ₹599 sale. Adults 18+.",
+    "Shop Silk Room Ease, Lick tongue vibrator, and Trio 3-in-1 male masturbator. Clear product photos, free plain-box delivery, secure Razorpay checkout. Adults 18+.",
   metadataBase: new URL("https://silkroom.shop"),
   icons: {
     icon: [
@@ -43,9 +43,9 @@ export const metadata: Metadata = {
     apple: [{ url: "/brand/silk-room-icon.png", type: "image/png" }],
   },
   openGraph: {
-    title: "Silk Room — Body care, delivered discreetly",
+    title: "Silk Room — Personal wellness, shown clearly and delivered discreetly",
     description:
-      "Personal wellness massager · body-safe silicone · discreet packaging · free delivery across India. Adults 18+.",
+      "Three personal-wellness products from ₹549 · clear product galleries · free plain-box delivery across India. Adults 18+.",
     url: "https://silkroom.shop",
     siteName: "Silk Room",
     images: [

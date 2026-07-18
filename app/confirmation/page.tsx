@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, Suspense } from "react";
+import { useState, useEffect, useCallback, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
@@ -10,7 +10,7 @@ import { staggerContainer, staggerItem } from "@/lib/motion";
 import { DELIVERY_ESTIMATE } from "@/lib/format";
 import Price from "@/components/Price";
 import { Loader2 } from "lucide-react";
-import { PRODUCT_NAME, PRODUCT_ID, variantLabel } from "@/lib/constants";
+import { productNameBySku, productVariantBySku } from "@/lib/products";
 import { trackPurchase } from "@/lib/meta-pixel";
 
 type OrderLookup = {
@@ -21,6 +21,12 @@ type OrderLookup = {
   quantity?: number;
   shippingStatus?: string;
   date?: string;
+  items?: {
+    orderId: string;
+    amount: number;
+    variant: string;
+    quantity: number;
+  }[];
 };
 
 const nextSteps = [
@@ -65,32 +71,59 @@ function ConfirmationContent() {
   const [order, setOrder] = useState<OrderLookup | null>(null);
   const [loading, setLoading] = useState(true);
   const [invalid, setInvalid] = useState(false);
+  const trackedOrderRef = useRef<string | null>(null);
 
   useEffect(() => {
     if (!orderId) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- invalid URL state
       setInvalid(true);
       setLoading(false);
       return;
     }
 
-    fetch(`/api/orders/lookup?orderId=${encodeURIComponent(orderId)}`)
+    const controller = new AbortController();
+
+    fetch(`/api/orders/lookup?orderId=${encodeURIComponent(orderId)}`, {
+      signal: controller.signal,
+    })
       .then((res) => (res.ok ? res.json() : null))
       .then((data: OrderLookup | null) => {
+        if (controller.signal.aborted) return;
         if (data?.valid) {
           setOrder(data);
-          trackPurchase({
-            orderId: data.orderId ?? orderId,
-            value: data.amount ?? 0,
-            contentName: PRODUCT_NAME,
-            contentIds: [PRODUCT_ID],
-            quantity: data.quantity ?? 1,
-          });
+          if (trackedOrderRef.current !== orderId) {
+            trackedOrderRef.current = orderId;
+            const items = data.items ?? [];
+            trackPurchase({
+              orderId: data.orderId ?? orderId,
+              value: data.amount ?? 0,
+              contentName:
+                items.length > 1
+                  ? "Silk Room mixed order"
+                  : productNameBySku(data.variant ?? ""),
+              contentIds:
+                items.length > 0
+                  ? items.map((item) => item.variant)
+                  : [data.variant ?? "silk-room-order"],
+              quantity:
+                items.length > 0
+                  ? items.reduce((sum, item) => sum + item.quantity, 0)
+                  : data.quantity ?? 1,
+            });
+          }
         } else {
           setInvalid(true);
         }
       })
-      .catch(() => setInvalid(true))
-      .finally(() => setLoading(false));
+      .catch((error: unknown) => {
+        if (error instanceof Error && error.name === "AbortError") return;
+        setInvalid(true);
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoading(false);
+      });
+
+    return () => controller.abort();
   }, [orderId]);
 
   if (loading) {
@@ -123,7 +156,7 @@ function ConfirmationContent() {
           <a href="https://wa.me/917575807403">+91 75758 07403</a> with your payment ID.
         </p>
         <div className={styles.ctaGroup}>
-          <Link href="/product" className={styles.ctaPrimary}>
+          <Link href="/#shop-all-products" className={styles.ctaPrimary}>
             Return to Shop
           </Link>
           <Link href="/contact" className={styles.ctaSecondary}>
@@ -187,9 +220,21 @@ function ConfirmationContent() {
         </motion.div>
         <motion.div variants={reduceMotion ? undefined : staggerItem} className={styles.row}>
           <span className={styles.rowLabel}>Item</span>
-          <strong className={styles.rowValue}>
-            {PRODUCT_NAME} · {variantLabel(order.variant ?? "")} × {order.quantity}
-          </strong>
+          <span className={styles.rowValue}>
+            {(order.items ?? [
+              {
+                orderId: order.orderId ?? "",
+                amount: order.amount ?? 0,
+                variant: order.variant ?? "",
+                quantity: order.quantity ?? 1,
+              },
+            ]).map((item) => (
+              <strong key={item.orderId} style={{ display: "block" }}>
+                {productNameBySku(item.variant)} · {productVariantBySku(item.variant)} ×{" "}
+                {item.quantity}
+              </strong>
+            ))}
+          </span>
         </motion.div>
         <motion.div variants={reduceMotion ? undefined : staggerItem} className={styles.row}>
           <span className={styles.rowLabel}>Delivery</span>
@@ -222,7 +267,7 @@ function ConfirmationContent() {
       </div>
 
       <div className={styles.ctaGroup}>
-        <Link href="/product" className={styles.ctaPrimary}>
+        <Link href="/#shop-all-products" className={styles.ctaPrimary}>
           Continue shopping
         </Link>
         <Link href="/contact" className={styles.ctaSecondary}>

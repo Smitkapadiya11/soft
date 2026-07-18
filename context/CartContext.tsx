@@ -9,7 +9,11 @@ import React, {
   useMemo,
   ReactNode,
 } from "react";
-import { PRODUCT_PRICE } from "@/lib/constants";
+import {
+  getProductBySku,
+  productNameBySku,
+  productPriceBySku,
+} from "@/lib/products";
 import { trackAddToCart } from "@/lib/meta-pixel";
 
 export type CartItem = {
@@ -61,11 +65,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
         const parsed = JSON.parse(saved) as CartItem[];
         // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional hydration
         setItems(
-          parsed.map((item) => ({
-            ...item,
-            price: PRODUCT_PRICE,
-            quantity: Math.min(MAX_QTY, Math.max(1, item.quantity || 1)),
-          }))
+          parsed
+            .filter((item) => getProductBySku(item.variant))
+            .map((item) => ({
+              ...item,
+              price: productPriceBySku(item.variant)!,
+              name: productNameBySku(item.variant),
+              quantity: Math.min(MAX_QTY, Math.max(1, item.quantity || 1)),
+            }))
         );
       } catch {
         /* ignore corrupt cart */
@@ -81,9 +88,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const addToCart = useCallback((newItem: CartItem, options?: AddToCartOptions) => {
     const openDrawer = options?.openDrawer !== false;
+    const catalogProduct = getProductBySku(newItem.variant);
+    if (!catalogProduct) return;
     const priced: CartItem = {
       ...newItem,
-      price: PRODUCT_PRICE,
+      name: catalogProduct.name,
+      price: catalogProduct.price,
       quantity: Math.min(MAX_QTY, Math.max(1, newItem.quantity)),
     };
     setItems((prev) => {
@@ -95,7 +105,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
             ? {
                 ...i,
                 quantity: Math.min(MAX_QTY, i.quantity + priced.quantity),
-                price: PRODUCT_PRICE,
+                price: catalogProduct.price,
               }
             : i
         );
@@ -111,7 +121,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     trackAddToCart({
       contentName: priced.name,
       contentIds: [priced.id],
-      value: PRODUCT_PRICE * priced.quantity,
+      value: priced.price * priced.quantity,
       quantity: priced.quantity,
     });
   }, []);
@@ -145,7 +155,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const cartTotal = useMemo(
-    () => items.reduce((total, item) => total + PRODUCT_PRICE * item.quantity, 0),
+    () => items.reduce((total, item) => total + item.price * item.quantity, 0),
     [items]
   );
   const cartCount = useMemo(

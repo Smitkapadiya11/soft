@@ -77,7 +77,7 @@ function Footer() {
         <div className={styles.links}>
           <h4>Explore</h4>
           <Link href="/about">About Us</Link>
-          <Link href="/product">Shop Now</Link>
+          <Link href="/#shop-all-products">Shop All Products</Link>
           <Link href="/contact">Contact Us</Link>
         </div>
 

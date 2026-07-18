@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { formatINR } from "@/lib/format";
-import { variantLabel } from "@/lib/constants";
+import { getProductBySku, productNameBySku, productVariantBySku } from "@/lib/products";
 
 type OrderRow = {
   id: string;
@@ -107,6 +107,7 @@ export default function AdminDashboard() {
   }, [activeTab, router]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- load active admin tab
     fetchData();
   }, [fetchData]);
 
@@ -252,7 +253,8 @@ export default function AdminDashboard() {
                               <span className={styles.orderMeta}>{order.customerEmail}</span>
                             </td>
                             <td>
-                              {variantLabel(order.variant)} × {order.qty}
+                              {productNameBySku(order.variant)} ·{" "}
+                              {productVariantBySku(order.variant)} × {order.qty}
                             </td>
                             <td className={`${styles.amount} price`}>{formatINR(order.amount)}</td>
                             <td>
@@ -313,11 +315,12 @@ export default function AdminDashboard() {
                     className={styles.variantColor}
                     style={{
                       backgroundColor:
-                        item.variant === "Natural" ? "#e8b4a0" : item.variant === "Espresso" ? "#8a9098" : "#ccc",
+                        getProductBySku(item.variant)?.accent ?? "#ccc",
                     }}
                   />
                   <div>
-                    <h3>{variantLabel(item.variant)}</h3>
+                    <h3>{productNameBySku(item.variant)}</h3>
+                    <p>{productVariantBySku(item.variant)}</p>
                     <p className={styles.variantKey}>{item.variant}</p>
                     <p className={`${styles.stockCount} tabular-nums`}>{item.stock} in stock</p>
                     {item.stock < 20 && <span className={styles.alertText}>Low Stock Alert!</span>}
@@ -326,7 +329,7 @@ export default function AdminDashboard() {
                       style={{ marginTop: "0.5rem" }}
                       onClick={() => {
                         const val = prompt(
-                          `Update stock for ${variantLabel(item.variant)}:`,
+                          `Update stock for ${productNameBySku(item.variant)}:`,
                           String(item.stock)
                         );
                         if (val !== null) updateStock(item.variant, parseInt(val, 10));
