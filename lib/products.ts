@@ -9,8 +9,15 @@ import {
   VARIANT_LABELS,
 } from "./constants";
 
-export const TONGUE_VIBRATOR_ID = "tongue-vibrator";
-export const MALE_MASTURBATOR_ID = "3-in-1-male-masturbator";
+/** Public URL slugs — Meta-safe (no adult keyword paths). */
+export const TONGUE_VIBRATOR_ID = "silk-lick";
+export const MALE_MASTURBATOR_ID = "silk-trio";
+
+/** Legacy slugs kept for redirects from old ads / links. */
+export const LEGACY_PRODUCT_SLUGS: Record<string, string> = {
+  "tongue-vibrator": TONGUE_VIBRATOR_ID,
+  "3-in-1-male-masturbator": MALE_MASTURBATOR_ID,
+};
 
 export const INVENTORY_SKUS = [
   "Natural",
@@ -41,6 +48,8 @@ export type CatalogProduct = {
   reviews: readonly { name: string; city: string; text: string }[];
   whatsInBox: string;
   accent: string;
+  /** Neutral name sent to Meta Pixel / CAPI payloads */
+  metaContentName: string;
 };
 
 /** Same mechanism as Ease: sale price is fixed, discount is computed from MRP. */
@@ -116,6 +125,7 @@ export const CATALOG_PRODUCTS: readonly CatalogProduct[] = [
     ],
     whatsInBox: "Silk Room Ease, care card, plain discreet outer packaging",
     accent: VARIANT_COLORS.Natural,
+    metaContentName: "Silk Room Ease",
   },
   {
     id: TONGUE_VIBRATOR_ID,
@@ -126,29 +136,29 @@ export const CATALOG_PRODUCTS: readonly CatalogProduct[] = [
     mrp: LICK_MRP,
     discountPercent: discountPercent(LICK_MRP, LICK_PRICE),
     description:
-      "A realistic tongue vibrator with rhythmic licking motion for precise external stimulation. Quiet, waterproof, soft silicone, and compact enough for private solo or couples play.",
-    tagline: "Licking motion · quiet · waterproof · portable",
+      "A quiet, waterproof personal massager with a soft silicone contact surface and rhythmic motion for precise external wellness use. Compact for private solo or shared routines at home.",
+    tagline: "Quiet motion · soft silicone · waterproof · portable",
     gallery: [
-      "/products/tongue-vibrator/s1.jpg",
-      "/products/tongue-vibrator/s2.jpg",
-      "/products/tongue-vibrator/s3.jpg",
-      "/products/tongue-vibrator/s4.jpg",
+      "/products/silk-lick/s1.jpg",
+      "/products/silk-lick/s2.jpg",
+      "/products/silk-lick/s3.jpg",
+      "/products/silk-lick/s4.jpg",
     ],
     sku: "TongueVibrator",
     variantLabel: "Purple",
-    category: "Tongue vibrator",
+    category: "Personal wellness massager",
     highlights: [
-      "Rhythmic tongue-style licking motion",
-      "Easy-target shape for precise external stimulation",
+      "Rhythmic soft-surface motion for precise external use",
+      "Easy-to-hold shape for targeted wellness routines",
       "Soft, skin-friendly silicone contact surface",
       "Quiet, waterproof, portable design",
-      "Suitable for solo or couples play",
+      "Designed for private adult personal care",
     ],
     specs: [
       { label: "Material", value: "Soft body-safe silicone contact surface" },
-      { label: "Motion", value: "Tongue-style licking vibration" },
+      { label: "Motion", value: "Rhythmic soft-surface vibration" },
       { label: "Waterproof", value: "Yes" },
-      { label: "Use", value: "External stimulation only" },
+      { label: "Use", value: "External personal wellness only · Adults 18+" },
     ],
     faqs: [
       {
@@ -176,7 +186,7 @@ export const CATALOG_PRODUCTS: readonly CatalogProduct[] = [
       {
         name: "P***a T.",
         city: "Pune",
-        text: "Really quiet and the licking motion feels natural. Arrived in a completely plain box.",
+        text: "Really quiet and comfortable. Arrived in a completely plain box.",
       },
       {
         name: "S***i R.",
@@ -189,8 +199,9 @@ export const CATALOG_PRODUCTS: readonly CatalogProduct[] = [
         text: "Checkout was smooth and delivery was fast. The product photos matched exactly what arrived.",
       },
     ],
-    whatsInBox: "Silk Room Lick vibrator, charging cable, care guide, plain outer packaging",
+    whatsInBox: "Silk Room Lick, charging cable, care guide, plain outer packaging",
     accent: "#8d6aae",
+    metaContentName: "Silk Room Lick",
   },
   {
     id: MALE_MASTURBATOR_ID,
@@ -201,41 +212,41 @@ export const CATALOG_PRODUCTS: readonly CatalogProduct[] = [
     mrp: TRIO_MRP,
     discountPercent: discountPercent(TRIO_MRP, TRIO_PRICE),
     description:
-      "A 3-in-1 realistic male masturbator with mouth, vaginal, and anal openings, a 7.1-inch deep internal canal, and varied 3D textures for endurance training and private pleasure.",
-    tagline: "3-in-1 openings · 7.1-inch depth · varied 3D textures",
+      "A compact men’s personal-care sleeve with three textured channels, about 7.1 inches of internal depth, and varied 3D surfaces for private adult routines. Shipped free in a plain outer box.",
+    tagline: "Three textured channels · 7.1-inch depth · discreet design",
     gallery: [
-      "/products/male-masturbator/p1.jpg",
-      "/products/male-masturbator/p2.jpg",
-      "/products/male-masturbator/p3.jpg",
-      "/products/male-masturbator/p4.jpg",
-      "/products/male-masturbator/p5.jpg",
+      "/products/silk-trio/p1.jpg",
+      "/products/silk-trio/p2.jpg",
+      "/products/silk-trio/p3.jpg",
+      "/products/silk-trio/p4.jpg",
+      "/products/silk-trio/p5.jpg",
     ],
     sku: "MaleMasturbator",
     variantLabel: "Brown",
-    category: "Male masturbator",
+    category: "Men’s personal care",
     highlights: [
-      "Three openings: mouth, vaginal, and anal",
-      "7.1-inch deep internal canal",
+      "Three distinct textured channels",
+      "About 7.1-inch internal depth",
       "Varied 3D internal textures",
-      "Realistic brown-skin presentation",
-      "Portable and shipped discreetly",
+      "Compact and portable form",
+      "Shipped discreetly in a plain box",
     ],
     specs: [
-      { label: "Openings", value: "Mouth, vaginal, and anal" },
+      { label: "Channels", value: "Three textured openings" },
       { label: "Internal depth", value: '7.1"' },
       { label: "Texture", value: "Multiple 3D internal textures" },
-      { label: "Use", value: "Male solo play and endurance training" },
+      { label: "Use", value: "Adult personal care · private use only · 18+" },
     ],
     faqs: [
       {
-        title: "How deep is the internal canal?",
+        title: "How deep is the internal channel?",
         content:
-          "The internal canal is 7.1 inches deep with three distinct openings — mouth, vaginal, and anal — each with its own 3D texture.",
+          "About 7.1 inches deep across three distinct textured channels, each with its own feel.",
       },
       {
         title: "How do I clean it?",
         content:
-          "Flush each canal with warm water and mild soap after use, then air-dry fully before storage. Use a renewal powder occasionally to keep the material soft.",
+          "Flush each channel with warm water and mild soap after use, then air-dry fully before storage. Use a renewal powder occasionally to keep the material soft.",
       },
       {
         title: "Is delivery discreet?",
@@ -243,16 +254,16 @@ export const CATALOG_PRODUCTS: readonly CatalogProduct[] = [
           "Yes. It ships free in a plain outer box with no product or brand name on the label.",
       },
       {
-        title: "Can I use it for endurance training?",
+        title: "Is it for adults only?",
         content:
-          "Yes. The three textures offer different intensity levels, which many customers use for stamina practice at their own pace.",
+          "Yes. Silk Room Trio is an adult personal-care product for buyers aged 18 and above.",
       },
     ],
     reviews: [
       {
         name: "R***l J.",
         city: "Delhi",
-        text: "The textures are genuinely different between openings. Quality is far better than expected at this price.",
+        text: "The textures are genuinely different between channels. Quality is far better than expected at this price.",
       },
       {
         name: "V***y K.",
@@ -262,11 +273,12 @@ export const CATALOG_PRODUCTS: readonly CatalogProduct[] = [
       {
         name: "A***h P.",
         city: "Chennai",
-        text: "Easy to clean and feels realistic. Silk Room support answered my WhatsApp question within the hour.",
+        text: "Easy to clean and feels as shown. Silk Room support answered my WhatsApp question within the hour.",
       },
     ],
-    whatsInBox: "Silk Room Trio masturbator, care guide, plain outer packaging",
+    whatsInBox: "Silk Room Trio, care guide, plain outer packaging",
     accent: "#8b5f4a",
+    metaContentName: "Silk Room Trio",
   },
 ] as const;
 
@@ -283,8 +295,13 @@ SKU_MAP.set("Espresso", {
   accent: VARIANT_COLORS.Espresso,
 });
 
+export function resolveProductSlug(slug: string): string {
+  return LEGACY_PRODUCT_SLUGS[slug] ?? slug;
+}
+
 export function getProductBySlug(slug: string): CatalogProduct | undefined {
-  return CATALOG_PRODUCTS.find((product) => product.slug === slug);
+  const resolved = resolveProductSlug(slug);
+  return CATALOG_PRODUCTS.find((product) => product.slug === resolved);
 }
 
 export function getProductBySku(sku: string): CatalogProduct | undefined {
@@ -297,6 +314,10 @@ export function productPriceBySku(sku: string): number | undefined {
 
 export function productNameBySku(sku: string): string {
   return getProductBySku(sku)?.name ?? PRODUCT_NAME;
+}
+
+export function productMetaNameBySku(sku: string): string {
+  return getProductBySku(sku)?.metaContentName ?? "Silk Room product";
 }
 
 export function productVariantBySku(sku: string): string {

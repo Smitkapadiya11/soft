@@ -3,7 +3,11 @@ import test from "node:test";
 import {
   CATALOG_PRODUCTS,
   INVENTORY_SKUS,
+  MALE_MASTURBATOR_ID,
+  TONGUE_VIBRATOR_ID,
+  getProductBySlug,
   productPriceBySku,
+  resolveProductSlug,
 } from "../lib/products";
 import { parseCreateOrder } from "../lib/validation";
 
@@ -70,4 +74,13 @@ test("unknown stock keys are rejected", () => {
   });
 
   assert.equal(parsed.ok, false);
+});
+
+test("public slugs are Meta-safe and legacy slugs resolve", () => {
+  assert.equal(TONGUE_VIBRATOR_ID, "silk-lick");
+  assert.equal(MALE_MASTURBATOR_ID, "silk-trio");
+  assert.equal(resolveProductSlug("tongue-vibrator"), "silk-lick");
+  assert.equal(resolveProductSlug("3-in-1-male-masturbator"), "silk-trio");
+  assert.equal(getProductBySlug("tongue-vibrator")?.slug, "silk-lick");
+  assert.equal(getProductBySlug("silk-trio")?.metaContentName, "Silk Room Trio");
 });

@@ -80,24 +80,24 @@ export const HOME_START_SLIDES = [
     alt: "Silk Room Ease Soft Rose — premium body-safe silicone massager",
   },
   {
-    src: "/products/tongue-vibrator/s1.jpg",
-    alt: "Silk Room Lick — quiet waterproof tongue vibrator",
+    src: "/products/silk-lick/s1.jpg",
+    alt: "Silk Room Lick — quiet waterproof personal massager",
   },
   {
-    src: "/products/male-masturbator/p1.jpg",
-    alt: "Silk Room Trio — 3-in-1 realistic male masturbator",
+    src: "/products/silk-trio/p1.jpg",
+    alt: "Silk Room Trio — men’s personal-care sleeve with three channels",
   },
   {
     src: "/products/natural/05-body-safe.png",
     alt: "Pure body-safe silicone — skin-friendly, worry-free moments",
   },
   {
-    src: "/products/tongue-vibrator/s2.jpg",
-    alt: "Silk Room Lick product features and compact design",
+    src: "/products/silk-lick/s2.jpg",
+    alt: "Silk Room Lick — compact personal wellness massager",
   },
   {
-    src: "/products/male-masturbator/p2.jpg",
-    alt: "Silk Room Trio detailed product presentation",
+    src: "/products/silk-trio/p2.jpg",
+    alt: "Silk Room Trio — discreet men’s personal care product",
   },
 ] as const;
 
@@ -106,7 +106,7 @@ export const HOME_STORY = [
   {
     src: "/products/natural/01-hero.png",
     title: "Meet Silk Room Ease",
-    text: "The product inside the plain box — Soft Rose finish, lifelike feel, built for private relief at home.",
+    text: "The product inside the plain box — Soft Rose finish, dual-density comfort, built for private relief at home.",
   },
   {
     src: "/products/natural/05-body-safe.png",
@@ -135,7 +135,7 @@ export const HOME_EXTRA = {
 export const HOME_SLIDESHOW = [
   {
     src: "/products/natural/03-lifelike.png",
-    alt: "Lifelike Silk Room Ease detail — premium finish customers expect",
+    alt: "Silk Room Ease detail — premium finish customers expect",
   },
   {
     src: "/products/espresso/02-design.png",

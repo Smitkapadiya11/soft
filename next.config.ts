@@ -22,6 +22,16 @@ const nextConfig: NextConfig = {
         destination: "/cancellation-and-refunds",
         permanent: true,
       },
+      {
+        source: "/product/tongue-vibrator",
+        destination: "/product/silk-lick",
+        permanent: true,
+      },
+      {
+        source: "/product/3-in-1-male-masturbator",
+        destination: "/product/silk-trio",
+        permanent: true,
+      },
     ];
   },
 };

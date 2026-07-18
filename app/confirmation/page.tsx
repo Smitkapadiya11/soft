@@ -10,7 +10,11 @@ import { staggerContainer, staggerItem } from "@/lib/motion";
 import { DELIVERY_ESTIMATE } from "@/lib/format";
 import Price from "@/components/Price";
 import { Loader2 } from "lucide-react";
-import { productNameBySku, productVariantBySku } from "@/lib/products";
+import {
+  productMetaNameBySku,
+  productNameBySku,
+  productVariantBySku,
+} from "@/lib/products";
 import { trackPurchase } from "@/lib/meta-pixel";
 
 type OrderLookup = {
@@ -100,7 +104,7 @@ function ConfirmationContent() {
               contentName:
                 items.length > 1
                   ? "Silk Room mixed order"
-                  : productNameBySku(data.variant ?? ""),
+                  : productMetaNameBySku(data.variant ?? ""),
               contentIds:
                 items.length > 0
                   ? items.map((item) => item.variant)

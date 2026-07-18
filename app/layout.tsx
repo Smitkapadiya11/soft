@@ -15,9 +15,9 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Silk Room — Three Discreet Wellness Products | India",
+  title: "Silk Room — Discreet Personal Wellness | India",
   description:
-    "Shop Silk Room Ease, Lick tongue vibrator, and Trio 3-in-1 male masturbator. Clear product photos, free plain-box delivery, secure Razorpay checkout. Adults 18+.",
+    "Shop Silk Room Ease, Lick, and Trio — body-safe personal wellness products with clear photos, free plain-box delivery, and secure Razorpay checkout. Adults 18+.",
   metadataBase: new URL("https://silkroom.shop"),
   icons: {
     icon: [

@@ -119,7 +119,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       setIsCartOpen(true);
     }
     trackAddToCart({
-      contentName: priced.name,
+      contentName: catalogProduct.metaContentName,
       contentIds: [priced.id],
       value: priced.price * priced.quantity,
       quantity: priced.quantity,

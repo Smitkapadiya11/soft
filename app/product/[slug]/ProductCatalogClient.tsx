@@ -68,12 +68,12 @@ export default function ProductCatalogClient({ product }: Props) {
 
   useEffect(() => {
     trackViewContent({
-      contentName: product.name,
+      contentName: product.metaContentName,
       contentIds: [product.id],
       value: product.price,
       variant: product.sku,
     });
-  }, [product.id, product.name, product.price, product.sku]);
+  }, [product.id, product.metaContentName, product.price, product.sku]);
 
   useEffect(() => {
     const el = ctaRef.current;

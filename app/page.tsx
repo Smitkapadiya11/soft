@@ -66,9 +66,9 @@ export default function Home() {
               Three products. One discreet Silk Room standard.
             </h1>
             <p className={styles.ugcSub}>
-              Ease for dual-density comfort, Lick for quiet tongue-style stimulation, and
-              Trio for 3-in-1 male pleasure. See every product clearly before it ships free
-              in a plain box.
+              Ease for dual-density comfort, Lick for quiet waterproof massage, and Trio for
+              men’s personal care. See every product clearly before it ships free in a plain
+              box.
             </p>
             <div className={styles.heroTrustLine}>
               <span>Products from ₹549</span>
