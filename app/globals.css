@@ -77,6 +77,12 @@ html {
 
 body {
   background-color: var(--background);
+  background-image:
+    radial-gradient(ellipse 70% 45% at 8% -5%, rgba(201, 169, 110, 0.14), transparent 55%),
+    radial-gradient(ellipse 55% 40% at 100% 5%, rgba(154, 107, 124, 0.1), transparent 50%),
+    radial-gradient(ellipse 60% 35% at 50% 100%, rgba(107, 61, 82, 0.06), transparent 55%),
+    linear-gradient(180deg, #f7f1ec 0%, var(--color-cream) 40%, #f3e8e4 100%);
+  background-attachment: fixed;
   color: var(--foreground);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;

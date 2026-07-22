@@ -7,7 +7,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Return & Refund Policy | Silk Room",
   description:
-    "Return and refund policy for Silk Room Ease, Lick, and Trio — cancellation before dispatch, hygiene rules, and Razorpay refund timelines.",
+    "Return and refund policy for Silk Room products — cancellation before dispatch, hygiene rules, and Razorpay refund timelines.",
   robots: { index: true, follow: true },
 };
 

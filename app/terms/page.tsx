@@ -7,7 +7,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Terms and Conditions | Silk Room",
   description:
-    "Terms and Conditions for silkroom.shop — retailer of Silk Room Ease, Lick, and Trio personal wellness products for adults 18+ in India.",
+    "Terms and Conditions for silkroom.shop — retailer of Silk Room personal wellness products for adults 18+ in India.",
   robots: { index: true, follow: true },
 };
 

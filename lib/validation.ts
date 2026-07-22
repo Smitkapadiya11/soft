@@ -37,7 +37,7 @@ export const cartItemSchema = z.object({
 
 export const createOrderSchema = z.object({
   customer: customerSchema,
-  items: z.array(cartItemSchema).min(1, "Cart must contain at least one item").max(5),
+  items: z.array(cartItemSchema).min(1, "Cart must contain at least one item").max(12),
 });
 
 export type CartItemPriced = {

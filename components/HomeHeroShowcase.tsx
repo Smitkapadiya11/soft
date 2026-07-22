@@ -2,32 +2,48 @@
 
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import styles from "./HomeHeroShowcase.module.css";
 
 type HeroSlide = {
   src: string;
   alt: string;
+  fit?: "cover" | "contain";
 };
 
 type HomeHeroShowcaseProps = {
   slides: readonly HeroSlide[];
+  /** Showcase cadence — default 4 seconds everywhere */
+  intervalMs?: number;
 };
 
-export default function HomeHeroShowcase({ slides }: HomeHeroShowcaseProps) {
+export default function HomeHeroShowcase({
+  slides,
+  intervalMs = 4000,
+}: HomeHeroShowcaseProps) {
   const [index, setIndex] = useState(0);
+  const reduceMotion = useReducedMotion();
+  const totalSeconds = Math.max(1, Math.round(intervalMs / 1000));
+  const [secondsLeft, setSecondsLeft] = useState(totalSeconds);
 
   useEffect(() => {
     if (slides.length <= 1) return;
 
-    const timer = window.setInterval(() => {
-      setIndex((current) => (current + 1) % slides.length);
-    }, 5200);
+    const tick = window.setInterval(() => {
+      setSecondsLeft((current) => {
+        if (current <= 1) {
+          setIndex((i) => (i + 1) % slides.length);
+          return totalSeconds;
+        }
+        return current - 1;
+      });
+    }, 1000);
 
-    return () => window.clearInterval(timer);
-  }, [slides.length]);
+    return () => window.clearInterval(tick);
+  }, [slides.length, totalSeconds]);
 
   const activeSlide = slides[index];
+  const contain = activeSlide.fit !== "cover";
   const visibleSlides = useMemo(() => {
     if (slides.length <= 3) return slides;
     return [0, 1, 2].map((offset) => slides[(index + offset) % slides.length]);
@@ -39,11 +55,19 @@ export default function HomeHeroShowcase({ slides }: HomeHeroShowcaseProps) {
         <AnimatePresence mode="wait">
           <motion.div
             key={activeSlide.src}
-            className={styles.activeSlide}
-            initial={{ opacity: 0, y: 12, scale: 0.985 }}
+            className={contain ? styles.activeSlideContain : styles.activeSlideCover}
+            initial={
+              reduceMotion
+                ? { opacity: 0 }
+                : { opacity: 0, y: 10, scale: 0.985 }
+            }
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -10, scale: 0.985 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            exit={
+              reduceMotion
+                ? { opacity: 0 }
+                : { opacity: 0, y: -8, scale: 0.99 }
+            }
+            transition={{ duration: reduceMotion ? 0.25 : 0.65, ease: [0.22, 1, 0.36, 1] }}
           >
             <Image
               src={activeSlide.src}
@@ -51,10 +75,16 @@ export default function HomeHeroShowcase({ slides }: HomeHeroShowcaseProps) {
               fill
               priority
               sizes="(max-width: 900px) 92vw, 520px"
-              className={styles.activeImage}
+              className={contain ? styles.activeImageContain : styles.activeImageCover}
             />
           </motion.div>
         </AnimatePresence>
+
+        {slides.length > 1 && (
+          <span className={styles.countdown} aria-hidden="true">
+            {secondsLeft}
+          </span>
+        )}
       </div>
 
       <div className={styles.previewRail} aria-label="Hero image previews">
@@ -63,7 +93,13 @@ export default function HomeHeroShowcase({ slides }: HomeHeroShowcaseProps) {
             key={`${slide.src}-${i}`}
             type="button"
             className={i === 0 ? styles.previewActive : styles.preview}
-            onClick={() => setIndex(slides.findIndex((item) => item.src === slide.src))}
+            onClick={() => {
+              const next = slides.findIndex((item) => item.src === slide.src);
+              if (next >= 0) {
+                setIndex(next);
+                setSecondsLeft(totalSeconds);
+              }
+            }}
             aria-label={`Show ${slide.alt}`}
           >
             <Image
@@ -84,7 +120,10 @@ export default function HomeHeroShowcase({ slides }: HomeHeroShowcaseProps) {
             type="button"
             className={i === index ? styles.dotActive : styles.dot}
             aria-label={`Show slide ${i + 1}`}
-            onClick={() => setIndex(i)}
+            onClick={() => {
+              setIndex(i);
+              setSecondsLeft(totalSeconds);
+            }}
           />
         ))}
       </div>

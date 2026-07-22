@@ -97,7 +97,14 @@ export default function ProductCatalogClient({ product }: Props) {
   const outOfStock = !stockLoading && stock < 1;
   const busy = stockLoading || isAdding || isBuying;
   const maxQuantity = Math.min(stock, 10);
-  const others = CATALOG_PRODUCTS.filter((item) => item.id !== product.id);
+  const others = [
+    ...CATALOG_PRODUCTS.filter(
+      (item) => item.id !== product.id && item.collection === "featured"
+    ),
+    ...CATALOG_PRODUCTS.filter(
+      (item) => item.id !== product.id && item.collection === "others"
+    ),
+  ].slice(0, 6);
 
   const cartItem = () => ({
     id: `${product.id}-${product.sku}`,
@@ -164,7 +171,9 @@ export default function ProductCatalogClient({ product }: Props) {
               </motion.div>
             </AnimatePresence>
             <span className={styles.badge}>{product.variantLabel}</span>
-            <span className={styles.saleBadge}>{product.discountPercent}% OFF</span>
+            {product.discountPercent > 0 ? (
+              <span className={styles.saleBadge}>{product.discountPercent}% OFF</span>
+            ) : null}
           </div>
 
           <div className={styles.thumbs} role="group" aria-label="Product images">
@@ -328,10 +337,12 @@ export default function ProductCatalogClient({ product }: Props) {
             <strong>{product.whatsInBox}</strong>
           </div>
           <div className={styles.specCard}>
-            <span>Sale</span>
+            <span>Price</span>
             <strong>
-              {formatINR(product.price)} · MRP {formatINR(product.mrp)} ·{" "}
-              {product.discountPercent}% OFF
+              {formatINR(product.price)}
+              {product.mrp > product.price
+                ? ` · MRP ${formatINR(product.mrp)} · ${product.discountPercent}% OFF`
+                : ` · MRP ${formatINR(product.mrp)}`}
             </strong>
           </div>
         </div>

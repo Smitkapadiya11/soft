@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import {
+  CATALOG_SLUGS,
   getProductBySlug,
-  TONGUE_VIBRATOR_ID,
-  MALE_MASTURBATOR_ID,
 } from "@/lib/products";
 import ProductCatalogClient from "./ProductCatalogClient";
 
@@ -12,7 +11,7 @@ type Props = {
 };
 
 export function generateStaticParams() {
-  return [TONGUE_VIBRATOR_ID, MALE_MASTURBATOR_ID].map((slug) => ({ slug }));
+  return CATALOG_SLUGS.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -20,8 +19,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const product = getProductBySlug(slug);
   if (!product || product.slug === "ease") return {};
 
-  const title = `${product.name} — ₹${product.price} (${product.discountPercent}% OFF) | Silk Room`;
-  const description = `${product.description} Sale ₹${product.price} (MRP ₹${product.mrp}, ${product.discountPercent}% OFF). Free discreet delivery across India. Secure Razorpay checkout. Adults 18+.`;
+  const priceLabel =
+    product.discountPercent > 0
+      ? `₹${product.price} (${product.discountPercent}% OFF)`
+      : `₹${product.price}`;
+  const title = `${product.name} — ${priceLabel} | Silk Room`;
+  const description =
+    product.discountPercent > 0
+      ? `${product.description} Sale ₹${product.price} (MRP ₹${product.mrp}, ${product.discountPercent}% OFF). Free discreet delivery across India. Secure Razorpay checkout. Adults 18+.`
+      : `${product.description} ₹${product.price} (MRP ₹${product.mrp}). Free discreet delivery across India. Secure Razorpay checkout. Adults 18+.`;
   const url = `https://silkroom.shop/product/${product.slug}`;
 
   return {

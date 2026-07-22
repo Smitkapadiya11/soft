@@ -7,7 +7,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Shipping Policy | Silk Room",
   description:
-    "Shipping Policy for silkroom.shop — free plain-box delivery for Silk Room Ease, Lick, and Trio across India.",
+    "Shipping Policy for silkroom.shop — free plain-box delivery for Silk Room products across India.",
   robots: { index: true, follow: true },
 };
 

@@ -73,39 +73,87 @@ export const PRODUCT_GALLERY: Record<(typeof ALLOWED_VARIANTS)[number], string[]
   ],
 };
 
-/** Homepage hero carousel — premium plain boxes, product softly blurred behind */
+/** Homepage hero — product + model pairs rotate every 4s */
 export const HOME_START_SLIDES = [
   {
     src: "/brand/home/hero-box-ease.png",
     alt: "Silk Room Ease — premium unmarked plain-box delivery",
+    fit: "contain" as const,
+  },
+  {
+    src: "/brand/home/card-model-ease.png",
+    alt: "Silk Room Ease — discreet personal wellness",
+    fit: "cover" as const,
   },
   {
     src: "/brand/home/hero-box-lick.png",
     alt: "Silk Room Lick — discreet premium plain-box delivery",
+    fit: "contain" as const,
+  },
+  {
+    src: "/brand/home/card-model-lick.png",
+    alt: "Silk Room Lick — quiet waterproof care",
+    fit: "cover" as const,
   },
   {
     src: "/brand/home/hero-box-trio.png",
     alt: "Silk Room Trio — discreet premium plain-box delivery",
+    fit: "contain" as const,
+  },
+  {
+    src: "/brand/home/card-model-trio.png",
+    alt: "Silk Room Trio — men’s personal care",
+    fit: "cover" as const,
+  },
+  {
+    src: "/products/chulli-ultra-banana/01.jpg",
+    alt: "Chulli Ultra Banana — product pack",
+    fit: "contain" as const,
+  },
+  {
+    src: "/products/chulli-ultra-banana/07.jpg",
+    alt: "Chulli Ultra — lifestyle",
+    fit: "cover" as const,
+  },
+  {
+    src: "/products/chulli-dot-chocolate/01.jpg",
+    alt: "Chulli Dotted Chocolate — product pack",
+    fit: "contain" as const,
+  },
+  {
+    src: "/products/chulli-dot-chocolate/07.jpg",
+    alt: "Chulli Dotted — lifestyle",
+    fit: "cover" as const,
+  },
+  {
+    src: "/products/chulli-combo-mix/028.jpg",
+    alt: "Chulli Combo Mix — full flavour lineup",
+    fit: "contain" as const,
+  },
+  {
+    src: "/products/plain-box.png",
+    alt: "Plain unmarked Silk Room delivery box",
+    fit: "contain" as const,
   },
 ] as const;
 
-/** Trust story — same copy as before, text-only trust markers (no product imagery) */
+/** Trust story — text-only trust markers */
 export const HOME_STORY = [
   {
-    title: "Meet Silk Room Ease",
-    text: "The product inside the plain box — Soft Rose finish, dual-density comfort, built for private relief at home.",
+    title: "See every product clearly",
+    text: "Ease, Lick, Trio, and Chulli care — real photos, honest prices, and plain-box delivery before you pay.",
   },
   {
-    title: "100% body-safe silicone",
-    text: "Pure, skin-friendly material. No mystery plastics. Designed for comfort you can trust on your body.",
+    title: "Body-safe craft",
+    text: "Premium materials and clear specs. No mystery plastics. Comfort you can trust on your body.",
   },
   {
-    title: "Fully waterproof",
-    text: "Bath, shower, or evening routine — easy to clean, easy to use, built for real life.",
+    title: "Privacy at the door",
+    text: "Free unmarked cartons across India. Prepaid Razorpay checkout. WhatsApp support that answers.",
   },
   {
-    title: "Dual-density comfort",
-    text: "Soft outer touch with a supportive core — premium feel that sells itself when you see it.",
+    title: "One Silk Room standard",
+    text: "From dual-density wellness to flavoured care — the same discreet, care-first brand behind every box.",
   },
 ] as const;
 
@@ -115,19 +163,39 @@ export const HOME_EXTRA = {
   founder: "/products/plain-box.png",
 } as const;
 
-/** Conversion slideshow — packaging and delivery trust */
+/** Conversion slideshow — 4s product + model rhythm */
 export const HOME_SLIDESHOW = [
   {
-    src: "/products/product-cover-model.jpg",
-    alt: "Silk Room — personal wellness delivered with care",
+    src: "/products/natural/01-hero.png",
+    alt: "Silk Room Ease — actual product",
+  },
+  {
+    src: "/brand/home/card-model-ease.png",
+    alt: "Silk Room Ease — discreet personal wellness",
+  },
+  {
+    src: "/products/silk-lick/s1.jpg",
+    alt: "Silk Room Lick — actual product",
+  },
+  {
+    src: "/brand/home/card-model-lick.png",
+    alt: "Silk Room Lick — quiet waterproof care",
+  },
+  {
+    src: "/products/silk-trio/p1.jpg",
+    alt: "Silk Room Trio — actual product",
+  },
+  {
+    src: "/brand/home/card-model-trio.png",
+    alt: "Silk Room Trio — men’s personal care",
+  },
+  {
+    src: "/products/chulli-combo-mix/028.jpg",
+    alt: "Chulli full flavour lineup",
   },
   {
     src: "/products/plain-box.png",
     alt: "Plain unmarked Silk Room delivery box — privacy first",
-  },
-  {
-    src: "/brand/home/hero-box-lick.png",
-    alt: "Premium discreet packaging — Silk Room standard",
   },
 ] as const;
 

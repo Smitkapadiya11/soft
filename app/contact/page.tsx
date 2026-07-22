@@ -7,7 +7,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Contact Us | Silk Room",
   description:
-    "Contact Silk Room for Ease, Lick, and Trio orders — WhatsApp support, grievance officer, business hours, and escalation path.",
+    "Contact Silk Room for orders and support — WhatsApp, grievance officer, business hours, and escalation path.",
   robots: { index: true, follow: true },
 };
 
@@ -18,7 +18,7 @@ export default function ContactPage() {
     <LegalLayout
       title="Contact Us"
       lastUpdated="19 July 2026"
-      subtitle="We're here to help with Ease, Lick, Trio, returns, and any questions."
+      subtitle="We're here to help with Silk Room products, returns, and any questions."
     >
       <h2>Shop our products</h2>
       <ul>

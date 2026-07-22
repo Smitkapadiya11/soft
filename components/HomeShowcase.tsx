@@ -21,7 +21,7 @@ export default function HomeShowcase({ slides }: HomeShowcaseProps) {
     if (slides.length <= 1) return;
     const timer = window.setInterval(() => {
       setIndex((current) => (current + 1) % slides.length);
-    }, 4500);
+    }, 4000);
     return () => window.clearInterval(timer);
   }, [slides.length]);
 

@@ -7,7 +7,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Privacy Policy | Silk Room",
   description:
-    "Privacy Policy for silkroom.shop — how we collect, use, store, and protect your personal data when you shop Silk Room Ease, Lick, and Trio.",
+    "Privacy Policy for silkroom.shop — how we collect, use, store, and protect your personal data when you shop Silk Room.",
   robots: { index: true, follow: true },
 };
 

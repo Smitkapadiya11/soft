@@ -17,7 +17,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: "Silk Room — Discreet Personal Wellness | India",
   description:
-    "Shop Silk Room Ease, Lick, and Trio — body-safe personal wellness products with clear photos, free plain-box delivery, and secure Razorpay checkout. Adults 18+.",
+    "Shop Silk Room Ease, Lick, Trio, and Chulli care — clear product photos, free plain-box delivery, and secure Razorpay checkout. Adults 18+.",
   metadataBase: new URL("https://silkroom.shop"),
   icons: {
     icon: [
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Silk Room — Personal wellness, shown clearly and delivered discreetly",
     description:
-      "Three personal-wellness products from ₹549 · clear product galleries · free plain-box delivery across India. Adults 18+.",
+      "Full Silk Room collection from ₹90 · 4s product + model showcase · free plain-box delivery across India. Adults 18+.",
     url: "https://silkroom.shop",
     siteName: "Silk Room",
     images: [

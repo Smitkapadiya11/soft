@@ -1,199 +1,153 @@
 # PRODUCT-BRIEF — Silk Room
 
-**Date:** 19 July 2026  
-**Mode:** Founder Review (post–Meta restriction remediation)
-
+**Date:** 22 July 2026  
+**Mode:** Founder Review (post–Chulli catalog expansion)  
 **Site:** https://silkroom.shop  
 **Operator:** KAPADIYA AND SONS · Smit Kapadiya  
 
 ---
 
-## Founder update — 19 July 2026
+## Founder update — 22 July 2026
 
-### What changed since the first review
+### What changed since 19 July
 
-- The order database now records **2 paid orders / ₹1,398 revenue**: one Ease order (delivered) and one Trio order (fulfilment pending).
-- There are **17 customer records**, but these are checkout records—not proof of 17 buyers or retention.
-- Meta has fully restricted the active dataset from sharing event data because of assigned data-source categories. Pixel funnel metrics are therefore not a reliable operating system until Meta accepts the category review.
-- Public metadata, copy, URLs, asset paths, and Pixel content names now use softer wellness framing while PDP photos, price, Buy Now, Razorpay, and delivery promises remain clear for buyers.
-- The README is stale (old product name, old ₹1,299 price, two-SKU description) and should not be treated as current product truth.
+- Catalog jumped from **3 featured SKUs → 11 sellable products** (3 Silk Room originals + 8 Chulli “Others”).
+- Homepage rebuilt: Featured grid + Others grid; **4s product ↔ model showcase** sitewide; richer background.
+- Chulli economics: singles **₹90 / ₹120** (at MRP), Combo Double **₹180**, Combo Mix **₹549** (MRP ₹630 · ~13% off).
+- Featured AOV ≈ **₹649**. Others AOV ≈ **₹170**. Mix is the only Chulli SKU in Ease/Lick price band.
+- Source `Product/` photos remain gitignored; site assets live under `public/products/chulli-*`.
+- Unused legacy brand folders (`slides` / `story` / `ugc` / `product-focus`) removed.
+- **README is still stale** (old “Real Touch” / ₹1,299) — do not treat it as product truth.
+- Prior brief anti-goal said: *“More SKUs until first 10 paid orders exist.”* That line was crossed. This review re-judges whether that was smart or noise.
 
-### Revised founder verdict
+### Inference — what Silk Room is trying to be
 
-**GO, but this is an early revenue signal—not PMF.** Two payments prove that checkout can convert and that both women’s and men’s SKUs can sell. They do not prove repeatable acquisition, profitable CAC, retention, or product satisfaction.
+A trusted, prepaid, plain-box DTC for adult personal wellness in India — with a secondary “intimate care / Others” shelf (Chulli) for attach sales and browse completeness.
 
-**The one thing that could 10× Silk Room now:** build a **repeatable, attributable acquisition loop that does not depend on restricted Meta events**. For every campaign, record spend, landing-page visits/link clicks, paid orders, SKU revenue, fulfilment outcome, and support questions in one daily sheet. Keep each campaign locked to one SKU and one landing URL.
+It is **not** yet a brand with proven repeatable ads. It is **not** a condom marketplace. It is **not** ready to optimize Meta for an 11-SKU department store.
 
-### Next seven-day test
+---
 
-1. Submit Meta category reviews for both datasets after the softened site has been crawlable for 24–48 hours.
-2. Run one small **Traffic** campaign for Ease → `/product`; do not use Purchase optimization while events are blocked.
-3. Add UTM parameters per ad and reconcile paid orders manually against campaign dates/landing URLs.
-4. Fulfil the pending Trio order and ask both paid buyers for a short, consented post-delivery product/packaging rating.
-5. Stop after a fixed spend cap and calculate: paid orders, revenue, CAC, checkout-record-to-paid ratio, and refund/delivery outcome.
+## Product diagnostic (applied to the Chulli expansion)
 
-### Current scorecard
+| Question | Answer |
+|----------|--------|
+| **1. Who is this for?** | Secondary buyer: couples / men already shopping Silk Room who want flavoured protection in the same discreet cart. **Not** the primary cold Meta buyer (still: woman buying Ease). |
+| **2. What’s the pain?** | “I trust this site for Ease/Trio — can I also get condoms without a second shady checkout?” Pain is **convenience + trust reuse**, not “I searched Google for Chulli.” |
+| **3. Why now?** | Inventory/photos arrived. Shelf looks incomplete without them. Timing is **ops-driven**, not demand-proven. |
+| **4. 10-star version** | Ease hero ad → PDP → cart suggests Combo Mix or matching flavour as attach → same plain box → reorder WhatsApp. Chulli never steals the primary ad thesis. |
+| **5. MVP that proves thesis** | Chulli on site + buyable + stocked is enough for organic/WhatsApp. **Do not** run Chulli-only Meta ads yet. Prove attach: “% of Ease/Trio carts that also contain a Chulli SKU.” |
+| **6. Anti-goal** | Do **not** make `/` a condom gallery that Meta crawls as sexuality retail. Do **not** spend cold traffic on ₹90 SKUs. Do **not** treat 8 flavours as 8 ad campaigns. |
+| **7. How you know it’s working** | Attach rate, Combo Mix paid orders, support load — **not** Chulli pageviews. |
+
+---
+
+## PMF scorecard (revised)
 
 | Signal | Score (0–10) | Evidence |
 |--------|--------------|----------|
-| Usage / growth | 3 | Two paid orders now exist; no repeatable traffic-to-order trend yet |
-| Retention / repeat | 1 | No repeat purchase, referral, or cohort evidence |
-| Revenue readiness | 8 | ₹1,398 recorded paid revenue; Razorpay, stock reservation, verification, fulfilment admin |
-| Competitive moat | 3 | Trust, discreet fulfilment, and fast support are promising but easy to imitate |
-| Measurement readiness | 3 | Server orders are authoritative; Meta event sharing is fully restricted and UTMs are not persisted |
-| **Overall PMF signal** | **4 / 10** | Demand has a pulse; repeatability and unit economics remain unproven |
+| Usage / growth | 3 | Still ~2 known paid orders historically; no new attributable campaign loop in this session |
+| Retention / repeat | 2 | Chulli *could* enable reorders/attach; zero evidence yet |
+| Revenue readiness | 8 | Razorpay, stock SKUs, 11 PDPs, cart max 12 lines — checkout still solid |
+| Competitive moat | 3 | Trust + plain box + WhatsApp; Chulli packaging is commodity + easy to copy |
+| Measurement readiness | 3 | Meta restriction + no UTM persistence unchanged |
+| Catalog focus | **2** | 11 SKUs before 10 paid orders dilutes cold-traffic thesis |
+| **Overall PMF signal** | **4 / 10** | Same pulse as 19 Jul; shelf is fuller, proof is not |
 
 ---
 
-## Original diagnostic baseline
+## The one thing that would 10× Silk Room
 
-## 1. Who is this for?
+Unchanged: a **repeatable, attributable acquisition loop that does not depend on restricted Meta purchase optimization**.
 
-Not “adults in India.” Specific buyers:
+SKU-locked creative → exact landing URL → UTM → paid order sheet → CAC.
 
-| Persona | Primary SKU | Pain | Decision trigger |
-|---------|-------------|------|------------------|
-| Woman 22–35, metro, private apartment | **Ease** (₹599) | Tension / private relief without pharmacy stigma or COD embarrassment | Sees real product + plain-box + prepaid + WhatsApp |
-| Woman / couple wanting targeted stimulation | **Lick** (₹549) | Quiet, portable, discreet | Feature clarity (licking motion, waterproof) + price |
-| Man 20–35 seeking private solo product | **Trio** (₹799) | Discreet male product without shady marketplace trust | Real photos + depth/texture specs + plain delivery |
-
-**Primary money persona for Meta right now:** Woman buying **Ease**.  
-Lick/Trio are catalog expansion — not the same ad audience.
+Chulli does **not** 10× this. A capped Ease Traffic test with manual reconciliation does.
 
 ---
 
-## 2. What’s the pain?
+## Things that matter vs don’t (now)
 
-- Buying intimate wellness online feels risky: fake shops, COD scams, loud packaging, no human support.
-- The initial ₹450 / ~20k-view campaign produced **0 orders**; since then, the rebuilt store has recorded two paid orders from channels that are not yet attributable.
-- Current workaround: Flipkart/Amazon or avoiding purchase.
+### Keep / lean into
+1. Ease (and maybe Trio) as **ad heroes** with exact PDP match.
+2. Chulli as **Others / attach** on homepage + PDP cross-sell.
+3. Combo Mix (₹549) as the only Chulli SKU worth eventual paid testing — AOV-compatible.
+4. 4s product+model truth on cards (trust for browsers who already arrived).
 
-**Quantify:** The original campaign conversion was approximately **0%**. The current database proves payment can happen, but without reliable source attribution it does not prove that ads caused either order.
-
----
-
-## 3. Why now?
-
-- Creative and Pixel code are wired, but Meta currently blocks the dataset from sharing event data.
-- Site now has: legal entity clarity, WhatsApp, policies, product-first homepage, 3 SKUs with sale MRP, Razorpay prepaid.
-- Relaunch can use Traffic/Awareness objectives while the category review is pending; conversion optimization must wait for accepted events.
-
----
-
-## 4. 10-star version
-
-- Instant trust: real founder face, order tracking, UGC reviews with photos, same-day WhatsApp reply proof.
-- One-tap buy from ad → PDP → Razorpay under 60 seconds.
-- Post-purchase ritual: care tips + reorder + referral.
-- Category authority: “India’s care-first discreet wellness brand” with measurable delivery reliability.
+### Stop / do not build next
+| Activity | Why |
+|----------|-----|
+| Meta ads for Ultra/Dotted singles (₹90–120) | Shipping + fees eat margin; wrong AOV for cold CAC |
+| 8 flavour creatives / 8 campaigns | Proves nothing; burns focus |
+| More SKUs / more homepage sections | Anti-goal still valid until ~10 paid + 1 repeatable source |
+| README / visual polish as a substitute for the acquisition test | Evidence comes from paid orders |
+| Treating lingerie-heavy Chulli packs as Meta-safe “wellness” | Raises category-review risk |
 
 ---
 
-## 5. MVP that proves the thesis
+## Risks introduced by Chulli
 
-**Thesis:** *If a cold Meta visitor lands on a clear product page with real photos, sale price, plain-box promise, and human WhatsApp, they will complete prepaid checkout.*
-
-**MVP to prove (not more features):**
-1. **One ad → one SKU** (start with Ease ₹599).
-2. Landing = `/product` (or Lick/Trio only if creative shows that SKU).
-3. Trust stack visible above fold: product image, price+MRP, free discreet delivery, WhatsApp.
-4. While Meta blocks events, measure campaign clicks/landing views plus authoritative paid orders and revenue manually; restore ViewContent → AddToCart → InitiateCheckout → Purchase analysis only after Events Manager accepts events.
-
-Three products on the homepage are fine for organic/browse. **Do not prove three theses in one ad.**
-
----
-
-## 6. Anti-goals (explicitly NOT building now)
-
-- Subscription / membership
-- COD
-- International shipping
-- User accounts / reviews platform
-- Marketplace multi-vendor
-- More SKUs until first 10 paid orders exist
-- Heavy homepage storytelling that hides the product CTA
-
----
-
-## 7. How you know it’s working (metrics, not vibes)
-
-| Metric | Target (next 7-day test) | Kill / iterate if |
-|--------|--------------------------|-------------------|
-| Traffic campaign spend | Fixed cap set before launch | Do not extend because of clicks alone |
-| Paid orders | At least 3 attributable paid orders | 0 attributable orders at cap → pause |
-| CAC | Calculate from spend / attributable orders | CAC leaves no room for product, shipping, fees, returns |
-| Checkout-to-paid proxy | Paid orders / new checkout customer records | Large gap → payment/trust friction |
-| Fulfilment quality | 100% shipped/delivered or actively resolved | Pending/refund issues accumulate |
-
-North star: **paid orders**, not views.
-
----
-
-## Original Founder Review Scorecard (pre-revenue baseline)
-
-| Signal | Score (0–10) | Evidence |
-|--------|--------------|----------|
-| Usage / growth | 2 | Ad views without orders; no retention product yet |
-| Retention / repeat | 1 | Single-purchase catalog; no reorder loop |
-| Revenue readiness | 7 | Razorpay prepaid, stock, multi-SKU cart, hardened checkout |
-| Competitive moat | 3 | Easy to copy catalog; moat must be **trust + speed of support** |
-| **Overall PMF signal** | **3 / 10** | Product is sellable; market has not confirmed demand yet |
-
-**What this is trying to be:** A trusted, discreet Indian DTC for personal wellness — not a content brand, not a marketplace.
-
----
-
-## The one thing that would 10x this
-
-**Repeatable attribution loop.**
-SKU-locked creative and landing pages remain necessary, but the business now needs campaign-level spend → paid-order reconciliation. Without that, more orders still will not reveal which acquisition motion to scale.
-
----
-
-## Things you’re building that don’t matter (yet)
-
-| Activity | Why deprioritize |
-|----------|------------------|
-| More homepage brand essays | Trust is now “show product + policies + WhatsApp,” not more paragraphs |
-| Expanding to SKU #4+ | Dilutes stock, ads, and support before proof |
-| Polishing every legal page repeatedly | Good enough; conversion is on PDP + checkout |
-| Font / visual micro-tweaks without order data | Run the capped acquisition test; iterate from paid-order evidence |
-
----
-
-## Risks
-
-1. **Measurement blindness** — Meta’s full data-source restriction prevents dependable event optimization and funnel diagnosis. First-party gaps compound this: Purchase fires only on the confirmation page (webhook-completed payments can be missed), UTMs are not persisted, and each checkout creates a new Customer row so repeats are hard to see.
-2. **Policy / category persistence** — adult product imagery may keep the Unsuitable category even after softened copy and review.
-3. **Discount skepticism** — 75–80% OFF must feel real (MRP shown consistently; avoid looking like fake MRP).
-4. **False PMF confidence** — two paid orders are meaningful but too small to establish repeatability or unit economics.
-5. **Fulfilment trust** — one paid Trio order is still pending; shipping copy promises tracking, but the order model only stores PENDING/SHIPPED/DELIVERED with no courier/tracking field.
-6. **Audience dilution on the homepage** — three SKUs/personas compete for cold Meta traffic; acquisition tests must still land on one SKU PDP.
+1. **Thesis dilution** — cold visitor lands on `/`, sees 11 products, decides nothing.
+2. **AOV drag** — carts of only ₹90–120 condoms are unattractive vs Ease ₹599 after shipping reality.
+3. **Meta imagery risk** — Chulli box art (lingerie models, splash fruit, “passion” copy) can harden Unsuitable / sexuality category assignment if those URLs/images become crawl/ad surfaces.
+4. **Support complexity** — 8 nearly identical flavours + 2 combos = more “which one did I order?” WhatsApp load.
+5. **False progress** — shipping 8 SKUs feels like growth; without paid orders it is inventory theatre.
 
 ---
 
 ## Go / No-Go
 
-### GO — run a small acquisition test **with constraints**
+### GO — keep Chulli on the site as Others / attach
+Catalog completeness for WhatsApp and organic shoppers is fine. Checkout and stock plumbing are ready.
 
-Site is operationally ready, and two paid orders validate payment demand. Meta conversion optimization is not operationally available while the dataset is fully restricted.
+### NO-GO — advertise Chulli singles or rebuild the brand around condoms
+Do not point cold Meta traffic at Others until:
+1. Meta category review path is in motion / accepted events return (or Traffic test is running on Ease), and  
+2. At least **10 paid, fulfilled orders** exist with one attributable acquisition source, and  
+3. You have measured whether anyone **attaches** Chulli without ads.
 
-**Conditions:**
-1. Submit the Meta category review before treating Pixel/CAPI as recoverable.
-2. Campaign 1 = **Ease only** → `/product`, using Traffic while event sharing is blocked.
-3. Attach unique UTMs and reconcile spend to paid orders manually.
-4. Fix the spend cap and CAC threshold before launch.
-5. Do not add SKU #4 until at least 10 paid, fulfilled orders and one repeatable acquisition source exist.
+### CONDITIONAL GO — Combo Mix only (later)
+If you must test Chulli paid: **one** creative → `/product/chulli-combo-mix` → fixed tiny spend cap. Never the six singles.
 
-### Next lane
+### Conditions for the next 7 days (operator checklist)
 
-Hand off to **`product-capability`** only if you need an implementation contract.  
-Immediate operator next step: **submit the category review, fulfil the pending order, then run a capped UTM-tagged Ease Traffic test**.
+1. **Submit / chase Meta category reviews**; keep Traffic/Awareness only while events are blocked.
+2. **Fulfil any pending paid orders**; ask for consented packaging/product feedback.
+3. **Run one Ease-only Traffic test** → `/product` with unique UTMs and a hard spend cap.
+4. **Track attach rate** in admin/orders: Chulli line items alongside Ease/Lick/Trio.
+5. **Do not** launch Chulli Meta campaigns this week.
+6. **Refresh README** so operators stop reading dead pricing (optional hygiene, not a growth lever).
 
 ---
 
-## Top 3 product actions (this week)
+## ICE — what to do next (pick 2)
 
-1. **Submit Meta reviews** for both datasets after the crawler window; keep Traffic/Awareness only until accepted events return.
-2. **Close the fulfilment loop:** ship the pending Trio order and collect consented feedback from both paid buyers.
-3. **Run one measurable test:** Ease-only, exact landing match, fixed spend cap, unique UTMs, manual paid-order/CAC reconciliation.
+| Candidate | Impact | Confidence | Effort | ICE | Verdict |
+|-----------|--------|------------|--------|-----|---------|
+| Ease Traffic test + UTM sheet | 5 | 4 | 2 | **10.0** | **Do now** |
+| Meta category review follow-through | 5 | 3 | 2 | **7.5** | **Do now** |
+| Measure Chulli attach in paid carts | 3 | 4 | 1 | **12.0** | **Do now** (observation only) |
+| Combo Mix tiny Traffic test | 3 | 2 | 2 | 3.0 | After Ease test |
+| More homepage motion / visual polish | 2 | 2 | 2 | 2.0 | Park |
+| Add SKU #12+ | 1 | 1 | 3 | 0.3 | Anti-goal |
+
+---
+
+## Next lane
+
+- Need an implementation contract for UTM persistence / order source fields → **`product-capability`**
+- Need to verify the live shopper path after Chulli ship → **`/browser-qa`**
+- Need visual polish assessment of the new Others grid → **`/design-system audit`**
+
+**Immediate operator next step:** run the capped **Ease → `/product`** Traffic test with UTMs; treat Chulli as shelf + attach, not as the acquisition thesis.
+
+---
+
+## Appendix — catalog snapshot (22 Jul 2026)
+
+| Collection | SKUs | Price band |
+|------------|------|------------|
+| Featured | Ease, Lick, Trio | ₹549–799 (heavy MRP discounts) |
+| Others | 3 Ultra, 3 Dotted, Combo Double, Combo Mix | ₹90–549 |
+
+Prior scorecard (19 Jul) and original diagnostic baseline remain historical context below this file’s earlier revisions in git; this document supersedes them as the current founder verdict.

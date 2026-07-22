@@ -20,7 +20,7 @@ import HomeHeroShowcase from "@/components/HomeHeroShowcase";
 import HomeShowcase from "@/components/HomeShowcase";
 import CatalogCardSlideshow from "@/components/CatalogCardSlideshow";
 import WhatsAppButton from "@/components/WhatsAppButton";
-import { CATALOG_PRODUCTS } from "@/lib/products";
+import { FEATURED_PRODUCTS, OTHER_PRODUCTS } from "@/lib/products";
 import {
   Package,
   ShieldCheck,
@@ -36,7 +36,7 @@ const trustPillars = [
   {
     icon: Sparkles,
     title: "See the product first",
-    text: "No guessing what’s inside. Soft Rose or Mist Grey — clear photos, real specs, honest sale price.",
+    text: "Every Silk Room listing shows the real product and a lifestyle frame — 4 seconds each — so you know exactly what arrives.",
   },
   {
     icon: Lock,
@@ -55,26 +55,71 @@ const trustPillars = [
   },
 ];
 
+function CatalogCard({
+  product,
+}: {
+  product: (typeof FEATURED_PRODUCTS)[number] | (typeof OTHER_PRODUCTS)[number];
+}) {
+  const href = product.slug === "ease" ? "/product" : `/product/${product.slug}`;
+  const ctaLabel =
+    product.discountPercent > 0 ? `Buy · ${product.discountPercent}% off` : "Buy now";
+
+  return (
+    <article className={styles.catalogCard}>
+      <Link href={href} className={styles.catalogImageLink}>
+        <CatalogCardSlideshow
+          slides={[
+            {
+              src: product.cardImage,
+              alt: `${product.name} — lifestyle`,
+              fit: "cover",
+            },
+            {
+              src: product.cardProductImage,
+              alt: `${product.name} — actual product`,
+              fit: "contain",
+            },
+          ]}
+          intervalMs={4000}
+        />
+      </Link>
+      <div className={styles.catalogCardBody}>
+        <p className={styles.catalogCategory}>{product.category}</p>
+        <h3>
+          <Link href={href}>{product.name}</Link>
+        </h3>
+        <p>{product.tagline}</p>
+        <div className={styles.catalogCardFooter}>
+          <Price amount={product.price} mrp={product.mrp} sale />
+          <Link href={href} className={styles.catalogCta}>
+            {ctaLabel}
+          </Link>
+        </div>
+      </div>
+    </article>
+  );
+}
+
 export default function Home() {
   return (
     <>
-      <section className={styles.ugcPanel} aria-label="Silk Room Ease — shop now">
+      <section className={styles.ugcPanel} aria-label="Silk Room — shop the collection">
         <div className={styles.ugcPanelInner}>
           <div className={styles.ugcCopy}>
             <p className={styles.eyebrow}>India’s care-first wellness brand</p>
             <p className={styles.brand}>Silk Room</p>
             <h1 className={styles.ugcHeadline}>
-              Three products. One discreet Silk Room standard.
+              The full collection. Shown clearly. Delivered discreetly.
             </h1>
             <p className={styles.ugcSub}>
-              Ease for dual-density comfort, Lick for quiet waterproof massage, and Trio for
-              men’s personal care. See every product clearly before it ships free in a plain
-              box.
+              Ease, Lick, and Trio for premium personal wellness — plus Chulli flavoured care
+              under Others. Every card alternates product and lifestyle for 4 seconds so buyers
+              see the truth before checkout.
             </p>
             <div className={styles.heroTrustLine}>
-              <span>Products from ₹549</span>
-              <span>Three real galleries</span>
-              <span>6-month warranty</span>
+              <span>From ₹90</span>
+              <span>4s product + model</span>
+              <span>Plain-box India delivery</span>
             </div>
             <div className={styles.ugcPanelFoot}>
               <Link href="/#shop-all-products" className={styles.buyNow}>
@@ -87,67 +132,49 @@ export default function Home() {
             </div>
           </div>
 
-          <HomeHeroShowcase slides={HOME_START_SLIDES} />
+          <HomeHeroShowcase slides={HOME_START_SLIDES} intervalMs={4000} />
         </div>
       </section>
 
       <section className={styles.catalog} aria-labelledby="shop-all-products">
         <div className={styles.catalogHead}>
-          <p className={styles.eyebrow}>Three products · one Silk Room standard</p>
+          <p className={styles.eyebrow}>Featured · Silk Room originals</p>
           <h2 id="shop-all-products">Choose the experience made for you.</h2>
           <p>
-            Every product is shown clearly, priced honestly, and delivered free in plain
-            packaging across India.
+            Three hero products with clear galleries, honest sale prices, and free plain-box
+            delivery across India.
           </p>
         </div>
         <div className={styles.catalogGrid}>
-          {CATALOG_PRODUCTS.map((product) => {
-            const href = product.slug === "ease" ? "/product" : `/product/${product.slug}`;
-            return (
-              <article className={styles.catalogCard} key={product.id}>
-                <Link href={href} className={styles.catalogImageLink}>
-                  <CatalogCardSlideshow
-                    slides={[
-                      {
-                        src: product.cardImage,
-                        alt: `${product.name} — delivered discreetly`,
-                        fit: "cover",
-                      },
-                      {
-                        src: product.cardProductImage,
-                        alt: `${product.name} — actual product`,
-                        fit: "contain",
-                      },
-                    ]}
-                    intervalMs={4000}
-                  />
-                </Link>
-                <div className={styles.catalogCardBody}>
-                  <p className={styles.catalogCategory}>{product.category}</p>
-                  <h3>
-                    <Link href={href}>{product.name}</Link>
-                  </h3>
-                  <p>{product.tagline}</p>
-                  <div className={styles.catalogCardFooter}>
-                    <Price amount={product.price} mrp={product.mrp} sale />
-                    <Link href={href} className={styles.catalogCta}>
-                      Buy · {product.discountPercent}% off
-                    </Link>
-                  </div>
-                </div>
-              </article>
-            );
-          })}
+          {FEATURED_PRODUCTS.map((product) => (
+            <CatalogCard key={product.id} product={product} />
+          ))}
         </div>
       </section>
 
-      <section className={styles.story} aria-label="Why Silk Room Ease">
+      <section className={styles.others} aria-labelledby="shop-others">
+        <div className={styles.catalogHead}>
+          <p className={styles.eyebrow}>Others · Chulli intimate care</p>
+          <h2 id="shop-others">Flavoured Ultra-thin &amp; Dotted — 8 ways to choose.</h2>
+          <p>
+            Banana, Chocolate, and Strawberry in Ultra-thin (MRP ₹90) and Dotted (MRP ₹120). Plus
+            Combo Double and the full Combo Mix 3 &amp; 6. Same 4-second product + model showcase.
+          </p>
+        </div>
+        <div className={styles.othersGrid}>
+          {OTHER_PRODUCTS.map((product) => (
+            <CatalogCard key={product.id} product={product} />
+          ))}
+        </div>
+      </section>
+
+      <section className={styles.story} aria-label="Why Silk Room">
         <div className={styles.storyHead}>
           <p className={styles.eyebrow}>What’s inside the plain box</p>
           <h2>Product truth. Not packaging theatre.</h2>
           <p>
-            Visitors land here to decide. We put {PRODUCT_NAME} centre-stage — materials, feel,
-            waterproofing, and craft — so trust starts before checkout.
+            Visitors land here to decide. We put every product centre-stage — materials, feel, and
+            craft — so trust starts before checkout.
           </p>
         </div>
         <div className={styles.storyRail}>
@@ -266,20 +293,20 @@ export default function Home() {
           <HomeShowcase slides={HOME_SLIDESHOW} />
           <div className={styles.showcaseCopy}>
             <p className={styles.eyebrow}>Built for buyers who look closely</p>
-            <h2>Why customers choose {PRODUCT_NAME}</h2>
+            <h2>Why customers choose Silk Room</h2>
             <div className={styles.proofGrid}>
               <div>
                 <h3>Product before packaging</h3>
                 <p>
-                  Colours ({VARIANT_LABELS.Natural} / {VARIANT_LABELS.Espresso}), specs, and sale
-                  price are visible before you pay — so the decision feels informed.
+                  Colours ({VARIANT_LABELS.Natural} / {VARIANT_LABELS.Espresso}), flavours, specs,
+                  and price are visible before you pay — so the decision feels informed.
                 </p>
               </div>
               <div>
                 <h3>Premium where it matters</h3>
                 <p>
-                  Body-safe silicone, dual-density feel, waterproof body, stable base — crafted for
-                  private relief without compromise.
+                  Body-safe craft, quiet waterproof care, textured men’s care, and certified Chulli
+                  protection — private routines without compromise.
                 </p>
               </div>
               <div>
@@ -292,11 +319,8 @@ export default function Home() {
               </div>
             </div>
             <div className={styles.showcaseActions}>
-              <Link href="/product" className={styles.buyNow}>
-                Buy now
-                <span className={styles.priceChip}>
-                  <Price amount={PRODUCT_PRICE} sale />
-                </span>
+              <Link href="/#shop-all-products" className={styles.buyNow}>
+                Shop the collection
               </Link>
               <WhatsAppButton />
             </div>

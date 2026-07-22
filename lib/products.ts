@@ -24,6 +24,14 @@ export const INVENTORY_SKUS = [
   "Espresso",
   "TongueVibrator",
   "MaleMasturbator",
+  "ChulliUltraBanana",
+  "ChulliUltraChocolate",
+  "ChulliUltraStrawberry",
+  "ChulliDotBanana",
+  "ChulliDotChocolate",
+  "ChulliDotStrawberry",
+  "ChulliComboDouble",
+  "ChulliComboMix",
 ] as const;
 
 export type InventorySku = (typeof INVENTORY_SKUS)[number];
@@ -39,13 +47,15 @@ export type CatalogProduct = {
   description: string;
   tagline: string;
   gallery: readonly string[];
-  /** Meta-safe lifestyle card image for the homepage catalog (model-led) */
+  /** Lifestyle / model-led card image for the homepage catalog */
   cardImage: string;
   /** Real product photo shown as the second slide on homepage cards */
   cardProductImage: string;
   sku: InventorySku;
   variantLabel: string;
   category: string;
+  /** Featured Silk Room heroes vs Others (Chulli care) */
+  collection: "featured" | "others";
   highlights: readonly string[];
   specs: readonly { label: string; value: string }[];
   faqs: readonly { title: string; content: string }[];
@@ -58,6 +68,7 @@ export type CatalogProduct = {
 
 /** Same mechanism as Ease: sale price is fixed, discount is computed from MRP. */
 function discountPercent(mrp: number, price: number): number {
+  if (mrp <= 0 || price >= mrp) return 0;
   return Math.round(((mrp - price) / mrp) * 100);
 }
 
@@ -65,6 +76,143 @@ const LICK_PRICE = 549;
 const LICK_MRP = 2199; // 75% off
 const TRIO_PRICE = 799;
 const TRIO_MRP = 3999; // 80% off
+
+const ULTRA_PRICE = 90;
+const ULTRA_MRP = 90;
+const DOT_PRICE = 120;
+const DOT_MRP = 120;
+const COMBO_DOUBLE_PRICE = 180;
+const COMBO_DOUBLE_MRP = 180;
+const COMBO_MIX_PRICE = 549;
+const COMBO_MIX_MRP = 630; // 3×₹90 + 3×₹120
+
+const CHULLI_FAQS = [
+  {
+    title: "Is packaging discreet?",
+    content:
+      "Yes. Every Silk Room order ships in a plain outer carton with no product name or brand messaging on the label.",
+  },
+  {
+    title: "What is included in each box?",
+    content:
+      "10 premium condoms plus disposable pouches for clean, considerate disposal after use.",
+  },
+  {
+    title: "Are these for adults only?",
+    content:
+      "Yes. Chulli condoms sold via Silk Room are adult intimate-care products for buyers aged 18 and above.",
+  },
+] as const;
+
+const CHULLI_REVIEWS = [
+  {
+    name: "A***n S.",
+    city: "Surat",
+    text: "Flavours smell natural and the plain outer box was completely discreet. Solid everyday pick.",
+  },
+  {
+    name: "K***l R.",
+    city: "Ahmedabad",
+    text: "Ordered the dotted chocolate pack — quality felt premium and delivery was quick.",
+  },
+  {
+    name: "M***a P.",
+    city: "Mumbai",
+    text: "Combo mix was great value. Photos on the site matched exactly what arrived.",
+  },
+] as const;
+
+function chulliUltra(
+  flavor: "Banana" | "Chocolate" | "Strawberry",
+  sku: InventorySku,
+  slug: string,
+  folder: string,
+  accent: string
+): CatalogProduct {
+  const base = `/products/${folder}`;
+  return {
+    id: slug,
+    slug,
+    name: `Chulli Ultra ${flavor}`,
+    shortName: `Ultra ${flavor}`,
+    price: ULTRA_PRICE,
+    mrp: ULTRA_MRP,
+    discountPercent: discountPercent(ULTRA_MRP, ULTRA_PRICE),
+    description: `Chulli Ultra-thin ${flavor} flavoured condoms — 10 pieces in one box with disposable pouches. Extra-long sensation, real natural feel, lubricated and electronically tested. Sold discreetly through Silk Room.`,
+    tagline: "Ultra-thin · 10 pcs · disposal pouches · MRP ₹90",
+    gallery: [`${base}/01.jpg`, `${base}/03.jpg`, `${base}/04.jpg`, `${base}/05.jpg`, `${base}/07.jpg`],
+    cardImage: `${base}/07.jpg`,
+    cardProductImage: `${base}/01.jpg`,
+    sku,
+    variantLabel: flavor,
+    category: "Others",
+    collection: "others",
+    highlights: [
+      "Ultra-thin for a real natural feel",
+      "10 premium condoms + disposable pouches",
+      "Lubricated, teat-ended, electronically tested",
+      "WHO GMP certified manufacturing",
+    ],
+    specs: [
+      { label: "Type", value: "Ultra-thin flavoured condoms" },
+      { label: "Flavour", value: flavor },
+      { label: "Pack size", value: "10 pcs + disposable pouches" },
+      { label: "Nominal width", value: "53 ± 2 mm" },
+      { label: "Length", value: "Minimum 180 mm" },
+      { label: "MRP", value: "₹90 (incl. of all taxes)" },
+    ],
+    faqs: [...CHULLI_FAQS],
+    reviews: [...CHULLI_REVIEWS],
+    whatsInBox: `Chulli Ultra ${flavor} — 10 condoms, disposable pouches, plain Silk Room outer carton`,
+    accent,
+    metaContentName: `Chulli Ultra ${flavor}`,
+  };
+}
+
+function chulliDot(
+  flavor: "Banana" | "Chocolate" | "Strawberry",
+  sku: InventorySku,
+  slug: string,
+  folder: string,
+  accent: string
+): CatalogProduct {
+  const base = `/products/${folder}`;
+  return {
+    id: slug,
+    slug,
+    name: `Chulli Dotted ${flavor}`,
+    shortName: `Dotted ${flavor}`,
+    price: DOT_PRICE,
+    mrp: DOT_MRP,
+    discountPercent: discountPercent(DOT_MRP, DOT_PRICE),
+    description: `Chulli Gold 3-in-1 ${flavor} flavoured condoms — dotted, contoured fit, and ribbed texture. 10 pieces in one box with disposable pouches. Clinically tested manufacturing, sold discreetly through Silk Room.`,
+    tagline: "Dotted · contoured · ribbed · 10 pcs · MRP ₹120",
+    gallery: [`${base}/01.jpg`, `${base}/03.jpg`, `${base}/04.jpg`, `${base}/05.jpg`, `${base}/07.jpg`],
+    cardImage: `${base}/07.jpg`,
+    cardProductImage: `${base}/01.jpg`,
+    sku,
+    variantLabel: flavor,
+    category: "Others",
+    collection: "others",
+    highlights: [
+      "3-in-1: dotted, contoured fit, ribbed",
+      "10 premium condoms + disposable pouches",
+      "Clinically tested manufacturing checks",
+      "Flavoured for a warmer intimate experience",
+    ],
+    specs: [
+      { label: "Type", value: "3-in-1 dotted · contoured · ribbed" },
+      { label: "Flavour", value: flavor },
+      { label: "Pack size", value: "10 pcs + disposable pouches" },
+      { label: "MRP", value: "₹120 (incl. of all taxes)" },
+    ],
+    faqs: [...CHULLI_FAQS],
+    reviews: [...CHULLI_REVIEWS],
+    whatsInBox: `Chulli Dotted ${flavor} — 10 condoms, disposable pouches, plain Silk Room outer carton`,
+    accent,
+    metaContentName: `Chulli Dotted ${flavor}`,
+  };
+}
 
 export const CATALOG_PRODUCTS: readonly CatalogProduct[] = [
   {
@@ -83,6 +231,7 @@ export const CATALOG_PRODUCTS: readonly CatalogProduct[] = [
     sku: "Natural",
     variantLabel: VARIANT_LABELS.Natural,
     category: "Body wellness massager",
+    collection: "featured",
     highlights: [
       "100% body-safe silicone",
       "Dual-density feel with a supportive core",
@@ -155,6 +304,7 @@ export const CATALOG_PRODUCTS: readonly CatalogProduct[] = [
     sku: "TongueVibrator",
     variantLabel: "Purple",
     category: "Personal wellness massager",
+    collection: "featured",
     highlights: [
       "Rhythmic soft-surface motion for precise external use",
       "Easy-to-hold shape for targeted wellness routines",
@@ -234,6 +384,7 @@ export const CATALOG_PRODUCTS: readonly CatalogProduct[] = [
     sku: "MaleMasturbator",
     variantLabel: "Brown",
     category: "Men’s personal care",
+    collection: "featured",
     highlights: [
       "Three distinct textured channels",
       "About 7.1-inch internal depth",
@@ -290,7 +441,121 @@ export const CATALOG_PRODUCTS: readonly CatalogProduct[] = [
     accent: "#8b5f4a",
     metaContentName: "Silk Room Trio",
   },
+  chulliUltra("Banana", "ChulliUltraBanana", "chulli-ultra-banana", "chulli-ultra-banana", "#c9a24a"),
+  chulliUltra(
+    "Chocolate",
+    "ChulliUltraChocolate",
+    "chulli-ultra-chocolate",
+    "chulli-ultra-chocolate",
+    "#6b3d2e"
+  ),
+  chulliUltra(
+    "Strawberry",
+    "ChulliUltraStrawberry",
+    "chulli-ultra-strawberry",
+    "chulli-ultra-strawberry",
+    "#b23a48"
+  ),
+  chulliDot("Banana", "ChulliDotBanana", "chulli-dot-banana", "chulli-dot-banana", "#d4a017"),
+  chulliDot("Chocolate", "ChulliDotChocolate", "chulli-dot-chocolate", "chulli-dot-chocolate", "#4a2c22"),
+  chulliDot(
+    "Strawberry",
+    "ChulliDotStrawberry",
+    "chulli-dot-strawberry",
+    "chulli-dot-strawberry",
+    "#9b1b2f"
+  ),
+  {
+    id: "chulli-combo-double",
+    slug: "chulli-combo-double",
+    name: "Chulli Combo Double",
+    shortName: "Combo Double",
+    price: COMBO_DOUBLE_PRICE,
+    mrp: COMBO_DOUBLE_MRP,
+    discountPercent: discountPercent(COMBO_DOUBLE_MRP, COMBO_DOUBLE_PRICE),
+    description:
+      "A two-box Chulli flavour pair — pick your favourite Ultra-thin duo. Each box includes 10 condoms with disposable pouches. Ships free in a plain Silk Room carton.",
+    tagline: "Two-box flavour pair · 20 pcs total · disposal pouches",
+    gallery: [
+      "/products/chulli-combo-double/001.jpg",
+      "/products/chulli-combo-double/010.jpg",
+      "/products/chulli-combo-double/015.jpg",
+      "/products/chulli-combo-double/020.jpg",
+      "/products/chulli-combo-double/025.jpg",
+    ],
+    cardImage: "/products/chulli-combo-double/010.jpg",
+    cardProductImage: "/products/chulli-combo-double/001.jpg",
+    sku: "ChulliComboDouble",
+    variantLabel: "Double pack",
+    category: "Others",
+    collection: "others",
+    highlights: [
+      "Two complementary flavour boxes",
+      "20 condoms total with disposable pouches",
+      "Ideal starter pair for couples",
+      "Discreet plain-box Silk Room delivery",
+    ],
+    specs: [
+      { label: "Pack", value: "2 boxes (10 pcs each)" },
+      { label: "Includes", value: "Disposable pouches in each box" },
+      { label: "MRP", value: "₹180 (incl. of all taxes)" },
+    ],
+    faqs: [...CHULLI_FAQS],
+    reviews: [...CHULLI_REVIEWS],
+    whatsInBox: "Two Chulli flavour boxes, disposable pouches, plain Silk Room outer carton",
+    accent: "#c9a96e",
+    metaContentName: "Chulli Combo Double",
+  },
+  {
+    id: "chulli-combo-mix",
+    slug: "chulli-combo-mix",
+    name: "Chulli Combo Mix 3 & 6",
+    shortName: "Combo Mix",
+    price: COMBO_MIX_PRICE,
+    mrp: COMBO_MIX_MRP,
+    discountPercent: discountPercent(COMBO_MIX_MRP, COMBO_MIX_PRICE),
+    description:
+      "The full Chulli flavour lineup — 3 Ultra-thin flavours plus 3 Dotted Gold flavours (Banana, Chocolate, Strawberry). Six boxes, disposal pouches included, shipped free in a plain Silk Room carton.",
+    tagline: "All 6 flavours · Ultra + Dotted · best value mix",
+    gallery: [
+      "/products/chulli-combo-mix/028.jpg",
+      "/products/chulli-combo-mix/026.jpg",
+      "/products/chulli-combo-mix/027.jpg",
+    ],
+    cardImage: "/products/chulli-combo-mix/028.jpg",
+    cardProductImage: "/products/chulli-combo-mix/026.jpg",
+    sku: "ChulliComboMix",
+    variantLabel: "Full mix",
+    category: "Others",
+    collection: "others",
+    highlights: [
+      "All 6 Chulli flavours in one order",
+      "3 Ultra-thin + 3 Dotted Gold boxes",
+      "60 condoms with disposable pouches",
+      "Best-value complete flavour set",
+    ],
+    specs: [
+      { label: "Pack", value: "6 boxes (10 pcs each · 60 total)" },
+      { label: "Lines", value: "Ultra-thin + Dotted Gold" },
+      { label: "Flavours", value: "Banana · Chocolate · Strawberry" },
+      { label: "MRP", value: "₹630 (incl. of all taxes)" },
+    ],
+    faqs: [...CHULLI_FAQS],
+    reviews: [...CHULLI_REVIEWS],
+    whatsInBox:
+      "6 Chulli boxes (3 Ultra + 3 Dotted), disposable pouches, plain Silk Room outer carton",
+    accent: "#6b3d52",
+    metaContentName: "Chulli Combo Mix",
+  },
 ] as const;
+
+export const FEATURED_PRODUCTS = CATALOG_PRODUCTS.filter(
+  (product) => product.collection === "featured"
+);
+
+export const OTHER_PRODUCTS = CATALOG_PRODUCTS.filter(
+  (product) => product.collection === "others"
+);
 
 const SKU_MAP = new Map<InventorySku, CatalogProduct>();
 for (const product of CATALOG_PRODUCTS) {
@@ -338,9 +603,21 @@ export function productImageBySku(sku: string): string {
   return getProductBySku(sku)?.gallery[0] ?? PRODUCT_GALLERY.Natural[0];
 }
 
+export const CATALOG_SLUGS = CATALOG_PRODUCTS.filter((product) => product.slug !== "ease").map(
+  (product) => product.slug
+);
+
 export const DEFAULT_STOCK: Record<InventorySku, number> = {
   Natural: 100,
   Espresso: 100,
   TongueVibrator: 100,
   MaleMasturbator: 100,
+  ChulliUltraBanana: 100,
+  ChulliUltraChocolate: 100,
+  ChulliUltraStrawberry: 100,
+  ChulliDotBanana: 100,
+  ChulliDotChocolate: 100,
+  ChulliDotStrawberry: 100,
+  ChulliComboDouble: 50,
+  ChulliComboMix: 40,
 };

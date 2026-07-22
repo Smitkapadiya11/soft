@@ -7,7 +7,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "About Us | Silk Room — KAPADIYA AND SONS",
   description:
-    "Silk Room by KAPADIYA AND SONS — Ease, Lick, and Trio personal wellness products with discreet delivery across India.",
+    "Silk Room by KAPADIYA AND SONS — Ease, Lick, Trio, and Chulli care with discreet delivery across India.",
   robots: { index: true, follow: true },
 };
 
@@ -15,17 +15,21 @@ export const revalidate = 86400;
 
 export default function AboutPage() {
   return (
-    <LegalLayout title="About Silk Room" lastUpdated="19 July 2026">
+    <LegalLayout title="About Silk Room" lastUpdated="22 July 2026">
       <p>{BUSINESS.mission}</p>
       <p>
-        Silk Room is India’s care-first personal-wellness brand with three products designed for
-        private, premium experiences:
+        Silk Room is India’s care-first personal-wellness brand. Featured originals sit alongside
+        Others — Chulli Ultra-thin and Dotted flavoured care — all designed for private, premium
+        experiences:
       </p>
       <ul>
         {CATALOG_PRODUCTS.map((product) => (
           <li key={product.id}>
-            <strong>{product.name}</strong> — {product.tagline}. Sale ₹{product.price} (MRP ₹
-            {product.mrp}, {product.discountPercent}% OFF).{" "}
+            <strong>{product.name}</strong> — {product.tagline}. ₹{product.price}
+            {product.discountPercent > 0
+              ? ` (MRP ₹${product.mrp}, ${product.discountPercent}% OFF)`
+              : ` (MRP ₹${product.mrp})`}
+            .{" "}
             <Link href={product.slug === "ease" ? "/product" : `/product/${product.slug}`}>
               View product
             </Link>
