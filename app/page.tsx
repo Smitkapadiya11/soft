@@ -16,7 +16,7 @@ import {
 } from "@/lib/constants";
 import Price from "@/components/Price";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/MotionWrapper";
-import HomeHeroShowcase from "@/components/HomeHeroShowcase";
+import HomeHeroSection from "@/components/HomeHeroSection";
 import HomeShowcase from "@/components/HomeShowcase";
 import CatalogCardSlideshow from "@/components/CatalogCardSlideshow";
 import WhatsAppButton from "@/components/WhatsAppButton";
@@ -103,38 +103,7 @@ function CatalogCard({
 export default function Home() {
   return (
     <>
-      <section className={styles.ugcPanel} aria-label="Silk Room — shop the collection">
-        <div className={styles.ugcPanelInner}>
-          <div className={styles.ugcCopy}>
-            <p className={styles.eyebrow}>India’s care-first wellness brand</p>
-            <p className={styles.brand}>Silk Room</p>
-            <h1 className={styles.ugcHeadline}>
-              The full collection. Shown clearly. Delivered discreetly.
-            </h1>
-            <p className={styles.ugcSub}>
-              Ease, Lick, and Trio for premium personal wellness — plus Chulli flavoured care
-              under Others. Every card alternates product and lifestyle for 4 seconds so buyers
-              see the truth before checkout.
-            </p>
-            <div className={styles.heroTrustLine}>
-              <span>From ₹90</span>
-              <span>4s product + model</span>
-              <span>Plain-box India delivery</span>
-            </div>
-            <div className={styles.ugcPanelFoot}>
-              <Link href="/#shop-all-products" className={styles.buyNow}>
-                Shop all products
-              </Link>
-              <p className={styles.ugcNote}>
-                Adults 18+ · <Link href="/about">About Silk Room</Link> ·{" "}
-                <Link href="/contact">Contact</Link>
-              </p>
-            </div>
-          </div>
-
-          <HomeHeroShowcase slides={HOME_START_SLIDES} intervalMs={4000} />
-        </div>
-      </section>
+      <HomeHeroSection slides={HOME_START_SLIDES} intervalMs={4000} />
 
       <section className={styles.catalog} aria-labelledby="shop-all-products">
         <div className={styles.catalogHead}>

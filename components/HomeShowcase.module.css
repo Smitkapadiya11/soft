@@ -21,6 +21,12 @@
   position: absolute;
   inset: 0;
   padding: 0.75rem;
+  opacity: 0;
+  will-change: opacity, transform;
+}
+
+.slide:first-child {
+  opacity: 1;
 }
 
 .image {

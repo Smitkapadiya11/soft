@@ -73,67 +73,79 @@ export const PRODUCT_GALLERY: Record<(typeof ALLOWED_VARIANTS)[number], string[]
   ],
 };
 
-/** Homepage hero — product + model pairs rotate every 4s */
+/** Homepage hero — product + model pairs rotate every 4s (full-bleed fitted) */
 export const HOME_START_SLIDES = [
   {
     src: "/brand/home/hero-box-ease.png",
     alt: "Silk Room Ease — premium unmarked plain-box delivery",
     fit: "contain" as const,
+    label: "Ease · plain-box delivery",
   },
   {
     src: "/brand/home/card-model-ease.png",
     alt: "Silk Room Ease — discreet personal wellness",
     fit: "cover" as const,
+    label: "Ease · lifestyle",
   },
   {
     src: "/brand/home/hero-box-lick.png",
     alt: "Silk Room Lick — discreet premium plain-box delivery",
     fit: "contain" as const,
+    label: "Lick · plain-box delivery",
   },
   {
     src: "/brand/home/card-model-lick.png",
     alt: "Silk Room Lick — quiet waterproof care",
     fit: "cover" as const,
+    label: "Lick · lifestyle",
   },
   {
     src: "/brand/home/hero-box-trio.png",
     alt: "Silk Room Trio — discreet premium plain-box delivery",
     fit: "contain" as const,
+    label: "Trio · plain-box delivery",
   },
   {
     src: "/brand/home/card-model-trio.png",
     alt: "Silk Room Trio — men’s personal care",
     fit: "cover" as const,
+    label: "Trio · lifestyle",
   },
   {
     src: "/products/chulli-ultra-banana/01.jpg",
     alt: "Chulli Ultra Banana — product pack",
     fit: "contain" as const,
+    label: "Chulli Ultra · Banana",
   },
   {
     src: "/products/chulli-ultra-banana/07.jpg",
     alt: "Chulli Ultra — lifestyle",
     fit: "cover" as const,
+    label: "Chulli Ultra · lifestyle",
   },
   {
     src: "/products/chulli-dot-chocolate/01.jpg",
     alt: "Chulli Dotted Chocolate — product pack",
     fit: "contain" as const,
+    label: "Chulli Dotted · Chocolate",
   },
   {
     src: "/products/chulli-dot-chocolate/07.jpg",
     alt: "Chulli Dotted — lifestyle",
     fit: "cover" as const,
+    label: "Chulli Dotted · lifestyle",
   },
   {
     src: "/products/chulli-combo-mix/028.jpg",
     alt: "Chulli Combo Mix — full flavour lineup",
     fit: "contain" as const,
+    label: "Chulli Combo Mix · all 6 flavours",
   },
   {
     src: "/products/plain-box.png",
     alt: "Plain unmarked Silk Room delivery box",
     fit: "contain" as const,
+    label: "Privacy · unmarked carton",
   },
 ] as const;
 
